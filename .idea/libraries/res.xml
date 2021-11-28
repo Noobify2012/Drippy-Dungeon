@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="res">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/res/Project4_Text_Based_Game.jar!/" />
+      <root url="jar://$PROJECT_DIR$/res/Project4_Text_Based_Game_seeded.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
