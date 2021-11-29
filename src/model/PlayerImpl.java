@@ -267,7 +267,7 @@ public class PlayerImpl implements Player {
       pitString = "The player falls to their death!";
       this.isAlive = false;
     } else if (!cave.getPitStatus() && cliff == true) {
-      pitString = "The player hears rocks falling into the abyss";
+      pitString = "The player hears rocks falling into the abyss.";
     }
     return pitString;
   }

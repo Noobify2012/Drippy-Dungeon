@@ -48,7 +48,7 @@ public class Driver {
     Player player = new PlayerImpl();
     try {
       Dungeon test = new DungeonImpl(wraps, row, col, inter, treas, player,
-              dif, 0);
+              dif, 1);
       String dungeonBuilder = test.getDungeon();
       System.out.println(dungeonBuilder + "\n");
       Readable inputs = new InputStreamReader(System.in);

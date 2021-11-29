@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import random.RandomNumberGenerator;
-import model.Cave;
 
 /**
  * The implementation of the Dungeon interface.
@@ -67,6 +66,8 @@ public class DungeonImpl implements Dungeon {
     this.randomNumberGenerator = new RandomNumberGenerator(genSeed);
     this.quitFlag = false;
     this.pitOfDeath = 0;
+
+    //TODO - pit of death test and refine
 
 
 
@@ -204,9 +205,6 @@ public class DungeonImpl implements Dungeon {
 
     addArrows();
 
-    //TODO - implement pit death
-    //TODO - pit detection
-
     setPitOfDeath();
 
     String setUpString = setUpPlayer();
@@ -214,7 +212,9 @@ public class DungeonImpl implements Dungeon {
     String initPlayerStat = player.getPlayerStatus(checkSmell(),
             findCaveByIndex(player.getPlayerLocation()));
 
-    String dungeonString = "\n" + initPlayerStat;
+    String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()),getPitProx());
+
+    String dungeonString = "\n" + initPlayerStat + pitString;
     return dungeonString;
 
   }
@@ -638,33 +638,20 @@ public class DungeonImpl implements Dungeon {
         //monster is dead do nothing
       }
 
-      //TODO - check if pit
       String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()),getPitProx());
-      if (findCaveByIndex(player.getPlayerLocation()).getPitStatus()) {
-        //player dies
-      } else {
-        if (getPitProx()) {
-          //pit string about the rocks falling off edge
-          //check for 1 space away from pit/rocks fall in
-        } else {
-          //pitstring has nothing
-        }
-
-        //else nothing
-      }
 
       //check for smell;
       String statusString = "";
       if (player.isPlayerAlive()) {
         statusString = player.getPlayerStatus(checkSmell(),
                 findCaveByIndex(player.getPlayerLocation()));
+      } else {
+        statusString = "Game Over, you have died.";
       }
-
-      //TODO - build check for ledge
       //update player location and check around them for stuff.
 
       //update player status
-      moveString = moveString + "\n" + encounterString + "\n" + statusString;
+      moveString = moveString + "\n" + encounterString + "\n" + pitString + "\n" + statusString;
     }
     return moveString;
   }
