@@ -14,4 +14,6 @@ public abstract class AbstractLocation implements Location {
                              List<Treasure> treasureList, List<CrookedArrow> arrowList) {
     this.location = location;
   }
+
+  public abstract boolean getPitStatus();
 }

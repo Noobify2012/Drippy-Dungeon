@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import random.RandomNumberGenerator;
+import model.Cave;
 
 /**
  * The implementation of the Dungeon interface.

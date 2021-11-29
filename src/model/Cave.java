@@ -200,7 +200,7 @@ public class Cave extends AbstractLocation {
     return this.monsterList.get(0);
   }
 
-  void setPit() {
+  protected void setPit() {
     this.isPit = true;
   }
 
