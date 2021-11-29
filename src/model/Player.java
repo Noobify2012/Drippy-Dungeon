@@ -81,4 +81,14 @@ public interface Player {
    */
   String pickUp(Cave cave, int option);
 
+  /**Checks if the cave is the pit of death or if any of the cave's neighbors is the edge of the
+   * cliff.
+   *
+   * @param cave the cave that the player is in.
+   * @param cliff a boolean from getpitprox which indicates if one of the neighbors is the pit.
+   * @return the string result of checking for the pit of death at the current cave  or if it is
+   * a neighbor of the pit of death.
+   */
+  String pitCheck(Cave cave, boolean cliff);
+
 }

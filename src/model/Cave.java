@@ -14,6 +14,7 @@ public class Cave extends AbstractLocation {
   private List<Treasure> caveTreasureList;
   private List<CrookedArrow> arrowList;
   private List<Monster> monsterList;
+  private boolean isPit;
 
   /**The constructor for a cave object which inherets most of its fields from the super class
    * Abstract Location.
@@ -38,6 +39,7 @@ public class Cave extends AbstractLocation {
     this.caveTreasureList = treasureList;
     this.arrowList = arrowList;
     this.monsterList = monsterList;
+    this.isPit = false;
     if (neighborList.size() == 2 && !treasureList.isEmpty()) {
       throw new IllegalStateException("Tunnels can not have treasure");
     }
@@ -166,6 +168,12 @@ public class Cave extends AbstractLocation {
     return this.monsterList.size();
   }
 
+  @Override
+  public boolean getPitStatus() {
+    boolean tempBool = this.isPit;
+    return tempBool;
+  }
+
   int getMonsterHealth() {
     if (this.monsterList.isEmpty()) {
       return 0;
@@ -190,6 +198,10 @@ public class Cave extends AbstractLocation {
 
   Monster getMonster() {
     return this.monsterList.get(0);
+  }
+
+  void setPit() {
+    this.isPit = true;
   }
 
 

@@ -32,4 +32,6 @@ public interface Location {
    */
   int getMonsterListSize();
 
+  boolean getPitStatus();
+
 }

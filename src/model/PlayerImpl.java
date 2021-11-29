@@ -260,6 +260,18 @@ public class PlayerImpl implements Player {
     return pickupString;
   }
 
+  @Override
+  public String pitCheck(Cave cave, boolean cliff) {
+    String pitString = "";
+    if (cave.getPitStatus()) {
+      pitString = "The player falls to their death!";
+      this.isAlive = false;
+    } else if (!cave.getPitStatus() && cliff == true) {
+      pitString = "The player hears rocks falling into the abyss";
+    }
+    return pitString;
+  }
+
   private String pickupTreasure(Cave cave) {
     String treasureString = "";
     List<Treasure> treasList = new ArrayList<>();
@@ -296,6 +308,6 @@ public class PlayerImpl implements Player {
       String quiverString = "\nThe player has " + quiver.size() + " arrows remaining.";
       return quiverString;
     }
-
   }
+
 }

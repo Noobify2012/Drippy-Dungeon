@@ -24,6 +24,7 @@ public class DungeonImpl implements Dungeon {
   private RandomNumberGenerator randomNumberGenerator;
   private int genSeed;
   private boolean quitFlag;
+  private int pitOfDeath;
 
   /**This creates a dungeon that requires the specification of whether the dungeon should wrap or
    * not. How many rows and columns there should be specified as integers. The degree of
@@ -64,6 +65,7 @@ public class DungeonImpl implements Dungeon {
     this.difficulty = difficulty;
     this.randomNumberGenerator = new RandomNumberGenerator(genSeed);
     this.quitFlag = false;
+    this.pitOfDeath = 0;
 
 
 
@@ -200,6 +202,11 @@ public class DungeonImpl implements Dungeon {
     addMonstersToDungeon(getCavesByIndex());
 
     addArrows();
+
+    //TODO - implement pit death
+    //TODO - pit detection
+
+    setPitOfDeath();
 
     String setUpString = setUpPlayer();
 
@@ -630,12 +637,29 @@ public class DungeonImpl implements Dungeon {
         //monster is dead do nothing
       }
 
+      //TODO - check if pit
+      String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()),getPitProx());
+      if (findCaveByIndex(player.getPlayerLocation()).getPitStatus()) {
+        //player dies
+      } else {
+        if (getPitProx()) {
+          //pit string about the rocks falling off edge
+          //check for 1 space away from pit/rocks fall in
+        } else {
+          //pitstring has nothing
+        }
+
+        //else nothing
+      }
+
       //check for smell;
       String statusString = "";
       if (player.isPlayerAlive()) {
         statusString = player.getPlayerStatus(checkSmell(),
                 findCaveByIndex(player.getPlayerLocation()));
       }
+
+      //TODO - build check for ledge
       //update player location and check around them for stuff.
 
       //update player status
@@ -717,6 +741,25 @@ public class DungeonImpl implements Dungeon {
       }
     }
     return smell;
+  }
+
+  private boolean getPitProx() {
+    List<Integer> neighborList = new ArrayList<>();
+    boolean cliffBool = false;
+    for (int i = 0; i < findCaveByIndex(player.getPlayerLocation()).getNeighbors().size(); i ++) {
+      //check if neighbor is pit
+      if (findCaveByIndex(findCaveByIndex(player.getPlayerLocation()).getNeighbors().get(i))
+              .getPitStatus()) {
+        //neighbor is pit
+        cliffBool = true;
+      }
+      neighborList.add(findCaveByIndex(player.getPlayerLocation()).getNeighbors()
+              .get(i));
+    }
+
+    //get the neighbors of the players location
+
+    return cliffBool;
   }
 
   public boolean getWrapping() {
@@ -862,5 +905,17 @@ public class DungeonImpl implements Dungeon {
       returnDirection = Direction.EAST;
     }
     return returnDirection;
+  }
+
+  private void setPitOfDeath() {
+    boolean pitBool = false;
+    while(!pitBool) {
+      int pit = randomNumberGenerator.getRandomNumber(0, (rows * columns) - 1);
+      if (pit != this.startPoint && pit != this.endPoint) {
+        this.pitOfDeath = pit;
+        findCaveByIndex(pit).setPit();
+        pitBool = true;
+      }
+    }
   }
 }
