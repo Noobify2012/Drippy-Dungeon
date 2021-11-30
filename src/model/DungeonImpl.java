@@ -25,6 +25,7 @@ public class DungeonImpl implements Dungeon {
   private int genSeed;
   private boolean quitFlag;
   private int pitOfDeath;
+  private int leprechaunHole;
 
   /**This creates a dungeon that requires the specification of whether the dungeon should wrap or
    * not. How many rows and columns there should be specified as integers. The degree of
@@ -66,6 +67,7 @@ public class DungeonImpl implements Dungeon {
     this.randomNumberGenerator = new RandomNumberGenerator(genSeed);
     this.quitFlag = false;
     this.pitOfDeath = 0;
+    this.leprechaunHole = 0;
 
     //TODO - pit of death test and refine
 
@@ -206,6 +208,8 @@ public class DungeonImpl implements Dungeon {
     addArrows();
 
     setPitOfDeath();
+
+    setLuckyHome();
 
     String setUpString = setUpPlayer();
 
@@ -583,6 +587,8 @@ public class DungeonImpl implements Dungeon {
   }
 
 
+  boolean stolen = false;
+
   @Override
   public String movePlayer(Direction direction) {
     String moveString = "";
@@ -638,7 +644,28 @@ public class DungeonImpl implements Dungeon {
         //monster is dead do nothing
       }
 
+      //Leprechaun
+
+
       String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()),getPitProx());
+
+      //TODO - add leprechaun stealing check and execution here
+      String thiefString = "";
+      if(findCaveByIndex(player.getPlayerLocation()).getLuckyListSize() != 0) {
+        if (player.getTreasureList().size() == 0) {
+          thiefString = findCaveByIndex(player.getPlayerLocation()).getLucky()
+                  .stealTreasure(this.player, 0);
+        } else {
+          if (!stolen) {
+            int randPerc = randomNumberGenerator.getRandomNumber(10, 50);
+            int numToSteal = Math.round(player.getTreasureList().size() * (randPerc/100)) + 1;
+            thiefString = findCaveByIndex(player.getPlayerLocation()).getLucky()
+                    .stealTreasure(this.player, numToSteal);
+            stolen = true;
+          }
+        }
+
+      }
 
       //check for smell;
       String statusString = "";
@@ -651,7 +678,8 @@ public class DungeonImpl implements Dungeon {
       //update player location and check around them for stuff.
 
       //update player status
-      moveString = moveString + "\n" + encounterString + "\n" + pitString + "\n" + statusString;
+      moveString = moveString + "\n" + encounterString + "\n" + pitString + "\n" + statusString
+              + "\n" + thiefString;
     }
     return moveString;
   }
@@ -903,6 +931,20 @@ public class DungeonImpl implements Dungeon {
         this.pitOfDeath = pit;
         findCaveByIndex(pit).setPit();
         pitBool = true;
+      }
+    }
+  }
+
+  private void setLuckyHome() {
+    boolean lepBool = false;
+    while(!lepBool) {
+      int leprechaun = randomNumberGenerator.getRandomNumber(0, (rows * columns) - 1);
+      if (leprechaun != this.startPoint && leprechaun != this.endPoint
+              && leprechaun != this.pitOfDeath) {
+        this.leprechaunHole = leprechaun;
+        Thief lucky = new Leprechaun();
+        findCaveByIndex(leprechaun).addLucky(lucky);
+        lepBool = true;
       }
     }
   }

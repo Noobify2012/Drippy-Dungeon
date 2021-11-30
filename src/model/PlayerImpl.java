@@ -137,7 +137,7 @@ public class PlayerImpl implements Player {
         sapphireInt++;
       }
     }
-    String treasureString2 = " " + rubyInt + " rubies, " + diamondInt + " diamonds, "
+    String treasureString2 = rubyInt + " rubies, " + diamondInt + " diamonds, "
             + sapphireInt + " sapphires.";
     return treasureString2;
   }
@@ -307,6 +307,12 @@ public class PlayerImpl implements Player {
       quiver.remove(0);
       String quiverString = "\nThe player has " + quiver.size() + " arrows remaining.";
       return quiverString;
+    }
+  }
+
+  protected void stolenTreasure(int treasureNum) {
+    for (int i = 0; i < treasureNum; i ++) {
+      this.treasureList.remove(0);
     }
   }
 
