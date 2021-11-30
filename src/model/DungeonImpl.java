@@ -658,9 +658,10 @@ public class DungeonImpl implements Dungeon {
         } else {
           if (!stolen) {
             int randPerc = randomNumberGenerator.getRandomNumber(10, 50);
-            int numToSteal = Math.round(player.getTreasureList().size() * (randPerc/100)) + 1;
+            int numToSteal = (int) Math.ceil((randPerc * player.getTreasureList().size() / 100) );
             thiefString = findCaveByIndex(player.getPlayerLocation()).getLucky()
                     .stealTreasure(this.player, numToSteal);
+            player.stolenTreasure(numToSteal);
             stolen = true;
           }
         }

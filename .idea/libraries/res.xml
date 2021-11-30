@@ -5,6 +5,8 @@
       <root url="jar://$PROJECT_DIR$/res/Project4_Text_Based_Game_seeded.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/Project5_Graphical_Adventure_Game_jar/Project5_Graphical_Adventure_Game.jar!/" />
+    </SOURCES>
   </library>
 </component>

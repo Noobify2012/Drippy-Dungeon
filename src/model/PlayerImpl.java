@@ -260,6 +260,7 @@ public class PlayerImpl implements Player {
     return pickupString;
   }
 
+  //TODO - need to write tests
   @Override
   public String pitCheck(Cave cave, boolean cliff) {
     String pitString = "";
@@ -310,7 +311,9 @@ public class PlayerImpl implements Player {
     }
   }
 
-  protected void stolenTreasure(int treasureNum) {
+  //TODO - need to write tests
+  @Override
+  public void stolenTreasure(int treasureNum) {
     for (int i = 0; i < treasureNum; i ++) {
       this.treasureList.remove(0);
     }

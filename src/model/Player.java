@@ -83,4 +83,6 @@ public interface Player {
 
   String pitCheck(Cave cave, boolean cliff);
 
+  void stolenTreasure(int treasureNum);
+
 }
