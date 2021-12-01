@@ -20,6 +20,18 @@ public class Driver {
    */
   public static void main(String[] args) {
 
+    //TODO - if command line args run in command line mode, if non-run in view
+    //TODO - build view interface
+    //TODO - import pictures and figure out how to display
+    //TODO - build basic display with jpanel
+    //TODO - build scroll bars
+    //TODO - build restart and quit options
+    //TODO - display basic dungeon
+    //TODO - build uncovering functionality
+    //TODO - build dungeon detail panel
+    //TODO - provide get player description option
+    //TODO - build shoot functionality using a key and direction
+    //TODO - provide clear indication of results of actions
     if (args.length < 6 || args.length > 6) {
       throw new IllegalArgumentException("must have only 6 arguments in the format");
     } else if (!validBool(args[0])) {
