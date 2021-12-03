@@ -79,7 +79,7 @@ public class ControllerTest {
     Reader in = new StringReader("p a s n 1 m n m e m e m s m w");
     Player player = new PlayerImpl();
     StringBuilder log = new StringBuilder();
-    Dungeon dungeon = new MockModel(log, 123);
+    MockModel dungeon = new MockModel(log, 123);
     dungeon.getDungeon();
     assertEquals("Got the dungeon\n", log.toString());
     Controller control = new ConsoleController(in, out);
