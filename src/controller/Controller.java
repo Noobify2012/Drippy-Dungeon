@@ -1,6 +1,7 @@
 package controller;
 
 import model.Dungeon;
+import view.IDungeonView;
 
 /**
  * This is the controller of the MVC implementation. this class provides the user the ability to
@@ -21,7 +22,7 @@ public interface Controller {
    *
    * @param d the dungeon that is required for the user to navigate and play.
    */
-  void playGame(Dungeon d);
+  void playGame(Dungeon d, IDungeonView view);
 
 
 }

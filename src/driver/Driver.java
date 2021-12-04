@@ -3,10 +3,15 @@ package driver;
 import controller.ConsoleController;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+
+import controller.Controller;
+import controller.ViewController;
 import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
+import view.DungeonViewImpl;
+import view.IDungeonView;
 
 
 /**
@@ -32,44 +37,51 @@ public class Driver {
     //TODO - provide get player description option
     //TODO - build shoot functionality using a key and direction
     //TODO - provide clear indication of results of actions
-    if (args.length < 6 || args.length > 6) {
+    if (args.length < 6) {
+      Controller viewController = new ViewController();
+      viewController.buildDungeon();
+
+    } else if (args.length > 6) {
       throw new IllegalArgumentException("must have only 6 arguments in the format");
-    } else if (!validBool(args[0])) {
-      throw new IllegalArgumentException("the first argument must be a boolean");
-    } else if (!validateInput(args[1])) {
-      throw new IllegalArgumentException("the second argument must be a positive integer");
-    } else if (!(validateInput(args[2]))) {
-      throw new IllegalArgumentException("the third argument must be a positive integer");
-    } else if (!(validateInput(args[3]))) {
-      throw new IllegalArgumentException("the fourth argument must be a positive integer");
-    } else if (!(validateInput(args[4]))) {
-      throw new IllegalArgumentException("the fifth argument must be a positive integer");
-    } else if (!(validateInput(args[5]))) {
-      throw new IllegalArgumentException("the sixth argument must be a positive integer");
-    }
+    } else if (args.length == 6) {
+      if (!validBool(args[0])) {
+        throw new IllegalArgumentException("the first argument must be a boolean");
+      } else if (!validateInput(args[1])) {
+        throw new IllegalArgumentException("the second argument must be a positive integer");
+      } else if (!(validateInput(args[2]))) {
+        throw new IllegalArgumentException("the third argument must be a positive integer");
+      } else if (!(validateInput(args[3]))) {
+        throw new IllegalArgumentException("the fourth argument must be a positive integer");
+      } else if (!(validateInput(args[4]))) {
+        throw new IllegalArgumentException("the fifth argument must be a positive integer");
+      } else if (!(validateInput(args[5]))) {
+        throw new IllegalArgumentException("the sixth argument must be a positive integer");
+      }
 
-    boolean wraps = Boolean.parseBoolean(args[0]);
-    int row = Integer.parseInt(args[1]);
-    int col = Integer.parseInt(args[2]);
-    int inter = Integer.parseInt(args[3]);
-    int treas = Integer.parseInt(args[4]);
-    int dif = Integer.parseInt(args[5]);
+      boolean wraps = Boolean.parseBoolean(args[0]);
+      int row = Integer.parseInt(args[1]);
+      int col = Integer.parseInt(args[2]);
+      int inter = Integer.parseInt(args[3]);
+      int treas = Integer.parseInt(args[4]);
+      int dif = Integer.parseInt(args[5]);
 
-    Scanner in = new Scanner((System.in));
+      Scanner in = new Scanner((System.in));
 
-    Player player = new PlayerImpl();
-    try {
-      Dungeon test = new DungeonImpl(wraps, row, col, inter, treas, player,
-              dif, 1);
-      String dungeonBuilder = test.getDungeon();
-      System.out.println(dungeonBuilder + "\n");
-      Readable inputs = new InputStreamReader(System.in);
-      Appendable output = System.out;
-      new ConsoleController(inputs, output).playGame((Dungeon) test);
-    } catch (IllegalArgumentException iae) {
-      System.out.println(iae.getMessage() + "\n");
-    } catch (IllegalStateException ise) {
-      System.out.println(ise.getMessage() + "\n");
+      Player player = new PlayerImpl();
+      try {
+        Dungeon test = new DungeonImpl(wraps, row, col, inter, treas, player,
+                dif, 1);
+        String dungeonBuilder = test.getDungeon();
+        System.out.println(dungeonBuilder + "\n");
+        Readable inputs = new InputStreamReader(System.in);
+        Appendable output = System.out;
+        IDungeonView throwAway = new DungeonViewImpl(test);
+        new ConsoleController(inputs, output).playGame((Dungeon) test, throwAway);
+      } catch (IllegalArgumentException iae) {
+        System.out.println(iae.getMessage() + "\n");
+      } catch (IllegalStateException ise) {
+        System.out.println(ise.getMessage() + "\n");
+      }
     }
   }
 

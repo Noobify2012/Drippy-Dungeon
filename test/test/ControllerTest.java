@@ -11,6 +11,8 @@ import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
+import view.DungeonViewImpl;
+import view.IDungeonView;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,7 +32,8 @@ public class ControllerTest {
             player, 1, 1);
     dungeon.getDungeon();
     Controller control = new ConsoleController(in, out);
-    control.playGame((Dungeon) dungeon);
+    IDungeonView throwAway = new DungeonViewImpl(dungeon);
+    control.playGame((Dungeon) dungeon, throwAway);
     String shortestPath = "Would you like to move, shoot, or pickup?\n"
             + "which direction?\n" +
             "\n" +
@@ -83,7 +86,8 @@ public class ControllerTest {
     dungeon.getDungeon();
     assertEquals("Got the dungeon\n", log.toString());
     Controller control = new ConsoleController(in, out);
-    control.playGame((Dungeon) dungeon);
+    IDungeonView throwAway = new DungeonViewImpl(dungeon);
+    control.playGame((Dungeon) dungeon, throwAway);
     String shortestPath = "Got the dungeon\n" +
             "Input: pickup 1\n" +
             "Input: shoot 1 NORTH\n" +

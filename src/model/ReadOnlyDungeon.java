@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.awt.event.ActionListener;
 import java.util.List;

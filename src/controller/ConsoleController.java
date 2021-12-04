@@ -7,6 +7,8 @@ import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
+import view.DungeonViewImpl;
+import view.IDungeonView;
 
 /**
  * The controller class for the dungeon adventure game. this class parses and processes all
@@ -244,7 +246,8 @@ public class ConsoleController implements Controller {
           } catch (IOException ioe) {
             throw new IllegalStateException("Append failed", ioe);
           }
-          playGame((Dungeon) test);
+          IDungeonView throwAway = new DungeonViewImpl(test);
+          playGame((Dungeon) test, throwAway);
         } catch (IllegalArgumentException iae) {
           try {
             out.append(iae.getMessage() + "\n");
@@ -305,7 +308,7 @@ public class ConsoleController implements Controller {
    * @param d the dungeon that is required for the user to navigate and play.
    */
   @Override
-  public void playGame(Dungeon d) {
+  public void playGame(Dungeon d, IDungeonView view) {
     boolean quitFlag = false;
     if (d == null) {
       throw new IllegalStateException("the dungeon model cannot be null");

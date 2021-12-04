@@ -18,11 +18,7 @@ public class RandomNumberGenerator {
    * @param seed A seed value for helping produce consistent and repeatable numbers for testing.
    */
   public RandomNumberGenerator(int seed) {
-    if (seed == 0) {
-      this.generator = new Random();
-    } else {
-      this.generator = new Random(0);
-    }
+    this.generator = new Random(seed);
     if (min == 0) {
       this.min = min;
     }
