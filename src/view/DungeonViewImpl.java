@@ -43,18 +43,19 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     //this.setLayout(new FlowLayout());
+    //this.setLayout(new GridLayout());
     //this.setJMenuBar();
     //JFrame frame = new JFrame("not Graphical Adventure Game");
     //JPanel dungeonPanel = new JPanel();
     //frame.setLayout(new BorderLayout());
     //frame.add(buildMenuBar());
     boardPanel = new BoardPanel(model);
-    boardPanel.setPreferredSize(new Dimension(400, 400));
+    boardPanel.setPreferredSize(new Dimension(800, 800));
     JScrollPane boardPane = new JScrollPane(boardPanel);
-    boardPane.setPreferredSize(new Dimension(200, 200));
+    boardPane.setPreferredSize(new Dimension(300, 300));
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    this.add(boardPane, "West");
+    this.add(boardPane, "Center");
 //    JScrollPane scrollPane = new JScrollPane(dungeonPanel);
     //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -69,19 +70,15 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     northButton = new JButton("North");
     northButton.setActionCommand("North Button");
     directionPanel.add(northButton, "North");
-//    this.add(northButton);
     southButton = new JButton("South");
     southButton.setActionCommand("South Button");
     directionPanel.add(southButton, "South");
-    //this.add(southButton);
     eastButton = new JButton("East");
     eastButton.setActionCommand("East Button");
     directionPanel.add(eastButton, "East");
-//    this.add(eastButton);
     westButton = new JButton("West");
     westButton.setActionCommand("West Button");
     directionPanel.add(westButton, "West");
-//    this.add(westButton);
     this.add(directionPanel, "East");
 
     //action panel build out
@@ -90,28 +87,26 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     moveButton.setActionCommand("Move Button");
     actionPanel.add(moveButton);
 
-    //this.add(moveButton);
     shootButton = new JButton("Shoot");
     shootButton.setActionCommand("Shoot Button");
     actionPanel.add(shootButton);
-//    this.add(shootButton);
     pickupButton = new JButton("Pick up");
     pickupButton.setActionCommand("Pickup Button");
     actionPanel.add(pickupButton);
     this.add(actionPanel, "North");
-//    this.add(pickupButton);
     buildButton = new JButton("Build");
     buildButton.setActionCommand("Build Button");
-//    this.add(buildButton);
 
     //build Status panel
     statusPanel = new StatusPanel(model);
+    statusPanel.setPreferredSize(new Dimension(200,100));
+//    JScrollPane statusPane = new JScrollPane(statusPanel);
+//    statusPane.setPreferredSize(new Dimension(300,300));
+//    statusPane.add(statusPanel);
     this.add(statusPanel, "South");
     this.refresh();
-    this.repaint();
+    //this.repaint();
 
-//    boardPanel = new BoardPanel(model);
-//    this.add(boardPanel);
 
 
 

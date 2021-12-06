@@ -20,7 +20,7 @@ class StatusPanel extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
 
     Cave[][] board = model.getGameBoard();
-    g2d.setFont(new Font("Ubuntu", Font.BOLD, 50));
-    g2d.drawString("This is my status panel", 100, 100);
+    g2d.setFont(new Font("Ubuntu", Font.BOLD, 30));
+    g2d.drawString("This is my status panel", 100, 50);
   }
 }

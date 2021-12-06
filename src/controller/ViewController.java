@@ -264,6 +264,10 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         //this is where you attempt to build the dungeon
         break;
 
+      case "Build Button" :
+        System.out.println("Build Button");
+        //this is where you attempt to build the dungeon
+        break;
     }
 
 
