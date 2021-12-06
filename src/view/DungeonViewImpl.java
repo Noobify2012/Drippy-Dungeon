@@ -62,7 +62,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     //add(boardPanel);
     this.buildList = new ArrayList<String>();
     this.setJMenuBar(buildMenuBar());
-    this.setSize(1000, 1000);
+    //this.setSize(1000, 1000);
     this.setVisible(true);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     directionPanel = new JPanel();
@@ -100,10 +100,14 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     //build Status panel
     statusPanel = new StatusPanel(model);
     statusPanel.setPreferredSize(new Dimension(200,100));
+    JScrollPane statusPane = new JScrollPane(statusPanel);
+    statusPane.setPreferredSize(new Dimension(500, 300));
+    statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 //    JScrollPane statusPane = new JScrollPane(statusPanel);
 //    statusPane.setPreferredSize(new Dimension(300,300));
 //    statusPane.add(statusPanel);
-    this.add(statusPanel, "South");
+    this.add(statusPane, "South");
     this.refresh();
     //this.repaint();
 
@@ -315,6 +319,11 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     moveButton.addActionListener(listener);
     shootButton.addActionListener(listener);
     pickupButton.addActionListener(listener);
+  }
+
+  @Override
+  public void updateStatus(String status) {
+    statusPanel.getStatus(status);
   }
 
 

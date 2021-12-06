@@ -13,6 +13,7 @@ public class PlayerImpl implements Player {
   private List<Direction> directions;
   private List<CrookedArrow> quiver;
   private boolean isAlive;
+  private Updater statusUpdate;
 
   /**
    * The constructor of a player.
@@ -29,6 +30,7 @@ public class PlayerImpl implements Player {
       CrookedArrow arrow = new CrookedArrow();
       this.quiver.add(arrow);
     }
+
   }
 
   /**This helps to update the players location based on the index of the cave the player is now in.
@@ -67,6 +69,7 @@ public class PlayerImpl implements Player {
    *
    */
   public String getPlayerStatus(int smell, Cave cave) {
+
     String treasureString = "";
     if (this.treasureList == null || this.treasureList.size() == 0) {
       treasureString = "nothing";
@@ -121,6 +124,7 @@ public class PlayerImpl implements Player {
       monsterString = ("\nThe player smells something faint but awful.\n");
       playerString = playerString + monsterString;
     }
+//    this.statusUpdate = new StatusUpdater(locationString, )
     return playerString;
   }
 
@@ -318,5 +322,7 @@ public class PlayerImpl implements Player {
       this.treasureList.remove(0);
     }
   }
+
+
 
 }

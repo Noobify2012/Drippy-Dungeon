@@ -50,4 +50,6 @@ public interface IDungeonView {
    */
   void addActionListener(ActionListener listener);
 
+  void updateStatus(String status);
+
 }

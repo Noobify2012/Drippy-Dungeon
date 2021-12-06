@@ -47,7 +47,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 //    Player player = new PlayerImpl();
 //    Dungeon defaultDungeon = new DungeonImpl(false, 4, 3, 0, 50 ,
 //            player, 1, currentSeed);
-    this.startDungeon.getDungeon();
+    String startMessage = this.startDungeon.getDungeon();
 //    defaultDungeon.getDungeon();
     //DungeonBuilder newDungeon = getDungeon();
     //build view with default dungeon
@@ -55,6 +55,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 //    Dungeon newDungeon = view.getDungeon();
     //this.currentSeed = defaultDungeon.getSeed();
     this.view.makeVisible();
+    this.view.updateStatus(startMessage);
     this.view.refresh();
     this.view.resetFocus();
     playGame(this.startDungeon, this.view);
@@ -74,6 +75,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     view.resetFocus();
     view.makeVisible();
     view.refresh();
+
 //    while(!dungeon.isGameOver()) {
 //
 //    }

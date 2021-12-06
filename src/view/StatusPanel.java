@@ -9,6 +9,7 @@ import model.ReadOnlyDungeon;
 
 class StatusPanel extends JPanel {
   private final ReadOnlyDungeon model;
+  private String statusString;
 
   public StatusPanel(ReadOnlyDungeon model) {
     this.model = model;
@@ -21,6 +22,10 @@ class StatusPanel extends JPanel {
 
     Cave[][] board = model.getGameBoard();
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 30));
-    g2d.drawString("This is my status panel", 100, 50);
+    g2d.drawString(this.statusString, 100, 50);
+  }
+
+  void getStatus(String statusString) {
+    this.statusString = statusString;
   }
 }
