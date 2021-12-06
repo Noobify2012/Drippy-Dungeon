@@ -83,4 +83,6 @@ public interface Dungeon extends ReadOnlyDungeon {
    */
   String quitGame();
 
+  int getSeed();
+
 }

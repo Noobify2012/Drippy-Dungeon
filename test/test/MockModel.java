@@ -115,5 +115,10 @@ public class MockModel implements Dungeon {
     return "quitGame";
   }
 
+  @Override
+  public int getSeed() {
+    return 0;
+  }
+
 
 }

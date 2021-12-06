@@ -34,4 +34,10 @@ public interface Location {
 
   boolean getPitStatus();
 
+  List<Direction> getDirectionList();
+
+  int getRow();
+
+  int getColumn();
+
 }

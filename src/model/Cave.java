@@ -16,6 +16,7 @@ public class Cave extends AbstractLocation {
   private List<Monster> monsterList;
   private boolean isPit;
   private List<Thief> leprechaun;
+  private List<Direction> directionList;
 
   /**The constructor for a cave object which inherets most of its fields from the super class
    * Abstract Location.
@@ -48,13 +49,16 @@ public class Cave extends AbstractLocation {
     if (neighborList.size() == 2 && !monsterList.isEmpty()) {
       throw new IllegalStateException("Tunnels can not have monsters");
     }
+    this.directionList = new ArrayList<>();
   }
+
+  //TODO - test these now too
 
   /**Gets the row of the cave.
    *
    * @return the cave's row value as an integer.
    */
-  int getRow() {
+  public int getRow() {
     return location.getRow();
   }
 
@@ -62,7 +66,7 @@ public class Cave extends AbstractLocation {
    *
    * @return the cave's column as an integer.
    */
-  int getColumn() {
+  public int getColumn() {
     return location.getColumn();
   }
 
@@ -170,10 +174,18 @@ public class Cave extends AbstractLocation {
     return this.monsterList.size();
   }
 
+  //TODO - must test this
   @Override
   public boolean getPitStatus() {
     boolean tempBool = this.isPit;
     return tempBool;
+  }
+
+  //TODO - must test this
+  @Override
+  public List<Direction> getDirectionList() {
+    List<Direction> returnList = this.directionList;
+    return returnList;
   }
 
   int getMonsterHealth() {
@@ -216,6 +228,10 @@ public class Cave extends AbstractLocation {
 
   Thief getLucky() {
     return this.leprechaun.get(0);
+  }
+
+  void addDirectionToList (Direction direction) {
+    this.directionList.add(direction);
   }
 
 

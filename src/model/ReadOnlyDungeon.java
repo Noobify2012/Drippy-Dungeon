@@ -30,4 +30,14 @@ public interface ReadOnlyDungeon {
    *          met. Either the player has died, reached the final cave safely, or quit the game.
    */
   boolean isGameOver();
+
+  int getSeed();
+
+  int getGameBoardRows();
+
+  /**A helper to get the number of columns in the game board.
+   *
+   * @return the number of columns in the game board as an integer.
+   */
+  int getGameBoardCols();
 }

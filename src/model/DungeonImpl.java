@@ -910,6 +910,11 @@ public class DungeonImpl implements Dungeon {
     return quitString + finalPlayerStatus;
   }
 
+  @Override
+  public int getSeed() {
+    return this.genSeed;
+  }
+
   private Direction getOppositeDirection(Direction direction) {
     Direction returnDirection = null;
     if (direction == Direction.NORTH) {
