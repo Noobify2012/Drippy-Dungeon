@@ -915,6 +915,17 @@ public class DungeonImpl implements Dungeon {
     return this.genSeed;
   }
 
+  //TODO - test this
+  /**
+   * Gets an abbreviated status update not as a string but as a custom data structure.
+   *
+   * @return the status update as a status updater object, which is used for the status pane.
+   */
+  @Override
+  public Updater getStatusUpdater() {
+    return player.getStatusUpdater();
+  }
+
   private Direction getOppositeDirection(Direction direction) {
     Direction returnDirection = null;
     if (direction == Direction.NORTH) {

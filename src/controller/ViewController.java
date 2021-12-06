@@ -16,6 +16,7 @@ import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
+import model.Updater;
 import view.DungeonBuilder;
 import view.DungeonBuilderImpl;
 import view.DungeonViewImpl;
@@ -26,6 +27,8 @@ public class ViewController implements Controller, ActionListener, KeyListener {
   private DungeonBuilder builder;
   private Dungeon startDungeon;
   private IDungeonView view;
+  private String startString;
+  private Updater startUpdate;
 
   public ViewController(Dungeon startDungeon, IDungeonView view) {
     this.startDungeon = startDungeon;
@@ -47,15 +50,17 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 //    Player player = new PlayerImpl();
 //    Dungeon defaultDungeon = new DungeonImpl(false, 4, 3, 0, 50 ,
 //            player, 1, currentSeed);
-    String startMessage = this.startDungeon.getDungeon();
 //    defaultDungeon.getDungeon();
     //DungeonBuilder newDungeon = getDungeon();
     //build view with default dungeon
 //    IDungeonView view = new DungeonViewImpl(defaultDungeon);
 //    Dungeon newDungeon = view.getDungeon();
     //this.currentSeed = defaultDungeon.getSeed();
+    this.startString = startDungeon.getDungeon();
+    this.startUpdate = startDungeon.getStatusUpdater();
+    view.updateStatus(this.startString);
+    view.getUpdater(startDungeon.getStatusUpdater());
     this.view.makeVisible();
-    this.view.updateStatus(startMessage);
     this.view.refresh();
     this.view.resetFocus();
     playGame(this.startDungeon, this.view);
@@ -70,15 +75,18 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     if (view == null) {
       throw new IllegalArgumentException("The view cannot be null");
     }
+
+    this.view.refresh();
+
     view.setListeners(this, this);
-    //TODO - for some reason can't get keyboard listeners to work
     view.resetFocus();
     view.makeVisible();
     view.refresh();
 
-//    while(!dungeon.isGameOver()) {
-//
-//    }
+    while(!dungeon.isGameOver()) {
+      break;
+
+    }
 
   }
   private void waitForDungeon(Dungeon d) {

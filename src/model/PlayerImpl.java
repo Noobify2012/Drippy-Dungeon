@@ -132,6 +132,7 @@ public class PlayerImpl implements Player {
     this.statusUpdate.setLocation(locationString);
     this.statusUpdate.setArrowCount(quiver.size());
     this.statusUpdate.setSmell(smell);
+    this.statusUpdate.setArrowList(cave.getArrowListSize());
     return playerString;
   }
 

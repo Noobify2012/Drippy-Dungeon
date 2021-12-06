@@ -15,6 +15,7 @@ import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
 import model.ReadOnlyDungeon;
+import model.Updater;
 
 public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListener {
   private BoardPanel boardPanel;
@@ -324,6 +325,11 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
   @Override
   public void updateStatus(String status) {
     statusPanel.getStatus(status);
+  }
+
+  @Override
+  public void getUpdater(Updater statusUpdate) {
+    statusPanel.getStatusUpdater(statusUpdate);
   }
 
 

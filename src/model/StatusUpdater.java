@@ -11,6 +11,7 @@ public class StatusUpdater implements Updater {
   private int smell;
   private List<Direction> directionList;
   private List<Treasure> caveTreasure;
+  private int arrowListSize;
 
   public StatusUpdater() {
     this.location = "";
@@ -21,6 +22,7 @@ public class StatusUpdater implements Updater {
     this.smell = 0;
     this.directionList = null;
     this.caveTreasure = null;
+    this.arrowListSize = 0;
   }
 
   void setLocation(String loc) {
@@ -47,6 +49,10 @@ public class StatusUpdater implements Updater {
 
   void setCaveTreasure(List<Treasure> caveTreasure) {
     this.caveTreasure = caveTreasure;
+  }
+
+  void setArrowList(int arrowList) {
+    this.arrowListSize = arrowList;
   }
 
 
@@ -135,6 +141,17 @@ public class StatusUpdater implements Updater {
   @Override
   public List<Treasure> getCaveTreasure() {
     List<Treasure> temp = this.caveTreasure;
+    return temp;
+  }
+
+  /**
+   * Gets the number of arrows at the players current location from the updater.
+   *
+   * @return The number of arrows at the player's location as an integer.
+   */
+  @Override
+  public int getCaveArrows() {
+    int temp = this.arrowListSize;
     return temp;
   }
 }

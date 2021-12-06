@@ -42,13 +42,19 @@ public interface Updater {
 
   /**Gets the current possible directions of travel from the player's location from the updater.
    *
-   * @return The integer value of the smell at the player's location.
+   * @return The list of directions the player can travel from their current location.
    */
   List<Direction> getDirectionList();
 
-  /**Gets the current possible directions of travel from the player's location from the updater.
+  /**Gets the treasure from the player's location from the updater.
    *
-   * @return The integer value of the smell at the player's location.
+   * @return The list of treasure items at the player's location.
    */
   List<Treasure> getCaveTreasure();
+
+  /**Gets the number of arrows at the players current location from the updater.
+   *
+   * @return The number of arrows at the player's location as an integer.
+   */
+  int getCaveArrows();
 }

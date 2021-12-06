@@ -6,6 +6,7 @@ import model.Cave;
 import model.Direction;
 import model.Edge;
 import model.Dungeon;
+import model.Updater;
 
 /**
  * This is the mock model for mocking the controller.
@@ -118,6 +119,16 @@ public class MockModel implements Dungeon {
   @Override
   public int getSeed() {
     return 0;
+  }
+
+  /**
+   * Gets an abbreviated status update not as a string but as a custom data structure.
+   *
+   * @return the status update as a status updater object, which is used for the status pane.
+   */
+  @Override
+  public Updater getStatusUpdater() {
+    return null;
   }
 
 

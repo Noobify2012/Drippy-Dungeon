@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import controller.Controller;
 import model.Dungeon;
+import model.Updater;
 
 public interface IDungeonView {
 
@@ -51,5 +52,7 @@ public interface IDungeonView {
   void addActionListener(ActionListener listener);
 
   void updateStatus(String status);
+
+  void getUpdater(Updater statusUpdate);
 
 }
