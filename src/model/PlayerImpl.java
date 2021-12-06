@@ -13,7 +13,7 @@ public class PlayerImpl implements Player {
   private List<Direction> directions;
   private List<CrookedArrow> quiver;
   private boolean isAlive;
-  private Updater statusUpdate;
+  private StatusUpdater statusUpdate;
 
   /**
    * The constructor of a player.
@@ -25,6 +25,7 @@ public class PlayerImpl implements Player {
     List<Direction> directions = new ArrayList<>();
     this.isAlive = true;
     this.quiver = new ArrayList<>();
+    this.statusUpdate = new StatusUpdater();
 
     for (int a = 0; a < 3; a++) {
       CrookedArrow arrow = new CrookedArrow();
@@ -77,6 +78,7 @@ public class PlayerImpl implements Player {
       treasureString = getTreasureString(this.treasureList);
     }
 
+
     String directionString = "";
     if (directions.size() == 1) {
       directionString = directions.toString() + " ";
@@ -85,6 +87,7 @@ public class PlayerImpl implements Player {
         directionString = directionString.concat(directions.get(i) + " ");
       }
     }
+    this.statusUpdate.setDirectionList(this.directions);
 
     String curTreasureString = "";
     if (cave.getTreasureList().size() == 0) {
@@ -96,6 +99,7 @@ public class PlayerImpl implements Player {
         curTreasureString = getTreasureString(cave.getTreasureList());
       }
     }
+    this.statusUpdate.setCaveTreasure(cave.getTreasureList());
 
     String arrowString = "";
     if (cave.getArrowListSize() == 0) {
@@ -124,7 +128,10 @@ public class PlayerImpl implements Player {
       monsterString = ("\nThe player smells something faint but awful.\n");
       playerString = playerString + monsterString;
     }
-//    this.statusUpdate = new StatusUpdater(locationString, )
+    //this.statusUpdate = new StatusUpdater(locationString, )
+    this.statusUpdate.setLocation(locationString);
+    this.statusUpdate.setArrowCount(quiver.size());
+    this.statusUpdate.setSmell(smell);
     return playerString;
   }
 
@@ -140,7 +147,11 @@ public class PlayerImpl implements Player {
       } else if (treasureList.get(t).getName().equalsIgnoreCase("Sapphire")) {
         sapphireInt++;
       }
+      this.statusUpdate.setRubyCount(rubyInt);
+      this.statusUpdate.setDiamondCount(diamondInt);
+      this.statusUpdate.setSapphireCount(sapphireInt);
     }
+    //this.statusUpdate.setRubyCount(rubyInt);
     String treasureString2 = rubyInt + " rubies, " + diamondInt + " diamonds, "
             + sapphireInt + " sapphires.";
     return treasureString2;
@@ -323,6 +334,11 @@ public class PlayerImpl implements Player {
     }
   }
 
+  @Override
+  public Updater getStatusUpdater() {
+    Updater temp = this.statusUpdate;
+    return temp;
+  }
 
 
 }

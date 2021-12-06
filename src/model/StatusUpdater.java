@@ -12,15 +12,15 @@ public class StatusUpdater implements Updater {
   private List<Direction> directionList;
   private List<Treasure> caveTreasure;
 
-  public StatusUpdater(String location, int rubyCount, int diamondCount, int sapphireCount, int arrowCount, int smell, List<Direction> directionList, List<Treasure> caveTreasure) {
-    this.location = location;
-    this.rubyCount = rubyCount;
-    this.diamondCount = diamondCount;
-    this.sapphireCount = sapphireCount;
-    this.arrowCount = arrowCount;
-    this.smell = smell;
-    this.directionList = directionList;
-    this.caveTreasure = caveTreasure;
+  public StatusUpdater() {
+    this.location = "";
+    this.rubyCount = 0;
+    this.diamondCount = 0;
+    this.sapphireCount = 0;
+    this.arrowCount = 0;
+    this.smell = 0;
+    this.directionList = null;
+    this.caveTreasure = null;
   }
 
   void setLocation(String loc) {
@@ -33,6 +33,20 @@ public class StatusUpdater implements Updater {
 
   void setDiamondCount(int count) {
     this.diamondCount = count;
+  }
+
+  void setSapphireCount(int count) {this.sapphireCount = count;}
+
+  void setArrowCount(int count) {this.arrowCount = count;}
+
+  void setSmell(int count) {this.smell = count;}
+
+  void setDirectionList(List<Direction> directionList) {
+    this.directionList = directionList;
+  }
+
+  void setCaveTreasure(List<Treasure> caveTreasure) {
+    this.caveTreasure = caveTreasure;
   }
 
 

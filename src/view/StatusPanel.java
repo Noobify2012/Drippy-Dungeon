@@ -22,7 +22,7 @@ class StatusPanel extends JPanel {
 
     Cave[][] board = model.getGameBoard();
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 30));
-    g2d.drawString(this.statusString, 100, 50);
+    g2d.drawString("this is my string", 100, 50);
   }
 
   void getStatus(String statusString) {

@@ -85,4 +85,11 @@ public interface Player {
 
   void stolenTreasure(int treasureNum);
 
+  /**Get the pertinent data for a players actions that for keeping live player status for the player
+   * in the view
+   *
+   * @return An updated StatusUpdater.
+   */
+  Updater getStatusUpdater();
+
 }
