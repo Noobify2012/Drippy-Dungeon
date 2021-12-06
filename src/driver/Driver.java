@@ -38,7 +38,11 @@ public class Driver {
     //TODO - build shoot functionality using a key and direction
     //TODO - provide clear indication of results of actions
     if (args.length < 6) {
-      Controller viewController = new ViewController();
+      Player throwAwayPlayer = new PlayerImpl();
+      Dungeon defaultDungeon = new DungeonImpl(false, 4, 3,0,
+              50, throwAwayPlayer, 1, 0);
+      IDungeonView throwAwayView = new DungeonViewImpl(defaultDungeon);
+      Controller viewController = new ViewController(defaultDungeon, throwAwayView);
       viewController.buildDungeon();
 
     } else if (args.length > 6) {

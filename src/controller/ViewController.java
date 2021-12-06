@@ -24,10 +24,14 @@ import view.IDungeonView;
 public class ViewController implements Controller, ActionListener, KeyListener {
   private int currentSeed;
   private DungeonBuilder builder;
+  private Dungeon startDungeon;
+  private IDungeonView view;
 
-  public ViewController() {
+  public ViewController(Dungeon startDungeon, IDungeonView view) {
+    this.startDungeon = startDungeon;
     this.currentSeed = 0;
     this.builder = null;
+    this.view = view;
   }
 
   @Override
@@ -40,18 +44,20 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 //    System.out.println(dungeonBuilder.getInter());
 //    System.out.println(dungeonBuilder.getTreas());
 //    System.out.println(dungeonBuilder.getDifficulty());
-    Player player = new PlayerImpl();
-    Dungeon defaultDungeon = new DungeonImpl(false, 4, 3, 0, 50 ,
-            player, 1, currentSeed);
-    defaultDungeon.getDungeon();
+//    Player player = new PlayerImpl();
+//    Dungeon defaultDungeon = new DungeonImpl(false, 4, 3, 0, 50 ,
+//            player, 1, currentSeed);
+    this.startDungeon.getDungeon();
+//    defaultDungeon.getDungeon();
     //DungeonBuilder newDungeon = getDungeon();
     //build view with default dungeon
-    IDungeonView view = new DungeonViewImpl(defaultDungeon);
+//    IDungeonView view = new DungeonViewImpl(defaultDungeon);
 //    Dungeon newDungeon = view.getDungeon();
     //this.currentSeed = defaultDungeon.getSeed();
-    view.makeVisible();
-    view.refresh();
-    playGame(defaultDungeon, view);
+    this.view.makeVisible();
+    this.view.refresh();
+    this.view.resetFocus();
+    playGame(this.startDungeon, this.view);
 
   }
 
@@ -64,8 +70,13 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       throw new IllegalArgumentException("The view cannot be null");
     }
     view.setListeners(this, this);
+    //TODO - for some reason can't get keyboard listeners to work
+    view.resetFocus();
     view.makeVisible();
     view.refresh();
+//    while(!dungeon.isGameOver()) {
+//
+//    }
 
   }
   private void waitForDungeon(Dungeon d) {
@@ -232,40 +243,55 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     switch (e.getActionCommand()) {
       case "North Button" :
         System.out.println("North Button");
+        view.resetFocus();
         //this is where you attempt to build the dungeon
         break;
       case "South Button" :
         System.out.println("South Button");
+        view.resetFocus();
+
         //this is where you attempt to build the dungeon
         break;
 
       case "East Button" :
         System.out.println("East Button");
+        view.resetFocus();
+
         //this is where you attempt to build the dungeon
         break;
 
       case "West Button" :
         System.out.println("West Button");
+        view.resetFocus();
+
         //this is where you attempt to build the dungeon
         break;
 
       case "Move Button" :
         System.out.println("Move Button");
+        view.resetFocus();
+
         //this is where you attempt to build the dungeon
         break;
 
       case "Shoot Button" :
         System.out.println("Shoot Button");
+        view.resetFocus();
+
         //this is where you attempt to build the dungeon
         break;
 
       case "Pickup Button" :
         System.out.println("Pickup Button");
+        view.resetFocus();
+
         //this is where you attempt to build the dungeon
         break;
 
       case "Build Button" :
         System.out.println("Build Button");
+        view.resetFocus();
+
         //this is where you attempt to build the dungeon
         break;
     }
@@ -282,6 +308,27 @@ public class ViewController implements Controller, ActionListener, KeyListener {
    */
   @Override
   public void keyTyped(KeyEvent e) {
+    if (e.getKeyChar() == 'm') {
+      System.out.println("m means move");
+    } else if (e.getKeyChar() == 's') {
+      System.out.println("s means shoot");
+    } else if (e.getKeyChar() == 'p') {
+      System.out.println("p means pickup");
+    } else if (e.getKeyChar() == 'a') {
+      System.out.println("a means arrows");
+    } else if (e.getKeyChar() == 't') {
+      System.out.println("t means treasure");
+    } else if (e.getKeyChar() == 'b') {
+      System.out.println("b means both");
+    } else if (e.getKeyChar() == '1') {
+      System.out.println("1");
+    } else if (e.getKeyChar() == '2') {
+      System.out.println("2");
+    } else if (e.getKeyChar() == '3') {
+      System.out.println("3");
+    } else if (e.getKeyChar() == '4') {
+      System.out.println("4");
+    }
 
   }
 
@@ -294,6 +341,27 @@ public class ViewController implements Controller, ActionListener, KeyListener {
    */
   @Override
   public void keyPressed(KeyEvent e) {
+//    if (e.getKeyChar() == 'm') {
+//      System.out.print("m means move");
+//    } else if (e.getKeyChar() == 's') {
+//      System.out.print("s means shoot");
+//    } else if (e.getKeyChar() == 'p') {
+//      System.out.print("p means pickup");
+//    } else if (e.getKeyChar() == 'a') {
+//      System.out.print("a means arrows");
+//    } else if (e.getKeyChar() == 't') {
+//      System.out.print("t means treasure");
+//    } else if (e.getKeyChar() == 'b') {
+//      System.out.print("b means both");
+//    } else if (e.getKeyChar() == '1') {
+//      System.out.print("1");
+//    } else if (e.getKeyChar() == '2') {
+//      System.out.print("2");
+//    } else if (e.getKeyChar() == '3') {
+//      System.out.print("3");
+//    } else if (e.getKeyChar() == '4') {
+//      System.out.print("4");
+//    }
 
   }
 
@@ -306,6 +374,27 @@ public class ViewController implements Controller, ActionListener, KeyListener {
    */
   @Override
   public void keyReleased(KeyEvent e) {
+//    if (e.getKeyChar() == 'm') {
+//      System.out.print("m means move");
+//    } else if (e.getKeyChar() == 's') {
+//      System.out.print("s means shoot");
+//    } else if (e.getKeyChar() == 'p') {
+//      System.out.print("p means pickup");
+//    } else if (e.getKeyChar() == 'a') {
+//      System.out.print("a means arrows");
+//    } else if (e.getKeyChar() == 't') {
+//      System.out.print("t means treasure");
+//    } else if (e.getKeyChar() == 'b') {
+//      System.out.print("b means both");
+//    } else if (e.getKeyChar() == '1') {
+//      System.out.print("1");
+//    } else if (e.getKeyChar() == '2') {
+//      System.out.print("2");
+//    } else if (e.getKeyChar() == '3') {
+//      System.out.print("3");
+//    } else if (e.getKeyChar() == '4') {
+//      System.out.print("4");
+//    }
 
   }
 }
