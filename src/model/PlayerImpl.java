@@ -272,6 +272,7 @@ public class PlayerImpl implements Player {
 
       }
       //pick up both
+
     }
     return pickupString;
   }
@@ -323,11 +324,12 @@ public class PlayerImpl implements Player {
     } else {
       quiver.remove(0);
       String quiverString = "\nThe player has " + quiver.size() + " arrows remaining.";
+      this.statusUpdate.setArrowCount(quiver.size());
       return quiverString;
     }
   }
 
-  //TODO - need to write tests
+  //TODO - need to write tests and add updater functionality
   @Override
   public void stolenTreasure(int treasureNum) {
     for (int i = 0; i < treasureNum; i ++) {

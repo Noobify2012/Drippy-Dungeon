@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
+import model.Direction;
 import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
@@ -26,15 +28,40 @@ public class ViewController implements Controller, ActionListener, KeyListener {
   private int currentSeed;
   private DungeonBuilder builder;
   private Dungeon startDungeon;
+  private Dungeon currDungeon;
   private IDungeonView view;
   private String startString;
   private Updater startUpdate;
+  private boolean moveBool;
+  private boolean shootBool;
+  private boolean pickupBool;
+  private boolean arrowBool;
+  private boolean treasBool;
+  private boolean northBool;
+  private boolean southBool;
+  private boolean eastBool;
+  private boolean westBool;
+  private Enum<ActionEnum> actionEnum;
+  private Direction direction;
+  private Enum<PickupEnum> pickup;
 
   public ViewController(Dungeon startDungeon, IDungeonView view) {
     this.startDungeon = startDungeon;
     this.currentSeed = 0;
     this.builder = null;
     this.view = view;
+    this.moveBool = false;
+    this.shootBool = false;
+    this.pickupBool = false;
+    this.arrowBool = false;;
+    this.treasBool = false;
+    this.northBool = false;
+    this.southBool = false;
+    this.eastBool = false;
+    this.westBool = false;
+    this.actionEnum = ActionEnum.NONE;
+    this.direction = Direction.NONE;
+    this.pickup = PickupEnum.NONE;
   }
 
   @Override
@@ -63,6 +90,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     this.view.makeVisible();
     this.view.refresh();
     this.view.resetFocus();
+    this.currDungeon = this.startDungeon;
     playGame(this.startDungeon, this.view);
 
   }
@@ -84,11 +112,27 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     view.refresh();
 
     while(!dungeon.isGameOver()) {
-      break;
+      if (actionEnum == ActionEnum.MOVE) {
+        if (direction != Direction.NONE) {
+          try {
+            //String element = scan.next();
+            System.out.println("hit the move try");
+            String moveString = dungeon.movePlayer(direction);
+            view.updateStatus(moveString);
+            view.getUpdater(dungeon.getStatusUpdater());
+            view.makeVisible();
+            view.refresh();
+            view.resetFocus();
+              System.out.println(moveString + "\n");
+          } catch (IllegalArgumentException iae) {
+              System.out.println(iae.getMessage() + "\n");
+            }
+          }
+        }
+      }
+
 
     }
-
-  }
   private void waitForDungeon(Dungeon d) {
     while (d == null) {
       //do nothing
@@ -253,11 +297,17 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     switch (e.getActionCommand()) {
       case "North Button" :
         System.out.println("North Button");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.NORTH;
+        }
         view.resetFocus();
         //this is where you attempt to build the dungeon
         break;
       case "South Button" :
         System.out.println("South Button");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.SOUTH;
+        }
         view.resetFocus();
 
         //this is where you attempt to build the dungeon
@@ -265,6 +315,9 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 
       case "East Button" :
         System.out.println("East Button");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.EAST;
+        }
         view.resetFocus();
 
         //this is where you attempt to build the dungeon
@@ -273,13 +326,39 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       case "West Button" :
         System.out.println("West Button");
         view.resetFocus();
+        if (direction == Direction.NONE) {
+          this.direction = Direction.WEST;
+        }
+        view.resetFocus();
 
         //this is where you attempt to build the dungeon
         break;
 
       case "Move Button" :
-        System.out.println("Move Button");
+        try {
+          //String element = scan.next();
+          System.out.println("Move Button Pressed");
+          System.out.println("hit the move try");
+          String moveString = currDungeon.movePlayer(direction);
+          this.direction = Direction.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          System.out.println(moveString);
+          view.updateStatus(moveString);
+          view.getUpdater(currDungeon.getStatusUpdater());
+          view.makeVisible();
+          view.refresh();
+          view.resetFocus();
+          System.out.println(moveString + "\n");
+        } catch (IllegalArgumentException iae) {
+          System.out.println(iae.getMessage() + "\n");
+        }
+        //String temp = currDungeon.movePlayer(direction);
+        //System.out.println(temp);
+        if (actionEnum == ActionEnum.NONE) {
+          this.actionEnum = ActionEnum.MOVE;
+        }
         view.resetFocus();
+
 
         //this is where you attempt to build the dungeon
         break;
@@ -287,12 +366,18 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       case "Shoot Button" :
         System.out.println("Shoot Button");
         view.resetFocus();
+        if (actionEnum == ActionEnum.NONE) {
+          this.actionEnum = ActionEnum.SHOOT;
+        }
 
         //this is where you attempt to build the dungeon
         break;
 
       case "Pickup Button" :
         System.out.println("Pickup Button");
+        if (actionEnum == ActionEnum.NONE) {
+          this.actionEnum = ActionEnum.PICKUP;
+        }
         view.resetFocus();
 
         //this is where you attempt to build the dungeon
@@ -341,33 +426,136 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     switch( keyCode ) {
       case KeyEvent.VK_UP:
         System.out.println("up arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.NORTH;
+        } else {
+          this.direction = Direction.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          this.pickup = PickupEnum.NONE;
+        }
         // handle up
         break;
       case KeyEvent.VK_DOWN:
         System.out.println("down arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.SOUTH;
+        } else {
+          this.direction = Direction.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          this.pickup = PickupEnum.NONE;
+        }
         // handle down
         break;
       case KeyEvent.VK_LEFT:
         System.out.println("left arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.WEST;
+        } else {
+          this.direction = Direction.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          this.pickup = PickupEnum.NONE;
+        }
         // handle left
         break;
       case KeyEvent.VK_RIGHT :
         System.out.println("right arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.EAST;
+        } else {
+          this.direction = Direction.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          this.pickup = PickupEnum.NONE;
+        }
         // handle right
         break;
     }
     if (e.getKeyChar() == 'm') {
       System.out.println("m means move");
+      try {
+        //String element = scan.next();
+        System.out.println("Move Button Pressed");
+        System.out.println("hit the move try");
+        String moveString = currDungeon.movePlayer(direction);
+        this.direction = Direction.NONE;
+        this.actionEnum = ActionEnum.NONE;
+        System.out.println(moveString);
+        view.updateStatus(moveString);
+        view.getUpdater(currDungeon.getStatusUpdater());
+        view.makeVisible();
+        view.refresh();
+        view.resetFocus();
+        System.out.println(moveString + "\n");
+      } catch (IllegalArgumentException iae) {
+        System.out.println(iae.getMessage() + "\n");
+      }
+      //String temp = currDungeon.movePlayer(direction);
+      //System.out.println(temp);
+      if (actionEnum == ActionEnum.NONE) {
+        this.actionEnum = ActionEnum.MOVE;
+      }
+      view.resetFocus();
     } else if (e.getKeyChar() == 's') {
       System.out.println("s means shoot");
+      if (actionEnum == ActionEnum.NONE) {
+        this.actionEnum = ActionEnum.SHOOT;
+      } else {
+        this.direction = Direction.NONE;
+        this.actionEnum = ActionEnum.NONE;
+        this.pickup = PickupEnum.NONE;
+      }
     } else if (e.getKeyChar() == 'p') {
       System.out.println("p means pickup");
+      try {
+        //String element = scan.next();
+        System.out.println("Move Button Pressed");
+        System.out.println("hit the move try");
+        int temp = 0;
+        if (pickup == PickupEnum.TREASURE) {
+          //temp already set
+        } else if (pickup == PickupEnum.ARROW) {
+          temp = 1;
+        } else {
+          temp = 2;
+        }
+        String pickupString = currDungeon.pickUpItem(temp);
+        this.pickup = PickupEnum.NONE;
+        this.actionEnum = ActionEnum.NONE;
+        System.out.println(pickupString);
+        view.updateStatus(pickupString);
+        view.getUpdater(currDungeon.getStatusUpdater());
+        view.makeVisible();
+        view.refresh();
+        view.resetFocus();
+      } catch (IllegalArgumentException iae) {
+        System.out.println(iae.getMessage() + "\n");
+      }
     } else if (e.getKeyChar() == 'a') {
       System.out.println("a means arrows");
+      if (pickup == PickupEnum.NONE) {
+        this.pickup = PickupEnum.ARROW;
+      } else {
+        this.direction = Direction.NONE;
+        this.actionEnum = ActionEnum.NONE;
+        this.pickup = PickupEnum.NONE;
+      }
     } else if (e.getKeyChar() == 't') {
       System.out.println("t means treasure");
+      if (pickup == PickupEnum.NONE) {
+        this.pickup = PickupEnum.TREASURE;
+      } else {
+        this.direction = Direction.NONE;
+        this.actionEnum = ActionEnum.NONE;
+        this.pickup = PickupEnum.NONE;
+      }
     } else if (e.getKeyChar() == 'b') {
       System.out.println("b means both");
+      if (pickup == PickupEnum.NONE) {
+        this.pickup = PickupEnum.BOTH;
+      } else {
+        this.direction = Direction.NONE;
+        this.actionEnum = ActionEnum.NONE;
+        this.pickup = PickupEnum.NONE;
+      }
     } else if (e.getKeyChar() == 'q') {
       this.startDungeon.quitGame();
       System.exit(0);
@@ -389,6 +577,25 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       System.out.println("Right arrow");
     }
 
+  }
+
+  class movePlayer implements Runnable {
+    public void run() {
+      try {
+        //String element = scan.next();
+        System.out.println("hit the move try");
+        String moveString = currDungeon.movePlayer(direction);
+        view.updateStatus(moveString);
+        view.getUpdater(currDungeon.getStatusUpdater());
+
+        System.out.println(moveString + "\n");
+      } catch (IllegalArgumentException iae) {
+        System.out.println(iae.getMessage() + "\n");
+      }
+      view.makeVisible();
+      view.refresh();
+      view.resetFocus();
+    }
   }
 
   /**
