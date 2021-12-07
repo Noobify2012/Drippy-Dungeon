@@ -22,6 +22,9 @@ import static com.sun.tools.doclint.Entity.image;
 class BoardPanel extends JPanel {
 
   private final ReadOnlyDungeon model;
+  private BufferedImage image1;
+  private BufferedImage image2;
+  private BufferedImage combinedImage;
 
   public BoardPanel(ReadOnlyDungeon model) {
     this.model = model;
@@ -36,11 +39,14 @@ class BoardPanel extends JPanel {
     int rows = model.getGameBoardRows();
     int col = model.getGameBoardCols();
     List<Edge> edgeList = model.getFinalEdgeList();
+    Path pathBase = null;
+    Path emPath = null;
 
     //System.out.println(System.getProperty("user.dir"));
     try {
       System.out.println(new File(".").getCanonicalPath());
-      Path pathBase = Path.of(new File(".").getCanonicalPath() + "\\dungeon-images\\blank.png");
+      pathBase = Path.of(new File(".").getCanonicalPath() + "\\dungeon-images\\blank.png");
+      emPath = Path.of(new File(".").getCanonicalPath() + "\\dungeon-images\\emerald.png");
       System.out.println("Path to blank" + pathBase.toString());
       Path pathToPics = Path.of(new File(".").getCanonicalPath());
       Path pathRelative = pathToPics.relativize(pathBase);
@@ -69,6 +75,53 @@ class BoardPanel extends JPanel {
     g2d.drawLine(50, 250, 350, 250);
 
     g2d.drawLine(50, 400, 400, 400);
+
+
+    //got this from here : https://www.ryisnow.online/2021/04/java-code-sample-combine-multiple.html
+    try {
+      // VERSION 1
+      image1 = ImageIO.read(getClass().getClassLoader().getResource(pathBase.toString()));
+      image2 = ImageIO.read(getClass().getClassLoader().getResource(emPath.toString()));
+
+      combinedImage = new BufferedImage(800,600, BufferedImage.TYPE_INT_ARGB);
+
+      Graphics2D g2 = combinedImage.createGraphics();
+
+      g2.drawImage(image1, 0, 0, null);
+      g2.drawImage(image2, 0, 0, null);
+      // VERSION 1 END
+
+      // VERSION 2
+//			image1 = ImageIO.read(getClass().getClassLoader().getResource("11C.png"));
+//			image2 = ImageIO.read(getClass().getClassLoader().getResource("12C.png"));
+//
+//			int width = image1.getWidth() + image2.getWidth();
+//			int height = Math.max(image1.getHeight(), image2.getHeight());
+//
+//			combinedImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+//
+//			Graphics2D g = combinedImage.createGraphics();
+//
+//			g.drawImage(image1, 0, 0, null);
+//			g.drawImage(image2, image1.getWidth(), 0, null);
+      // VERSION 2 END
+
+      g.dispose();
+
+      JLabel label = new JLabel();
+      this.add(label);
+      label.setIcon(new ImageIcon(combinedImage));
+
+      // Export the combined image to desktop
+      try {
+        ImageIO.write(combinedImage, "PNG", new File("C:\\Users\\User\\Desktop\\combinedImage.png"));
+      }catch(IOException e) {
+
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
 //    //g2d.drawString("X", 280, 310);
 //

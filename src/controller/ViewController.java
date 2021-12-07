@@ -301,6 +301,8 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         System.out.println("North Button");
         if (direction == Direction.NONE) {
           this.direction = Direction.NORTH;
+        } else {
+          this.direction = Direction.NONE;
         }
         view.resetFocus();
         //this is where you attempt to build the dungeon
@@ -309,6 +311,8 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         System.out.println("South Button");
         if (direction == Direction.NONE) {
           this.direction = Direction.SOUTH;
+        } else {
+          this.direction = Direction.NONE;
         }
         view.resetFocus();
 
@@ -319,6 +323,8 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         System.out.println("East Button");
         if (direction == Direction.NONE) {
           this.direction = Direction.EAST;
+        } else {
+          this.direction = Direction.NONE;
         }
         view.resetFocus();
 
@@ -330,6 +336,8 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         view.resetFocus();
         if (direction == Direction.NONE) {
           this.direction = Direction.WEST;
+        } else {
+          this.direction = Direction.NONE;
         }
         view.resetFocus();
 
@@ -397,7 +405,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
             this.pickup = PickupEnum.NONE;
           }
         }
-        System.out.println("under shoot try");
+        //System.out.println("under shoot try");
 
         //this is where you attempt to build the dungeon
         break;
@@ -558,10 +566,25 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       System.out.println("s means shoot");
       if (actionEnum == ActionEnum.NONE) {
         this.actionEnum = ActionEnum.SHOOT;
-      } else {
-        this.direction = Direction.NONE;
-        this.actionEnum = ActionEnum.NONE;
-        this.pickup = PickupEnum.NONE;
+        try {
+          //String element = scan.next();
+          System.out.println("hit the shoot try");
+          String shootString = currDungeon.shootArrow(distance, direction);
+          this.direction = Direction.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          System.out.println("first shoot string print" + shootString);
+          view.updateStatus(shootString);
+          view.getUpdater(currDungeon.getStatusUpdater());
+          System.out.println(shootString + "\n");
+          view.makeVisible();
+          view.refresh();
+          view.resetFocus();
+        } catch (IllegalArgumentException iae) {
+          System.out.println(iae.getMessage() + "\n");
+          this.actionEnum = ActionEnum.NONE;
+          this.direction = Direction.NONE;
+          this.pickup = PickupEnum.NONE;
+        }
       }
     } else if (e.getKeyChar() == 'p') {
       System.out.println("p means pickup");
@@ -684,6 +707,38 @@ public class ViewController implements Controller, ActionListener, KeyListener {
    */
   @Override
   public void keyPressed(KeyEvent e) {
+
+    int keyCode = e.getKeyCode();
+    switch( keyCode ) {
+      case KeyEvent.VK_UP:
+        System.out.println("up arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.NORTH;
+        }
+        // handle up
+        break;
+      case KeyEvent.VK_DOWN:
+        System.out.println("down arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.SOUTH;
+        }
+        // handle down
+        break;
+      case KeyEvent.VK_LEFT:
+        System.out.println("left arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.WEST;
+        }
+        // handle left
+        break;
+      case KeyEvent.VK_RIGHT :
+        System.out.println("right arrow case");
+        if (direction == Direction.NONE) {
+          this.direction = Direction.EAST;
+        }
+        // handle right
+        break;
+    }
 //    if (e.getKeyChar() == 'm') {
 //      System.out.print("m means move");
 //    } else if (e.getKeyChar() == 's') {
