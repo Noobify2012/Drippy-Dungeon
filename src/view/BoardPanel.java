@@ -40,6 +40,11 @@ class BoardPanel extends JPanel {
     //System.out.println(System.getProperty("user.dir"));
     try {
       System.out.println(new File(".").getCanonicalPath());
+      Path pathBase = Path.of(new File(".").getCanonicalPath() + "\\dungeon-images\\blank.png");
+      System.out.println("Path to blank" + pathBase.toString());
+      Path pathToPics = Path.of(new File(".").getCanonicalPath());
+      Path pathRelative = pathToPics.relativize(pathBase);
+      System.out.println("relative path: " + pathRelative);
     } catch (IOException e) {
       e.printStackTrace();
     }

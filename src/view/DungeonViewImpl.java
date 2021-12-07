@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import model.PlayerImpl;
 import model.ReadOnlyDungeon;
 import model.Updater;
 
-public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListener {
+public class DungeonViewImpl extends JFrame implements IDungeonView {
   private BoardPanel boardPanel;
   private JMenuBar menuBar;
   private JMenu menu;
@@ -51,7 +52,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     //frame.setLayout(new BorderLayout());
     //frame.add(buildMenuBar());
     boardPanel = new BoardPanel(model);
-    boardPanel.setPreferredSize(new Dimension(800, 800));
+    boardPanel.setPreferredSize(new Dimension(900, 900));
     JScrollPane boardPane = new JScrollPane(boardPanel);
     boardPane.setPreferredSize(new Dimension(300, 300));
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -86,13 +87,16 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     actionPanel = new JPanel(new GridLayout(3,1));
     moveButton = new JButton("Move");
     moveButton.setActionCommand("Move Button");
+    moveButton.setMnemonic(KeyEvent.VK_M);
     actionPanel.add(moveButton);
 
     shootButton = new JButton("Shoot");
     shootButton.setActionCommand("Shoot Button");
+    shootButton.setMnemonic(KeyEvent.VK_S);
     actionPanel.add(shootButton);
     pickupButton = new JButton("Pick up");
     pickupButton.setActionCommand("Pickup Button");
+    pickupButton.setMnemonic(KeyEvent.VK_P);
     actionPanel.add(pickupButton);
     this.add(actionPanel, "North");
     buildButton = new JButton("Build");
@@ -100,9 +104,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
 
     //build Status panel
     statusPanel = new StatusPanel(model);
-    statusPanel.setPreferredSize(new Dimension(200,100));
+    statusPanel.setPreferredSize(new Dimension(500,500));
     JScrollPane statusPane = new JScrollPane(statusPanel);
-    statusPane.setPreferredSize(new Dimension(500, 300));
+    statusPane.setPreferredSize(new Dimension(200, 100));
     statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 //    JScrollPane statusPane = new JScrollPane(statusPanel);
@@ -320,6 +324,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     moveButton.addActionListener(listener);
     shootButton.addActionListener(listener);
     pickupButton.addActionListener(listener);
+    buildDungeon.addActionListener(listener);
+    menuQuit.addActionListener(listener);
+    restartDungeon.addActionListener(listener);
   }
 
   @Override
@@ -342,14 +349,34 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
 
     //build jMenuItem
     buildDungeon = new JMenuItem("Build New Dungeon");
-    buildDungeon.addActionListener(this::actionPerformed);
     //add menu item to the menu
     menu.add(buildDungeon);
+    buildDungeon.setActionCommand("Build New");
+    buildDungeon.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("build new dungeon selected");
+      }
+    });
     menu.addSeparator();
     restartDungeon = new JMenuItem("Restart Dungeon");
     menu.add(restartDungeon);
+    restartDungeon.setActionCommand("Restart Dungeon");
+    restartDungeon.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("restart selected");
+      }
+    });
     menu.addSeparator();
     menuQuit = new JMenuItem("Quit Game");
+    menuQuit.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.exit(0);
+      }
+    });
+    menuQuit.setActionCommand("Quit");
     menu.add(menuQuit);
 
     //add menu to menu bar
@@ -357,27 +384,4 @@ public class DungeonViewImpl extends JFrame implements IDungeonView, ActionListe
     return menuBar;
   }
 
-  /**
-   * Invoked when an action occurs.
-   *
-   * @param e the event to be processed
-   */
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equalsIgnoreCase("Build New Dungeon")) {
-      //build new dungeon
-      getDungeon();
-
-
-      //System.out.print("Hit the set vis");
-    } else if (e.getActionCommand().equals(restartDungeon)) {
-      //restart dungeon
-    } else if (e.getActionCommand().equals(menuQuit)) {
-
-      //quit game
-    }
-    String s = e.getActionCommand();
-
-    System.out.println(s + " selected");
-  }
 }

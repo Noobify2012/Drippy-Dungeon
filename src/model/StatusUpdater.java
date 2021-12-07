@@ -12,6 +12,9 @@ public class StatusUpdater implements Updater {
   private List<Direction> directionList;
   private List<Treasure> caveTreasure;
   private int arrowListSize;
+  private String monsterEncounter;
+  private String luckyEncounter;
+  private String pitFall;
 
   public StatusUpdater() {
     this.location = "";

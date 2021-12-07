@@ -304,6 +304,25 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 
         //this is where you attempt to build the dungeon
         break;
+
+      case "Quit Game" :
+        System.out.println("quit game");
+        this.startDungeon.quitGame();
+        System.exit(0);
+        break;
+
+      case "Build New" :
+        System.out.println("Build new Dungeon");
+        break;
+
+      case "Restart Dungeon" :
+        System.out.println("restart dungeon");
+        //do something
+        break;
+
+      case "menuQuit" :
+        System.out.println("quit menu option");
+        break;
     }
 
 
@@ -318,6 +337,25 @@ public class ViewController implements Controller, ActionListener, KeyListener {
    */
   @Override
   public void keyTyped(KeyEvent e) {
+    int keyCode = e.getKeyCode();
+    switch( keyCode ) {
+      case KeyEvent.VK_UP:
+        System.out.println("up arrow case");
+        // handle up
+        break;
+      case KeyEvent.VK_DOWN:
+        System.out.println("down arrow case");
+        // handle down
+        break;
+      case KeyEvent.VK_LEFT:
+        System.out.println("left arrow case");
+        // handle left
+        break;
+      case KeyEvent.VK_RIGHT :
+        System.out.println("right arrow case");
+        // handle right
+        break;
+    }
     if (e.getKeyChar() == 'm') {
       System.out.println("m means move");
     } else if (e.getKeyChar() == 's') {
@@ -330,6 +368,9 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       System.out.println("t means treasure");
     } else if (e.getKeyChar() == 'b') {
       System.out.println("b means both");
+    } else if (e.getKeyChar() == 'q') {
+      this.startDungeon.quitGame();
+      System.exit(0);
     } else if (e.getKeyChar() == '1') {
       System.out.println("1");
     } else if (e.getKeyChar() == '2') {
@@ -338,6 +379,14 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       System.out.println("3");
     } else if (e.getKeyChar() == '4') {
       System.out.println("4");
+    } else if (e.getKeyCode() == 38) {
+      System.out.println("Up arrow");
+    } else if (e.getKeyChar() == KeyEvent.VK_DOWN) {
+      System.out.println("Down arrow");
+    } else if (e.getKeyChar() == KeyEvent.VK_LEFT) {
+      System.out.println("Left arrow");
+    } else if (e.getKeyChar() == KeyEvent.VK_RIGHT) {
+      System.out.println("Right arrow");
     }
 
   }

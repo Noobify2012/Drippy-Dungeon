@@ -39,10 +39,15 @@ class StatusPanel extends JPanel {
 
     Cave[][] board = model.getGameBoard();
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 25));
-//    if (statusString != null) {
-//      g2d.drawString(statusString, 100, 100);
-//    }
+    if (statusString != null && statusString.length() <= 65) {
+      g2d.drawString(statusString, 100, 250);
+    } else if (statusString != null && statusString.length() > 65) {
+
+    }
     if (statusUpdater != null) {
+      if (model.isGameOver()) {
+        g2d.drawString("GAME OVER", 100, 10);
+      }
       g2d.drawString("Player is in " + this.locationString, 100, 20);
       g2d.drawString("Player can go " + this.directionList, 100, 45);
       g2d.drawString("Arrows Remaining " + this.arrowCount, 100, 70);
