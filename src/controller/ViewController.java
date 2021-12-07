@@ -377,6 +377,31 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         System.out.println("Pickup Button");
         if (actionEnum == ActionEnum.NONE) {
           this.actionEnum = ActionEnum.PICKUP;
+          try {
+            //String element = scan.next();
+            System.out.println("p key Pressed");
+            System.out.println("hit the pickup p key try");
+            int temp = 0;
+            System.out.println("value of pickup enum: " + this.pickup);
+            if (pickup == PickupEnum.TREASURE) {
+              //temp already set
+            } else if (pickup == PickupEnum.ARROW) {
+              temp = 1;
+            } else {
+              temp = 2;
+            }
+            String pickupString = currDungeon.pickUpItem(temp);
+            this.pickup = PickupEnum.NONE;
+            this.actionEnum = ActionEnum.NONE;
+            System.out.println(pickupString);
+            view.updateStatus(pickupString);
+            view.getUpdater(currDungeon.getStatusUpdater());
+            view.makeVisible();
+            view.refresh();
+            view.resetFocus();
+          } catch (IllegalArgumentException iae) {
+            System.out.println(iae.getMessage() + "\n");
+          }
         }
         view.resetFocus();
 
@@ -507,9 +532,10 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       System.out.println("p means pickup");
       try {
         //String element = scan.next();
-        System.out.println("Move Button Pressed");
-        System.out.println("hit the move try");
+        System.out.println("p key Pressed");
+        System.out.println("hit the pickup p key try");
         int temp = 0;
+        System.out.println("value of pickup enum: " + this.pickup);
         if (pickup == PickupEnum.TREASURE) {
           //temp already set
         } else if (pickup == PickupEnum.ARROW) {
