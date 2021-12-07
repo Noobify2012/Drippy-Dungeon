@@ -44,6 +44,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
   private Enum<ActionEnum> actionEnum;
   private Direction direction;
   private Enum<PickupEnum> pickup;
+  private int distance;
 
   public ViewController(Dungeon startDungeon, IDungeonView view) {
     this.startDungeon = startDungeon;
@@ -62,6 +63,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
     this.actionEnum = ActionEnum.NONE;
     this.direction = Direction.NONE;
     this.pickup = PickupEnum.NONE;
+    this.distance = 0;
   }
 
   @Override
@@ -335,28 +337,35 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         break;
 
       case "Move Button" :
-        try {
-          //String element = scan.next();
-          System.out.println("Move Button Pressed");
-          System.out.println("hit the move try");
-          String moveString = currDungeon.movePlayer(direction);
-          this.direction = Direction.NONE;
-          this.actionEnum = ActionEnum.NONE;
-          System.out.println(moveString);
-          view.updateStatus(moveString);
-          view.getUpdater(currDungeon.getStatusUpdater());
-          view.makeVisible();
-          view.refresh();
-          view.resetFocus();
-          System.out.println(moveString + "\n");
-        } catch (IllegalArgumentException iae) {
-          System.out.println(iae.getMessage() + "\n");
+        if (actionEnum == ActionEnum.NONE) {
+          this.actionEnum = ActionEnum.MOVE;
+          try {
+            //String element = scan.next();
+            System.out.println("Move Button Pressed");
+            System.out.println("hit the move try");
+            String moveString = currDungeon.movePlayer(direction);
+            this.direction = Direction.NONE;
+            this.actionEnum = ActionEnum.NONE;
+            System.out.println(moveString);
+            view.updateStatus(moveString);
+            view.getUpdater(currDungeon.getStatusUpdater());
+            view.makeVisible();
+            view.refresh();
+            view.resetFocus();
+            System.out.println(moveString + "\n");
+          } catch (IllegalArgumentException iae) {
+            System.out.println(iae.getMessage() + "\n");
+            this.actionEnum = ActionEnum.NONE;
+            this.direction = Direction.NONE;
+            this.pickup = PickupEnum.NONE;
+          }
         }
         //String temp = currDungeon.movePlayer(direction);
         //System.out.println(temp);
-        if (actionEnum == ActionEnum.NONE) {
-          this.actionEnum = ActionEnum.MOVE;
-        }
+
+        this.actionEnum = ActionEnum.NONE;
+        this.pickup = PickupEnum.NONE;
+        this.direction = Direction.NONE;
         view.resetFocus();
 
 
@@ -364,11 +373,31 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         break;
 
       case "Shoot Button" :
-        System.out.println("Shoot Button");
+        System.out.println("Shoot Button Pressed");
         view.resetFocus();
         if (actionEnum == ActionEnum.NONE) {
           this.actionEnum = ActionEnum.SHOOT;
+          try {
+            //String element = scan.next();
+            System.out.println("hit the shoot try");
+            String shootString = currDungeon.shootArrow(distance, direction);
+            this.direction = Direction.NONE;
+            this.actionEnum = ActionEnum.NONE;
+            System.out.println("first shoot string print" + shootString);
+            view.updateStatus(shootString);
+            view.getUpdater(currDungeon.getStatusUpdater());
+            System.out.println(shootString + "\n");
+            view.makeVisible();
+            view.refresh();
+            view.resetFocus();
+          } catch (IllegalArgumentException iae) {
+            System.out.println(iae.getMessage() + "\n");
+            this.actionEnum = ActionEnum.NONE;
+            this.direction = Direction.NONE;
+            this.pickup = PickupEnum.NONE;
+          }
         }
+        System.out.println("under shoot try");
 
         //this is where you attempt to build the dungeon
         break;
@@ -401,8 +430,14 @@ public class ViewController implements Controller, ActionListener, KeyListener {
             view.resetFocus();
           } catch (IllegalArgumentException iae) {
             System.out.println(iae.getMessage() + "\n");
+            this.actionEnum = ActionEnum.NONE;
+            this.direction = Direction.NONE;
+            this.pickup = PickupEnum.NONE;
           }
         }
+        this.actionEnum = ActionEnum.NONE;
+        this.pickup = PickupEnum.NONE;
+        this.direction = Direction.NONE;
         view.resetFocus();
 
         //this is where you attempt to build the dungeon
@@ -587,12 +622,28 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       System.exit(0);
     } else if (e.getKeyChar() == '1') {
       System.out.println("1");
+      if (this.distance == 0) {
+        this.distance = 1;
+        System.out.println("value of distance is: " + distance);
+      }
     } else if (e.getKeyChar() == '2') {
       System.out.println("2");
+      if (this.distance == 0) {
+        this.distance = 2;
+        System.out.println("value of distance is: " + distance);
+      }
     } else if (e.getKeyChar() == '3') {
       System.out.println("3");
+      if (this.distance == 0) {
+        this.distance = 3;
+        System.out.println("value of distance is: " + distance);
+      }
     } else if (e.getKeyChar() == '4') {
       System.out.println("4");
+      if (this.distance == 0) {
+        this.distance = 4;
+        System.out.println("value of distance is: " + distance);
+      }
     } else if (e.getKeyCode() == 38) {
       System.out.println("Up arrow");
     } else if (e.getKeyChar() == KeyEvent.VK_DOWN) {
