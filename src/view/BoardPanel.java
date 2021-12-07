@@ -1,11 +1,10 @@
 package view;
 
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -41,12 +40,48 @@ class BoardPanel extends JPanel {
     List<Edge> edgeList = model.getFinalEdgeList();
     Path pathBase = null;
     Path emPath = null;
+//    g.drawImage()
+    BufferedImage emeraldNull = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+    BufferedImage emerald = null;
+    Path pathBaseEm = null;
+    ///Users/Owner/Documents/CS5010/Project5_Graphical_Adventure_Game/src/view/emerald.png
+    try {
+      pathBaseEm = Path.of(new File(".").getCanonicalPath());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    String pathToAppend = "/res/dungeon-images/emerald.png";
+    String emeraldPath = pathBaseEm.toString() + pathToAppend;
+    try {
+      emerald = overlay(emeraldNull, emeraldPath, 0);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    g2d.drawImage(emerald, 100, 100, null);
+//    try {
+//      emPath = Path.of(new File(".").getCanonicalPath() + "dungeon-images/emerald.png");
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//
+//
+//    try {
+//      //emerald = ImageIO.read(new File (emPath.toString()));
+//      emerald = ImageIO.read(getClass().getResource("emerald.png"));
+//
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+
+    g2d.drawImage(emerald, 100, 100, null);
+    //Image wall = new ImageIcon(GamePanel.class.getResource("wall.png")).getImage();
+    //g2d.drawImage(wall, x, y, this);
 
     //System.out.println(System.getProperty("user.dir"));
     try {
       System.out.println(new File(".").getCanonicalPath());
-      pathBase = Path.of(new File(".").getCanonicalPath() + "\\dungeon-images\\blank.png");
-      emPath = Path.of(new File(".").getCanonicalPath() + "\\dungeon-images\\emerald.png");
+      pathBase = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/blank.png");
+      emPath = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/emerald.png");
       System.out.println("Path to blank" + pathBase.toString());
       Path pathToPics = Path.of(new File(".").getCanonicalPath());
       Path pathRelative = pathToPics.relativize(pathBase);
@@ -78,50 +113,53 @@ class BoardPanel extends JPanel {
 
 
     //got this from here : https://www.ryisnow.online/2021/04/java-code-sample-combine-multiple.html
-    try {
-      // VERSION 1
-      image1 = ImageIO.read(getClass().getClassLoader().getResource(pathBase.toString()));
-      image2 = ImageIO.read(getClass().getClassLoader().getResource(emPath.toString()));
-
-      combinedImage = new BufferedImage(800,600, BufferedImage.TYPE_INT_ARGB);
-
-      Graphics2D g2 = combinedImage.createGraphics();
-
-      g2.drawImage(image1, 0, 0, null);
-      g2.drawImage(image2, 0, 0, null);
-      // VERSION 1 END
-
-      // VERSION 2
-//			image1 = ImageIO.read(getClass().getClassLoader().getResource("11C.png"));
-//			image2 = ImageIO.read(getClass().getClassLoader().getResource("12C.png"));
+//    try {
+//      // VERSION 1
+//      //image1 = ImageIO.read(getClass().getClassLoader().getResource(pathBase.toString()));
+//      //image2 = ImageIO.read(getClass().getClassLoader().getResource(emPath.toString()));
 //
-//			int width = image1.getWidth() + image2.getWidth();
-//			int height = Math.max(image1.getHeight(), image2.getHeight());
+//      combinedImage = new BufferedImage(800,600, BufferedImage.TYPE_INT_ARGB);
 //
-//			combinedImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+//      Graphics2D g2 = combinedImage.createGraphics();
 //
-//			Graphics2D g = combinedImage.createGraphics();
+//      g2.drawImage(image1, 0, 0, null);
+//      g2.drawImage(image2, 0, 0, null);
+//      // VERSION 1 END
 //
-//			g.drawImage(image1, 0, 0, null);
-//			g.drawImage(image2, image1.getWidth(), 0, null);
-      // VERSION 2 END
-
-      g.dispose();
-
-      JLabel label = new JLabel();
-      this.add(label);
-      label.setIcon(new ImageIcon(combinedImage));
-
-      // Export the combined image to desktop
-      try {
-        ImageIO.write(combinedImage, "PNG", new File("C:\\Users\\User\\Desktop\\combinedImage.png"));
-      }catch(IOException e) {
-
-      }
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+//      // VERSION 2
+////			image1 = ImageIO.read(getClass().getClassLoader().getResource("11C.png"));
+////			image2 = ImageIO.read(getClass().getClassLoader().getResource("12C.png"));
+////
+////			int width = image1.getWidth() + image2.getWidth();
+////			int height = Math.max(image1.getHeight(), image2.getHeight());
+////
+////			combinedImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+////
+////			Graphics2D g = combinedImage.createGraphics();
+////
+////			g.drawImage(image1, 0, 0, null);
+////			g.drawImage(image2, image1.getWidth(), 0, null);
+//      // VERSION 2 END
+//
+//      g.dispose();
+//
+//      JLabel label = new JLabel();
+//      this.add(label);
+//      label.setIcon(new ImageIcon(combinedImage));
+//
+//      // Export the combined image to desktop
+//      try {
+//        ImageIO.write(combinedImage, "PNG", new File("C:\\Users\\User\\Desktop\\combinedImage.png"));
+//      } catch(IOException e) {
+//
+//      }
+//
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
 
 //    //g2d.drawString("X", 280, 310);
 //

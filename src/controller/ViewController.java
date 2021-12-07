@@ -18,6 +18,7 @@ import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
+import model.ReadOnlyDungeon;
 import model.Updater;
 import view.DungeonBuilder;
 import view.DungeonBuilderImpl;
@@ -454,7 +455,7 @@ public class ViewController implements Controller, ActionListener, KeyListener {
       case "Build Button" :
         System.out.println("Build Button");
         view.resetFocus();
-
+        //dungeon =
         //this is where you attempt to build the dungeon
         break;
 
@@ -795,4 +796,10 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 //    }
 
   }
+
+//  public void setModel(ReadOnlyDungeon newDungeon) {
+//    //
+//    this.view.refresh();
+//    this.view.makeVisible();
+//  }
 }

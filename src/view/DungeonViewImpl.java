@@ -36,6 +36,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   private JPanel actionPanel;
   private StatusPanel statusPanel;
   private JScrollPane dungeonPanel;
+  private ReadOnlyDungeon model;
 
 
 
@@ -44,6 +45,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.setSize(1000,1000);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
+    this.model = model;
     //this.setLayout(new FlowLayout());
     //this.setLayout(new GridLayout());
     //this.setJMenuBar();
@@ -382,6 +384,16 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //add menu to menu bar
     menuBar.add(menu);
     return menuBar;
+  }
+
+  public void setModel(ReadOnlyDungeon dungeon) {
+    if (dungeon == null) {
+      throw new IllegalArgumentException("Model can't be null");
+    }
+    this.model = dungeon;
+    this.refresh();
+    this.setVisible(true);
+    this.resetFocus();
   }
 
 }
