@@ -107,9 +107,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
 
     //build Status panel
     statusPanel = new StatusPanel(model);
-    statusPanel.setPreferredSize(new Dimension(500,500));
+    statusPanel.setPreferredSize(new Dimension(300,300));
     JScrollPane statusPane = new JScrollPane(statusPanel);
-    statusPane.setPreferredSize(new Dimension(200, 100));
+    //statusPane.setPreferredSize(new Dimension(200, 100));
     statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 //    JScrollPane statusPane = new JScrollPane(statusPanel);

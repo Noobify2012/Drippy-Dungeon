@@ -61,7 +61,6 @@ class BoardPanel extends JPanel {
     BufferedImage finalImage = null;
     String directoryPath = "/res/dungeon-images/";
 
-    //TODO - need to add lucky the leprechaun
     ///Users/Owner/Documents/CS5010/Project5_Graphical_Adventure_Game/src/view/emerald.png
     try {
       pathBase = Path.of(new File(".").getCanonicalPath());
@@ -168,15 +167,9 @@ class BoardPanel extends JPanel {
       }
     }
 
-
     int x = (currentLocation.getColumn() * 100);
     int y = (currentLocation.getRow() * 100);
 
-//    try {
-//      this.currentImage = overlayBoardTiles(currentImage, finalImage, 0, 0);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
     if (finalImage != null) {
       DungeonImage temp = new DungeonImage(finalImage, x, y);
       this.dungeonList.add(temp);
@@ -184,145 +177,7 @@ class BoardPanel extends JPanel {
         g2d.drawImage(this.dungeonList.get(i).getCave(), this.dungeonList.get(i).getX(), this.dungeonList.get(i).getY(), null);
       }
     }
-
-    //g2d.drawImage(currentImage, 0, 0 , null);
-    //g2d.drawImage(finalImage, x, y, null);
-
-
-
-    //g2d.drawImage(emerald, 100, 100, null);
-//    try {
-//      emPath = Path.of(new File(".").getCanonicalPath() + "dungeon-images/emerald.png");
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-//
-//
-//    try {
-//      //emerald = ImageIO.read(new File (emPath.toString()));
-//      emerald = ImageIO.read(getClass().getResource("emerald.png"));
-//
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 50));
-    //g2d.drawImage(emerald, 100, 100, null);
-    //Image wall = new ImageIcon(GamePanel.class.getResource("wall.png")).getImage();
-    //g2d.drawImage(wall, x, y, this);
-
-    //System.out.println(System.getProperty("user.dir"));
-//    try {
-//      System.out.println(new File(".").getCanonicalPath());
-//      pathBase = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/blank.png");
-//      emPath = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/emerald.png");
-//      System.out.println("Path to blank" + pathBase.toString());
-//      Path pathToPics = Path.of(new File(".").getCanonicalPath());
-//      Path pathRelative = pathToPics.relativize(pathBase);
-//      System.out.println("relative path: " + pathRelative);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-
-//    Path p = Paths.get(System.getProperty(("dungeon-images")));
-//    System.out.println("This is path p: " + p.toString());
-//    try {
-//      overlay(null, "dungeon-images/bw-cells/E.png", 100);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-
-
-
-    //got this from here : https://www.ryisnow.online/2021/04/java-code-sample-combine-multiple.html
-//    try {
-//      // VERSION 1
-//      //image1 = ImageIO.read(getClass().getClassLoader().getResource(pathBase.toString()));
-//      //image2 = ImageIO.read(getClass().getClassLoader().getResource(emPath.toString()));
-//
-//      combinedImage = new BufferedImage(800,600, BufferedImage.TYPE_INT_ARGB);
-//
-//      Graphics2D g2 = combinedImage.createGraphics();
-//
-//      g2.drawImage(image1, 0, 0, null);
-//      g2.drawImage(image2, 0, 0, null);
-//      // VERSION 1 END
-//
-//      // VERSION 2
-////			image1 = ImageIO.read(getClass().getClassLoader().getResource("11C.png"));
-////			image2 = ImageIO.read(getClass().getClassLoader().getResource("12C.png"));
-////
-////			int width = image1.getWidth() + image2.getWidth();
-////			int height = Math.max(image1.getHeight(), image2.getHeight());
-////
-////			combinedImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
-////
-////			Graphics2D g = combinedImage.createGraphics();
-////
-////			g.drawImage(image1, 0, 0, null);
-////			g.drawImage(image2, image1.getWidth(), 0, null);
-//      // VERSION 2 END
-//
-//      g.dispose();
-//
-//      JLabel label = new JLabel();
-//      this.add(label);
-//      label.setIcon(new ImageIcon(combinedImage));
-//
-//      // Export the combined image to desktop
-//      try {
-//        ImageIO.write(combinedImage, "PNG", new File("C:\\Users\\User\\Desktop\\combinedImage.png"));
-//      } catch(IOException e) {
-//
-//      }
-//
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-
-//    //g2d.drawString("X", 280, 310);
-//
-//    //good 1st col = 80 for x
-//
-//
-//    for (int r = 0; r < 3; r++) {
-//      for (int c = 0; c < 3; c++) {
-//        if (board[r][c] != null) {
-//          int drawX = 0;
-//          int drawY = 0;
-//          if (r == 0) {
-//            drawY = 110;
-//          } else if ( r == 1) {
-//            drawY = 210;
-//          } else if (r == 2) {
-//            drawY = 310;
-//          }
-//          if (c == 0) {
-//            drawX = 80;
-//          } else if (c == 1) {
-//            drawX = 180;
-//          } else if (c == 2) {
-//            drawX = 280;
-//          }
-//          g2d.drawString(board[r][c].toString(), drawX, drawY);
-//        }
-//      }
-//    }
-//    //g2d.setFont(???);
-//    // iterate over board, draw X and O accordingly
-//    if (model.isGameOver()) {
-//      if (model.getWinner() == null) {
-//        g2d.drawString("It is a tie.", 50, 50);
-//      } else {
-//        g2d.drawString(model.getWinner() + " is the winner!", 50 , 50);
-//      }
-//    } else {
-//      g2d.drawString("It is " + model.getTurn().toString() + "'s turn.", 50, 50);
-//
-//    }
-
   }
 
   private BufferedImage overlayItems(BufferedImage starting, String fpath, int offset) throws IOException {
