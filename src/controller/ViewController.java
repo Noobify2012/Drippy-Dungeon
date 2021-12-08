@@ -459,7 +459,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
         System.out.println("Build new Dungeon");
         break;
 
-      case "Restart Dungeon" :
+      case "Restart Same Dungeon" :
         System.out.println("restart dungeon");
         //do something
         break;

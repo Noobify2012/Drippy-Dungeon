@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
+import javax.swing.text.View;
 
+import controller.VController;
 import controller.ViewController;
 import model.Dungeon;
 import model.DungeonImpl;
@@ -23,7 +25,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   private BoardPanel boardPanel;
   private JMenuBar menuBar;
   private JMenu menu;
-  private JMenuItem menuQuit, buildDungeon, restartDungeon;
+  private JMenuItem menuQuit, buildDungeon, restartDungeon , restartNewDungeon;
   private ArrayList<String> buildList;
   private JButton northButton;
   private JButton southButton;
@@ -33,6 +35,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   private JButton shootButton;
   private JButton pickupButton;
   private JButton buildButton;
+  private JButton applyButton;
   private JPanel directionPanel;
   private JPanel actionPanel;
   private StatusPanel statusPanel;
@@ -104,6 +107,8 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.add(actionPanel, "North");
     buildButton = new JButton("Build");
     buildButton.setActionCommand("Build Button");
+    applyButton = new JButton("Apply");
+    applyButton.setActionCommand("Apply Button");
 
     //build Status panel
     statusPanel = new StatusPanel(model);
@@ -135,6 +140,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.moveButton.addActionListener(clicks);
     this.shootButton.addActionListener(clicks);
     this.pickupButton.addActionListener(clicks);
+    this.applyButton.addActionListener(clicks);
+    this.restartNewDungeon.addActionListener(clicks);
+    this.restartDungeon.addActionListener(clicks);
   }
 
   /**
@@ -329,6 +337,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     buildDungeon.addActionListener(listener);
     menuQuit.addActionListener(listener);
     restartDungeon.addActionListener(listener);
+    restartNewDungeon.addActionListener(listener);
   }
 
   @Override
@@ -355,22 +364,22 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //add menu item to the menu
     menu.add(buildDungeon);
     buildDungeon.setActionCommand("Build New");
-//    buildDungeon.addActionListener(new ActionListener() {
-//      @Override
-//      public void actionPerformed(ActionEvent e) {
-//        System.out.println("build new dungeon selected");
-//      }
-//    });
+    buildDungeon.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("build new dungeon selected");
+      }
+    });
     menu.addSeparator();
-    restartDungeon = new JMenuItem("Restart Dungeon");
+    restartDungeon = new JMenuItem("Restart Same Dungeon");
     menu.add(restartDungeon);
-    restartDungeon.setActionCommand("Restart Dungeon");
+    restartDungeon.setActionCommand("Restart Same Dungeon");
     restartDungeon.addActionListener(new ActionListener() {
 
       //TODO - figure out how to call restart dungeon in the view controller
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("restart selected");
+        System.out.println("restart same selected");
 
       }
     });

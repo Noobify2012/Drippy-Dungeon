@@ -556,13 +556,15 @@ public class DungeonImpl implements Dungeon {
   @Override
   public int getGameBoardRows() {
     //make deep copy and return
-    return rows;
+    int temp = this.rows;
+    return temp;
   }
 
   @Override
   public int getGameBoardCols() {
     //make deep copy and return
-    return columns;
+    int temp = this.columns;
+    return temp;
   }
 
   @Override
@@ -759,6 +761,8 @@ public class DungeonImpl implements Dungeon {
     return smell;
   }
 
+  //TODO - test this
+
   @Override
   public boolean getPitProx() {
     List<Integer> neighborList = new ArrayList<>();
@@ -780,7 +784,8 @@ public class DungeonImpl implements Dungeon {
   }
 
   public boolean getWrapping() {
-    return this.wraps;
+    boolean temp = this.wraps;
+    return temp;
   }
 
   @Override
@@ -912,7 +917,8 @@ public class DungeonImpl implements Dungeon {
 
   @Override
   public int getSeed() {
-    return this.genSeed;
+    int temp = this.genSeed;
+    return temp;
   }
 
   //TODO - test this

@@ -1,13 +1,19 @@
 package test;
 
+import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
+import java.util.List;
+
 import model.Cave;
 import model.Direction;
 import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
+import model.StatusUpdater;
+import model.Updater;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -24,7 +30,7 @@ public class DungeonImplTest {
   @Test
   public void getGameBoardRows() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 0);
     test.getDungeon();
     assertEquals(5, test.getGameBoardRows());
   }
@@ -40,7 +46,7 @@ public class DungeonImplTest {
   @Test
   public void getFinalEdgeList() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 0);
     test.getDungeon();
     assertTrue(test.getFinalEdgeList().size() >= 24);
   }
@@ -80,31 +86,30 @@ public class DungeonImplTest {
   @Test (expected = IllegalArgumentException.class)
   public void dungeonConstructorTooMuchTreasureTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,1,200, player, 1, 1);
-  }
+    Dungeon test = new DungeonImpl(false, 5,5,1,200, player, 1, 0);  }
 
   @Test (expected = IllegalArgumentException.class)
   public void dungeonConstructorNegInterconTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,-1,20, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 5,5,-1,20, player, 1, 0);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void dungeonConstructorNonwrapTooMuchIntercon() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,40,20, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 5,5,40,20, player, 1, 0);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void dungeonConstructorWrapTooMuchIntercon() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,50,20, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 5,5,50,20, player, 1, 0);
   }
 
   @Test
   public void getGameBoard() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 0);
     test.getDungeon();
     assertEquals(5,test.getGameBoard().length);
   }
@@ -112,7 +117,7 @@ public class DungeonImplTest {
   @Test
   public void getTeasureTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
     test.getDungeon();
     Cave[][] testboard = test.getGameBoard();
     int treasureInt = 0;
@@ -129,7 +134,7 @@ public class DungeonImplTest {
   @Test
   public void getZeroTunnelTreasureTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 5,5,0,20, player, 1, 0);
     test.getDungeon();
     Cave[][] testboard = test.getGameBoard();
     int treasureInt = 0;
@@ -148,7 +153,7 @@ public class DungeonImplTest {
   public void getDungeon() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     String createString = test.getDungeon();
     String testString =
             "\n" +
@@ -162,7 +167,7 @@ public class DungeonImplTest {
   public void isGameOver() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     boolean testBool = test.isGameOver();
     assertEquals(false, testBool);
@@ -172,13 +177,15 @@ public class DungeonImplTest {
   public void movePlayer() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     String moveString = test.movePlayer(Direction.NORTH);
-    String result = "\n\nThe player is currently in a Tunnel and has nothing in their treasure bag."
-            + " \n" +
-            "They can go EAST SOUTH , there are 3 arrows remaining in their quiver, and there is "
-            + "no treasure in this cave and no arrows in this cave.\n";
+    String result = "\n" +
+            "\n" +
+            "\n" +
+            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
+            "They can go EAST SOUTH , there are 3 arrows remaining in their quiver, and there is no treasure in this cave and no arrows in this cave.\n" +
+            "\n";
     assertEquals(result, moveString);
   }
 
@@ -186,7 +193,7 @@ public class DungeonImplTest {
   public void getWrapping() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     boolean wraps = test.getWrapping();
     assertEquals(false, wraps);
@@ -197,7 +204,7 @@ public class DungeonImplTest {
   public void shootArrow() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     String firstShot = test.shootArrow(1,Direction.NORTH);
     String secondShot = test.shootArrow(1,Direction.NORTH);
@@ -221,7 +228,7 @@ public class DungeonImplTest {
   public void missShot() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     String firstShot = test.shootArrow(2,Direction.NORTH);
     String missString = "\n" +
@@ -236,7 +243,7 @@ public class DungeonImplTest {
   public void pickUpItem() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,50, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     String pickUp = test.pickUpItem(1);
     String pickUpString = "\n" +
@@ -251,7 +258,7 @@ public class DungeonImplTest {
   public void quitGame() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,50, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     String quitString = test.quitGame();
     String finalString = "Game quit! Thank You for Playing Dungeon Adventure.\n" +
@@ -264,7 +271,7 @@ public class DungeonImplTest {
   @Test
   public void getArrowTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 1);
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
     test.getDungeon();
     Cave[][] testboard = test.getGameBoard();
     int arrowInt = 0;
@@ -298,7 +305,7 @@ public class DungeonImplTest {
   @Test
   public void getMultiMonsterTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 2, 1);
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 2, 0);
     test.getDungeon();
     Cave[][] testboard = test.getGameBoard();
     int monsterInt = 0;
@@ -315,13 +322,13 @@ public class DungeonImplTest {
   @Test (expected = IllegalArgumentException.class)
   public void notEnoughMonstersTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 4,3,0,20, player, 0, 1);
+    Dungeon test = new DungeonImpl(false, 4,3,0,20, player, 0, 0);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void tooManyMonstersTest() {
     Player player = new PlayerImpl();
-    Dungeon test = new DungeonImpl(false, 4,3,0,20, player, 5, 1);
+    Dungeon test = new DungeonImpl(false, 4,3,0,20, player, 5, 0);
     test.getDungeon();
   }
 
@@ -329,32 +336,36 @@ public class DungeonImplTest {
   public void smellCheck() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     String moveString = test.movePlayer(Direction.NORTH);
-    String result = "\n\nThe player is currently in a Tunnel and has nothing in their treasure bag."
-            + " \n" +
-            "They can go EAST SOUTH , there are 3 arrows remaining in their quiver, and there is "
-            + "no treasure in this cave and no arrows in this cave.\n";
+    String result = "\n" +
+            "\n" +
+            "\n" +
+            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
+            "They can go EAST SOUTH , there are 3 arrows remaining in their quiver, and there is no treasure in this cave and no arrows in this cave.\n" +
+            "\n";
     assertEquals(result, moveString);
     test.movePlayer(Direction.EAST);
     String smellStringOne = test.movePlayer(Direction.EAST);
     String smellResultOne = "\n" +
             "\n" +
-            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
-            "They can go SOUTH WEST , there are 3 arrows remaining in their quiver, and there is " +
-            "no treasure in this cave and no arrows in this cave.\n" +
             "\n" +
-            "The player smells something faint but awful.\n";
+            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
+            "They can go SOUTH WEST , there are 3 arrows remaining in their quiver, and there is no treasure in this cave and no arrows in this cave.\n" +
+            "\n" +
+            "The player smells something faint but awful.\n" +
+            "\n";
     assertEquals(smellResultOne, smellStringOne);
     String smellStringTwo = test.movePlayer(Direction.SOUTH);
     String smellResultTwo = "\n" +
             "\n" +
-            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
-            "They can go WEST NORTH , there are 3 arrows remaining in their quiver, and there is " +
-            "no treasure in this cave and no arrows in this cave.\n" +
             "\n" +
-            "The player smells something awful and strong.\n";
+            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
+            "They can go WEST NORTH , there are 3 arrows remaining in their quiver, and there is no treasure in this cave and no arrows in this cave.\n" +
+            "\n" +
+            "The player smells something awful and strong.\n" +
+            "\n";
     assertEquals(smellResultTwo, smellStringTwo);
   }
 
@@ -363,35 +374,163 @@ public class DungeonImplTest {
   public void deadMonsterSmellCheck() {
     Player player = new PlayerImpl();
     Dungeon test = new DungeonImpl(false, 4,3,0,20, player,
-            1, 1);
+            1, 0);
     test.getDungeon();
     String moveString = test.movePlayer(Direction.NORTH);
-    String result = "\n\nThe player is currently in a Tunnel and has nothing in their treasure bag."
-            + " \n" +
-            "They can go EAST SOUTH , there are 3 arrows remaining in their quiver, and there is "
-            + "no treasure in this cave and no arrows in this cave.\n";
+    String result = "\n" +
+            "\n" +
+            "\n" +
+            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
+            "They can go EAST SOUTH , there are 3 arrows remaining in their quiver, and there is no treasure in this cave and no arrows in this cave.\n" +
+            "\n";
     assertEquals(result, moveString);
     test.movePlayer(Direction.EAST);
     String smellStringOne = test.movePlayer(Direction.EAST);
     String smellResultOne = "\n" +
             "\n" +
-            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
-            "They can go SOUTH WEST , there are 3 arrows remaining in their quiver, and there is " +
-            "no treasure in this cave and no arrows in this cave.\n" +
             "\n" +
-            "The player smells something faint but awful.\n";
+            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
+            "They can go SOUTH WEST , there are 3 arrows remaining in their quiver, and there is no treasure in this cave and no arrows in this cave.\n" +
+            "\n" +
+            "The player smells something faint but awful.\n" +
+            "\n";
     assertEquals(smellResultOne, smellStringOne);
     test.shootArrow(1, Direction.SOUTH);
     test.shootArrow(1, Direction.SOUTH);
     String smellStringTwo = test.movePlayer(Direction.SOUTH);
     String smellResultTwo = "\n" +
             "\n" +
+            "\n" +
             "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
-            "They can go WEST NORTH , there are 1 arrows remaining in their quiver, and there" +
-            " is no treasure in this cave and no arrows in this cave.\n";
+            "They can go WEST NORTH , there are 1 arrows remaining in their quiver, and there is no treasure in this cave and no arrows in this cave.\n" +
+            "\n";
     assertEquals(smellResultTwo, smellStringTwo);
   }
 
 
+  @Test
+  public void checkSmell() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+  }
 
+  @Test
+  public void getPitProx() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    String rockfall = test.movePlayer(Direction.NORTH);
+    boolean notGameOver = test.isGameOver();
+    String pitDeath = test.movePlayer(Direction.EAST);
+    boolean gameOver = test.isGameOver();
+    String expected1 = "\n" +
+            "\n" +
+            "The player hears rocks falling into the abyss.\n" +
+            "The player is currently in a Tunnel and has nothing in their treasure bag. \n" +
+            "They can go EAST SOUTH , there are 3 arrows remaining in their quiver, and there is no treasure in this cave and an arrow in this cave.\n" +
+            "\n";
+
+    String expected2 = "\n" +
+            "\n" +
+            "The player falls to their death!\n" +
+            "Game Over, you have died.\n";
+
+    assertEquals(expected1, rockfall);
+    assertEquals(expected2, pitDeath);
+    assertEquals(notGameOver, false);
+    assertEquals(gameOver, true);
+  }
+
+  @Test
+  public void testGetWrapping() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    boolean testWrap = test.getWrapping();
+    assertEquals(testWrap, false);
+
+    Player player1 = new PlayerImpl();
+    Dungeon test1 = new DungeonImpl(true, 4,3,0,50, player, 1, 0);
+    test1.getDungeon();
+    boolean testWrap1 = test1.getWrapping();
+    assertEquals(testWrap1, true);
+  }
+
+  @Test
+  public void getSeed() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    int temp = test.getSeed();
+    assertEquals(temp, 0);
+  }
+
+  @Test
+  public void getStatusUpdater() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    Updater temp = test.getStatusUpdater();
+    Updater temp2 = new StatusUpdater();
+    String loc = "a Tunnel";
+    List<Direction> dir = new ArrayList<>();
+    dir.add(Direction.SOUTH);
+    dir.add(Direction.NORTH);
+    assertEquals(temp.getLocation(), loc);
+    assertEquals(temp.getDirectionList(), dir);
+    assertEquals(temp.getArrowCount(), 3);
+    assertEquals(temp.getCaveTreasure().size(), 0);
+    assertEquals(temp.getCaveArrows(), 1);
+    assertEquals(temp.getDiamondCount(), 0);
+    assertEquals(temp.getRubyCount(), 0);
+    assertEquals(temp.getSapphireCount(), 0);
+    assertEquals(temp.getSmell(), 0);
+  }
+
+  @Test
+  public void getTreasurePer() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    int temp = test.getTreasurePer();
+    assertEquals(temp, 50);
+  }
+
+  @Test
+  public void getDifficulty() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    int temp = test.getDifficulty();
+    assertEquals(temp, 1);
+  }
+
+
+  @Test
+  public void getInterConnect() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    int temp = test.getInterConnect();
+    assertEquals(temp, 0);
+  }
+
+  @Test
+  public void getPlayerLocation() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    Cave temp = test.getPlayerLocation();
+    int tempX = temp.getColumn();
+    int tempy = temp.getRow();
+    assertEquals(tempX, 0);
+    assertEquals(tempy, 1);
+    test.movePlayer(Direction.NORTH);
+    Cave temp1 = test.getPlayerLocation();
+    int tempX1 = temp1.getColumn();
+    int tempY1 = temp1.getRow();
+    assertEquals(tempX1, 0);
+    assertEquals(tempX1, 0);
+  }
 }
