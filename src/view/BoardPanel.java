@@ -65,15 +65,19 @@ class BoardPanel extends JPanel {
       e.printStackTrace();
     }
     String pathToAppend = "/res/dungeon-images/emerald.png";
-    String emeraldPath = pathBase.toString() + pathToAppend;
-
     //get cave
-    if (statusUpdater.getDirectionList() != null) {
+    if (statusUpdater.getDirectionList() != null && !model.getPlayerLocation().getPitStatus()) {
       String cavePath = getCavePath(statusUpdater.getDirectionList());
       System.out.println("Cave extension to put out: " + cavePath);
       System.out.println("full path: " + pathBase + directoryPath + cavePath);
       try {
         currentLoc = ImageIO.read(new File(pathBase + directoryPath + cavePath));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    } else {
+      try {
+        currentLoc = ImageIO.read(new File(pathBase + directoryPath + "blank.png"));
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -109,9 +113,25 @@ class BoardPanel extends JPanel {
       }
     }
 
-    if (currentLocation.getArrowListSize() > 0) {
+    if(currentLocation != null) {
+      if (currentLocation.getArrowListSize() > 0) {
+        try {
+          finalImage = overlayItems(finalImage, pathBase + directoryPath + "arrow-white.png", 5);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    if (model.checkSmell() == 1) {
       try {
-        finalImage = overlayItems(finalImage, pathBase + directoryPath + "arrow-white.png", 5);
+        finalImage = overlayItems(finalImage, pathBase + directoryPath + "stench01.png", 0);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    } else if (model.checkSmell() >= 2) {
+      try {
+        finalImage = overlayItems(finalImage, pathBase + directoryPath + "stench02.png", 0);
       } catch (IOException e) {
         e.printStackTrace();
       }
