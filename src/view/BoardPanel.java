@@ -90,14 +90,14 @@ class BoardPanel extends JPanel {
       for (int i = 0; i < currentLocation.getTreasureList().size(); i ++) {
         if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Ruby")) {
           try {
-            finalImage = overlayItems(finalImage, pathBase + directoryPath + "ruby.png", -2);
+            finalImage = overlay2D(finalImage, pathBase + directoryPath + "ruby.png", 0, 0);
           } catch (IOException e) {
             e.printStackTrace();
           }
           //add ruby to image offset is -2
         } else if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Diamond")) {
           try {
-            finalImage = overlayItems(finalImage, pathBase + directoryPath + "diamond.png", 2);
+            finalImage = overlay2D(finalImage, pathBase + directoryPath + "diamond.png", 5, 35);
           } catch (IOException e) {
             e.printStackTrace();
           }
@@ -105,7 +105,7 @@ class BoardPanel extends JPanel {
         } else if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Sapphire")) {
           //add sapphire/emerald offset is 0
           try {
-            finalImage = overlayItems(finalImage, pathBase + directoryPath + "emerald.png", 0);
+            finalImage = overlay2D(finalImage, pathBase + directoryPath + "emerald.png", 35, 30);
           } catch (IOException e) {
             e.printStackTrace();
           }
@@ -116,7 +116,7 @@ class BoardPanel extends JPanel {
     if(currentLocation != null) {
       if (currentLocation.getArrowListSize() > 0) {
         try {
-          finalImage = overlayItems(finalImage, pathBase + directoryPath + "arrow-white.png", 5);
+          finalImage = overlay2D(finalImage, pathBase + directoryPath + "arrow-white.png", 10, 10);
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -137,10 +137,28 @@ class BoardPanel extends JPanel {
       }
     }
 
+    if (model.getPlayerLocation().getMonsterListSize() > 0) {
+      try {
+        finalImage = overlayItems(finalImage, pathBase + directoryPath + "otyugh.png", 0);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+
 
     int x = (currentLocation.getColumn() * 100) + 50;
     int y = (currentLocation.getRow() * 100) + 50;
+    //TODO - find way to reveal board area.
+    try {
+      this.currentImage = overlayBoardTiles(currentImage, finalImage, 0, 0);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    g2d.drawImage(currentImage, 0, 0 , null);
     g2d.drawImage(finalImage, x, y, null);
+
+
 
     //g2d.drawImage(emerald, 100, 100, null);
 //    try {
@@ -158,7 +176,7 @@ class BoardPanel extends JPanel {
 //      e.printStackTrace();
 //    }
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 50));
-    g2d.drawImage(emerald, 100, 100, null);
+    //g2d.drawImage(emerald, 100, 100, null);
     //Image wall = new ImageIcon(GamePanel.class.getResource("wall.png")).getImage();
     //g2d.drawImage(wall, x, y, this);
 
@@ -182,12 +200,6 @@ class BoardPanel extends JPanel {
 //    } catch (IOException e) {
 //      e.printStackTrace();
 //    }
-
-    for (int r = 0; r < rows ; r++) {
-      for (int c = 0; c < col; c ++) {
-        //g2d.drawImage("dungeon-image/bw-cells/e.png", (board[r][c].getRow() * 100) + 100, (board[r][c].getColumn() * 100) + 100, null);
-      }
-    }
 
 
 
@@ -294,16 +306,27 @@ class BoardPanel extends JPanel {
     return combined;
   }
 
-//  private BufferedImage moveI(BufferedImage starting, String fpath, int offset) throws IOException {
-//    BufferedImage overlay = ImageIO.read(new File(fpath));
-//    int w = Math.max(starting.getWidth(), overlay.getWidth());
-//    int h = Math.max(starting.getHeight(), overlay.getHeight());
-//    BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-//    Graphics g = combined.getGraphics();
-//    g.drawImage(starting, 0, 0, null);
-//    g.drawImage(overlay, offset, offset, null);
-//    return combined;
-//  }
+  private BufferedImage overlay2D(BufferedImage starting, String fpath, int xOffset, int yOffset) throws IOException {
+    BufferedImage overlay = ImageIO.read(new File(fpath));
+    int w = Math.max(starting.getWidth(), overlay.getWidth());
+    int h = Math.max(starting.getHeight(), overlay.getHeight());
+    BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    Graphics g = combined.getGraphics();
+    g.drawImage(starting, 0, 0, null);
+    g.drawImage(overlay, xOffset, yOffset, null);
+    return combined;
+  }
+
+  private BufferedImage overlayBoardTiles(BufferedImage starting, BufferedImage adding, int xOffset, int yOffset) throws IOException {
+    BufferedImage overlay = adding;
+    int w = Math.max(starting.getWidth(), overlay.getWidth());
+    int h = Math.max(starting.getHeight(), overlay.getHeight());
+    BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    Graphics g = combined.getGraphics();
+    g.drawImage(starting, 0, 0, null);
+    g.drawImage(overlay, xOffset, yOffset, null);
+    return combined;
+  }
 
   private String getCavePath(List<Direction> directions) {
     String finalPath = "";
@@ -324,6 +347,7 @@ class BoardPanel extends JPanel {
         finalPath = "color-cells/SEW.png";
       }
     } else if (directions.size() == 2) {
+      System.out.println(directions);
       if (directions.contains(Direction.EAST) && directions.contains(Direction.WEST)) {
         finalPath = "color-cells/EW.png";
       } else if (directions.contains(Direction.NORTH) && directions.contains(Direction.EAST)) {

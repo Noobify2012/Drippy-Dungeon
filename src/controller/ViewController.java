@@ -117,7 +117,12 @@ public class ViewController implements VController, ActionListener, KeyListener 
           }
         }
       }
-
+//    String moveString = dungeon.movePlayer(direction);
+//    view.updateStatus(moveString);
+//    view.getUpdater(dungeon.getStatusUpdater());
+//    view.makeVisible();
+//    view.refresh();
+//    view.resetFocus();
 
     }
   private void waitForDungeon(Dungeon d) {
@@ -390,9 +395,10 @@ public class ViewController implements VController, ActionListener, KeyListener 
             this.pickup = PickupEnum.NONE;
           }
         }
-        //System.out.println("under shoot try");
-
-        //this is where you attempt to build the dungeon
+        this.actionEnum = ActionEnum.NONE;
+        this.pickup = PickupEnum.NONE;
+        this.direction = Direction.NONE;
+        view.resetFocus();
         break;
 
       case "Pickup Button" :
@@ -528,28 +534,35 @@ public class ViewController implements VController, ActionListener, KeyListener 
     }
     if (e.getKeyChar() == 'm') {
       System.out.println("m means move");
-      try {
-        //String element = scan.next();
-        System.out.println("Move Button Pressed");
-        System.out.println("hit the move try");
-        String moveString = currDungeon.movePlayer(direction);
-        this.direction = Direction.NONE;
-        this.actionEnum = ActionEnum.NONE;
-        System.out.println(moveString);
-        view.updateStatus(moveString);
-        view.getUpdater(currDungeon.getStatusUpdater());
-        view.makeVisible();
-        view.refresh();
-        view.resetFocus();
-        System.out.println(moveString + "\n");
-      } catch (IllegalArgumentException iae) {
-        System.out.println(iae.getMessage() + "\n");
+      if (actionEnum == ActionEnum.NONE) {
+        this.actionEnum = ActionEnum.MOVE;
+        try {
+          //String element = scan.next();
+          System.out.println("Move Button Pressed");
+          System.out.println("hit the move try");
+          String moveString = currDungeon.movePlayer(direction);
+          this.direction = Direction.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          System.out.println(moveString);
+          view.updateStatus(moveString);
+          view.getUpdater(currDungeon.getStatusUpdater());
+          view.makeVisible();
+          view.refresh();
+          view.resetFocus();
+          System.out.println(moveString + "\n");
+        } catch (IllegalArgumentException iae) {
+          System.out.println(iae.getMessage() + "\n");
+          this.actionEnum = ActionEnum.NONE;
+          this.direction = Direction.NONE;
+          this.pickup = PickupEnum.NONE;
+        }
       }
       //String temp = currDungeon.movePlayer(direction);
       //System.out.println(temp);
-      if (actionEnum == ActionEnum.NONE) {
-        this.actionEnum = ActionEnum.MOVE;
-      }
+
+      this.actionEnum = ActionEnum.NONE;
+      this.pickup = PickupEnum.NONE;
+      this.direction = Direction.NONE;
       view.resetFocus();
     } else if (e.getKeyChar() == 's') {
       System.out.println("s means shoot");
@@ -575,33 +588,47 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.pickup = PickupEnum.NONE;
         }
       }
+      this.actionEnum = ActionEnum.NONE;
+      this.pickup = PickupEnum.NONE;
+      this.direction = Direction.NONE;
+      view.resetFocus();
     } else if (e.getKeyChar() == 'p') {
       System.out.println("p means pickup");
-      try {
-        //String element = scan.next();
-        System.out.println("p key Pressed");
-        System.out.println("hit the pickup p key try");
-        int temp = 0;
-        System.out.println("value of pickup enum: " + this.pickup);
-        if (pickup == PickupEnum.TREASURE) {
-          //temp already set
-        } else if (pickup == PickupEnum.ARROW) {
-          temp = 1;
-        } else {
-          temp = 2;
+      if (actionEnum == ActionEnum.NONE) {
+        this.actionEnum = ActionEnum.PICKUP;
+        try {
+          //String element = scan.next();
+          System.out.println("p key Pressed");
+          System.out.println("hit the pickup p key try");
+          int temp = 0;
+          System.out.println("value of pickup enum: " + this.pickup);
+          if (pickup == PickupEnum.TREASURE) {
+            //temp already set
+          } else if (pickup == PickupEnum.ARROW) {
+            temp = 1;
+          } else {
+            temp = 2;
+          }
+          String pickupString = currDungeon.pickUpItem(temp);
+          this.pickup = PickupEnum.NONE;
+          this.actionEnum = ActionEnum.NONE;
+          System.out.println(pickupString);
+          view.updateStatus(pickupString);
+          view.getUpdater(currDungeon.getStatusUpdater());
+          view.makeVisible();
+          view.refresh();
+          view.resetFocus();
+        } catch (IllegalArgumentException iae) {
+          System.out.println(iae.getMessage() + "\n");
+          this.actionEnum = ActionEnum.NONE;
+          this.direction = Direction.NONE;
+          this.pickup = PickupEnum.NONE;
         }
-        String pickupString = currDungeon.pickUpItem(temp);
-        this.pickup = PickupEnum.NONE;
-        this.actionEnum = ActionEnum.NONE;
-        System.out.println(pickupString);
-        view.updateStatus(pickupString);
-        view.getUpdater(currDungeon.getStatusUpdater());
-        view.makeVisible();
-        view.refresh();
-        view.resetFocus();
-      } catch (IllegalArgumentException iae) {
-        System.out.println(iae.getMessage() + "\n");
       }
+      this.actionEnum = ActionEnum.NONE;
+      this.pickup = PickupEnum.NONE;
+      this.direction = Direction.NONE;
+      view.resetFocus();
     } else if (e.getKeyChar() == 'a') {
       System.out.println("a means arrows");
       if (pickup == PickupEnum.NONE) {
