@@ -92,4 +92,6 @@ public interface ReadOnlyDungeon {
    *          monsters within 2 spots.
    */
   int checkSmell();
+
+  boolean getPitProx();
 }

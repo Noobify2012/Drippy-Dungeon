@@ -193,5 +193,10 @@ public class MockModel implements Dungeon {
     return 0;
   }
 
+  @Override
+  public boolean getPitProx() {
+    return false;
+  }
+
 
 }

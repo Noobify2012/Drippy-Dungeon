@@ -55,9 +55,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //frame.setLayout(new BorderLayout());
     //frame.add(buildMenuBar());
     boardPanel = new BoardPanel(model);
-    boardPanel.setPreferredSize(new Dimension(800, 800));
+    boardPanel.setPreferredSize(new Dimension(1200, 1200));
     JScrollPane boardPane = new JScrollPane(boardPanel);
-    boardPane.setPreferredSize(new Dimension((model.getGameBoardCols() * 100) + 400, (model.getGameBoardRows() * 100) + 400));
+    //boardPane.setPreferredSize(new Dimension((model.getGameBoardCols() * 100) + 400, (model.getGameBoardRows() * 100) + 400));
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(boardPane, "Center");

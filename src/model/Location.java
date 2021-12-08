@@ -40,4 +40,6 @@ public interface Location {
 
   int getColumn();
 
+  int getLuckyListSize();
+
 }

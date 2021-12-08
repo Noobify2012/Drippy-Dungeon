@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -32,11 +33,13 @@ class BoardPanel extends JPanel {
   private BufferedImage combinedImage;
   private Updater statusUpdater;
   private BufferedImage currentImage;
+  private List<DungeonImage> dungeonList;
 
   public BoardPanel(ReadOnlyDungeon model) {
     this.model = model;
     this.statusUpdater = new StatusUpdater();
     this.currentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+    this.dungeonList = new ArrayList<>();
   }
 
   @Override
@@ -58,6 +61,7 @@ class BoardPanel extends JPanel {
     BufferedImage finalImage = null;
     String directoryPath = "/res/dungeon-images/";
 
+    //TODO - need to add lucky the leprechaun
     ///Users/Owner/Documents/CS5010/Project5_Graphical_Adventure_Game/src/view/emerald.png
     try {
       pathBase = Path.of(new File(".").getCanonicalPath());
@@ -145,18 +149,44 @@ class BoardPanel extends JPanel {
       }
     }
 
-
-
-    int x = (currentLocation.getColumn() * 100) + 50;
-    int y = (currentLocation.getRow() * 100) + 50;
-    //TODO - find way to reveal board area.
-    try {
-      this.currentImage = overlayBoardTiles(currentImage, finalImage, 0, 0);
-    } catch (IOException e) {
-      e.printStackTrace();
+    //leprechaun image citation: https://pixers.us/posters/leprechaun-30230709
+    if (model.getPlayerLocation().getLuckyListSize() > 0) {
+      try {
+        finalImage = overlayItems(finalImage, pathBase + directoryPath + "lucky.png", 0);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
-    g2d.drawImage(currentImage, 0, 0 , null);
-    g2d.drawImage(finalImage, x, y, null);
+
+    //rock image citation: https://www.google.com/search?q=falling+rock&tbm=isch&chips=q:falling
+    // +rock,g_1:clipart:sRh-rYy3tFI%3D&hl=en&sa=X&ved=2ahUKEwiapsrT4NT0AhW5BlkFHWb9DogQ4lYoAHoECAEQEQ&biw=2543&bih=1278#imgrc=hj0HpQPDYGvjMM
+    if (model.getPitProx()) {
+      try {
+        finalImage = overlayItems(finalImage, pathBase + directoryPath + "rocks.png", 0);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+
+    int x = (currentLocation.getColumn() * 100);
+    int y = (currentLocation.getRow() * 100);
+
+//    try {
+//      this.currentImage = overlayBoardTiles(currentImage, finalImage, 0, 0);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+    if (finalImage != null) {
+      DungeonImage temp = new DungeonImage(finalImage, x, y);
+      this.dungeonList.add(temp);
+      for (int i = 0; i < this.dungeonList.size(); i ++) {
+        g2d.drawImage(this.dungeonList.get(i).getCave(), this.dungeonList.get(i).getX(), this.dungeonList.get(i).getY(), null);
+      }
+    }
+
+    //g2d.drawImage(currentImage, 0, 0 , null);
+    //g2d.drawImage(finalImage, x, y, null);
 
 
 

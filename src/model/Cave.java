@@ -222,7 +222,9 @@ public class Cave extends AbstractLocation {
     this.leprechaun.add(lucky);
   }
 
-  int getLuckyListSize() {
+  //TODO - document and test
+  @Override
+  public int getLuckyListSize() {
     return this.leprechaun.size();
   }
 

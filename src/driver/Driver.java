@@ -39,8 +39,8 @@ public class Driver {
     //TODO - provide clear indication of results of actions
     if (args.length < 6) {
       Player throwAwayPlayer = new PlayerImpl();
-      Dungeon defaultDungeon = new DungeonImpl(false, 4, 3,0,
-              50, throwAwayPlayer, 3, 0);
+      Dungeon defaultDungeon = new DungeonImpl(false, 10, 10,0,
+              50, throwAwayPlayer, 10, 0);
       IDungeonView throwAwayView = new DungeonViewImpl(defaultDungeon);
       Controller viewController = new ViewController(defaultDungeon, throwAwayView);
       viewController.buildDungeon();

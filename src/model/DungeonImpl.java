@@ -649,7 +649,6 @@ public class DungeonImpl implements Dungeon {
 
       String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()),getPitProx());
 
-      //TODO - add leprechaun stealing check and execution here
       String thiefString = "";
       if(findCaveByIndex(player.getPlayerLocation()).getLuckyListSize() != 0) {
         if (player.getTreasureList().size() == 0) {
@@ -760,7 +759,8 @@ public class DungeonImpl implements Dungeon {
     return smell;
   }
 
-  private boolean getPitProx() {
+  @Override
+  public boolean getPitProx() {
     List<Integer> neighborList = new ArrayList<>();
     boolean cliffBool = false;
     for (int i = 0; i < findCaveByIndex(player.getPlayerLocation()).getNeighbors().size(); i ++) {
