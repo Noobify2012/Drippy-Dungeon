@@ -13,10 +13,16 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.Cave;
+import model.Direction;
 import model.Edge;
 import model.ReadOnlyDungeon;
+import model.StatusUpdater;
+import model.Treasure;
+import model.TreasureImpl;
+import model.Updater;
 
 import static com.sun.tools.doclint.Entity.image;
+import static com.sun.tools.doclint.Entity.nu;
 
 class BoardPanel extends JPanel {
 
@@ -24,9 +30,13 @@ class BoardPanel extends JPanel {
   private BufferedImage image1;
   private BufferedImage image2;
   private BufferedImage combinedImage;
+  private Updater statusUpdater;
+  private BufferedImage currentImage;
 
   public BoardPanel(ReadOnlyDungeon model) {
     this.model = model;
+    this.statusUpdater = new StatusUpdater();
+    this.currentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
   }
 
   @Override
@@ -38,26 +48,81 @@ class BoardPanel extends JPanel {
     int rows = model.getGameBoardRows();
     int col = model.getGameBoardCols();
     List<Edge> edgeList = model.getFinalEdgeList();
+    Cave currentLocation = model.getPlayerLocation();
     Path pathBase = null;
     Path emPath = null;
 //    g.drawImage()
     BufferedImage emeraldNull = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
     BufferedImage emerald = null;
-    Path pathBaseEm = null;
+    BufferedImage currentLoc = null;
+    BufferedImage finalImage = null;
+    String directoryPath = "/res/dungeon-images/";
+
     ///Users/Owner/Documents/CS5010/Project5_Graphical_Adventure_Game/src/view/emerald.png
     try {
-      pathBaseEm = Path.of(new File(".").getCanonicalPath());
+      pathBase = Path.of(new File(".").getCanonicalPath());
     } catch (IOException e) {
       e.printStackTrace();
     }
     String pathToAppend = "/res/dungeon-images/emerald.png";
-    String emeraldPath = pathBaseEm.toString() + pathToAppend;
-    try {
-      emerald = overlay(emeraldNull, emeraldPath, 0);
-    } catch (IOException e) {
-      e.printStackTrace();
+    String emeraldPath = pathBase.toString() + pathToAppend;
+
+    //get cave
+    if (statusUpdater.getDirectionList() != null) {
+      String cavePath = getCavePath(statusUpdater.getDirectionList());
+      System.out.println("Cave extension to put out: " + cavePath);
+      System.out.println("full path: " + pathBase + directoryPath + cavePath);
+      try {
+        currentLoc = ImageIO.read(new File(pathBase + directoryPath + cavePath));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
-    g2d.drawImage(emerald, 100, 100, null);
+
+    finalImage = currentLoc;
+
+    //check for treasure and add if necessary
+    if (currentLocation.getTreasureList().size() != 0) {
+      for (int i = 0; i < currentLocation.getTreasureList().size(); i ++) {
+        if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Ruby")) {
+          try {
+            finalImage = overlayItems(finalImage, pathBase + directoryPath + "ruby.png", -2);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          //add ruby to image offset is -2
+        } else if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Diamond")) {
+          try {
+            finalImage = overlayItems(finalImage, pathBase + directoryPath + "diamond.png", 2);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          //add diamond to image offset is 2
+        } else if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Sapphire")) {
+          //add sapphire/emerald offset is 0
+          try {
+            finalImage = overlayItems(finalImage, pathBase + directoryPath + "emerald.png", 0);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    }
+
+    if (currentLocation.getArrowListSize() > 0) {
+      try {
+        finalImage = overlayItems(finalImage, pathBase + directoryPath + "arrow-white.png", 5);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+
+    int x = (currentLocation.getColumn() * 100) + 50;
+    int y = (currentLocation.getRow() * 100) + 50;
+    g2d.drawImage(finalImage, x, y, null);
+
+    //g2d.drawImage(emerald, 100, 100, null);
 //    try {
 //      emPath = Path.of(new File(".").getCanonicalPath() + "dungeon-images/emerald.png");
 //    } catch (IOException e) {
@@ -72,23 +137,23 @@ class BoardPanel extends JPanel {
 //    } catch (IOException e) {
 //      e.printStackTrace();
 //    }
-
+    g2d.setFont(new Font("Ubuntu", Font.BOLD, 50));
     g2d.drawImage(emerald, 100, 100, null);
     //Image wall = new ImageIcon(GamePanel.class.getResource("wall.png")).getImage();
     //g2d.drawImage(wall, x, y, this);
 
     //System.out.println(System.getProperty("user.dir"));
-    try {
-      System.out.println(new File(".").getCanonicalPath());
-      pathBase = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/blank.png");
-      emPath = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/emerald.png");
-      System.out.println("Path to blank" + pathBase.toString());
-      Path pathToPics = Path.of(new File(".").getCanonicalPath());
-      Path pathRelative = pathToPics.relativize(pathBase);
-      System.out.println("relative path: " + pathRelative);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      System.out.println(new File(".").getCanonicalPath());
+//      pathBase = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/blank.png");
+//      emPath = Path.of(new File(".").getCanonicalPath() + "/res/dungeon-images/emerald.png");
+//      System.out.println("Path to blank" + pathBase.toString());
+//      Path pathToPics = Path.of(new File(".").getCanonicalPath());
+//      Path pathRelative = pathToPics.relativize(pathBase);
+//      System.out.println("relative path: " + pathRelative);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
 
 //    Path p = Paths.get(System.getProperty(("dungeon-images")));
 //    System.out.println("This is path p: " + p.toString());
@@ -103,13 +168,7 @@ class BoardPanel extends JPanel {
         //g2d.drawImage("dungeon-image/bw-cells/e.png", (board[r][c].getRow() * 100) + 100, (board[r][c].getColumn() * 100) + 100, null);
       }
     }
-    g2d.setFont(new Font("Ubuntu", Font.BOLD, 50));
-    g2d.drawLine(150, 50, 150, 350);
-    g2d.drawLine(250, 50, 250, 350);
-    g2d.drawLine(50, 150, 350, 150);
-    g2d.drawLine(50, 250, 350, 250);
 
-    g2d.drawLine(50, 400, 400, 400);
 
 
     //got this from here : https://www.ryisnow.online/2021/04/java-code-sample-combine-multiple.html
@@ -204,7 +263,7 @@ class BoardPanel extends JPanel {
 
   }
 
-  private BufferedImage overlay(BufferedImage starting, String fpath, int offset) throws IOException {
+  private BufferedImage overlayItems(BufferedImage starting, String fpath, int offset) throws IOException {
     BufferedImage overlay = ImageIO.read(new File(fpath));
     int w = Math.max(starting.getWidth(), overlay.getWidth());
     int h = Math.max(starting.getHeight(), overlay.getHeight());
@@ -213,5 +272,66 @@ class BoardPanel extends JPanel {
     g.drawImage(starting, 0, 0, null);
     g.drawImage(overlay, offset, offset, null);
     return combined;
+  }
+
+//  private BufferedImage moveI(BufferedImage starting, String fpath, int offset) throws IOException {
+//    BufferedImage overlay = ImageIO.read(new File(fpath));
+//    int w = Math.max(starting.getWidth(), overlay.getWidth());
+//    int h = Math.max(starting.getHeight(), overlay.getHeight());
+//    BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+//    Graphics g = combined.getGraphics();
+//    g.drawImage(starting, 0, 0, null);
+//    g.drawImage(overlay, offset, offset, null);
+//    return combined;
+//  }
+
+  private String getCavePath(List<Direction> directions) {
+    String finalPath = "";
+    if (directions.size() == 4) {
+      finalPath = "color-cells/NSEW.png";
+    } else if (directions.size() == 3) {
+      if (directions.contains(Direction.NORTH) && directions.contains(Direction.EAST)
+              && directions.contains(Direction.SOUTH)) {
+        finalPath = "color-cells/NSE.png";
+      } else if (directions.contains(Direction.NORTH) && directions.contains(Direction.EAST)
+              && directions.contains(Direction.WEST)) {
+        finalPath = "color-cells/NEW.png";
+      } else if (directions.contains(Direction.NORTH) && directions.contains(Direction.SOUTH)
+              && directions.contains(Direction.WEST)) {
+        finalPath = "color-cells/NSW.png";
+      } else if (directions.contains(Direction.SOUTH) && directions.contains(Direction.EAST)
+              && directions.contains(Direction.WEST)) {
+        finalPath = "color-cells/SEW.png";
+      }
+    } else if (directions.size() == 2) {
+      if (directions.contains(Direction.EAST) && directions.contains(Direction.WEST)) {
+        finalPath = "color-cells/EW.png";
+      } else if (directions.contains(Direction.NORTH) && directions.contains(Direction.EAST)) {
+        finalPath = "color-cells/NE.png";
+      } else if (directions.contains(Direction.NORTH) && directions.contains(Direction.SOUTH)) {
+        finalPath = "color-cells/NS.png";
+      } else if (directions.contains(Direction.NORTH) && directions.contains(Direction.WEST)) {
+        finalPath = "color-cells/NW.png";
+      } else if (directions.contains(Direction.SOUTH) && directions.contains(Direction.EAST)) {
+        finalPath = "color-cells/SE.png";
+      } else if (directions.contains(Direction.SOUTH) && directions.contains(Direction.WEST)) {
+        finalPath = "color-cells/SW.png";
+      }
+    } else if (directions.size() == 1) {
+      if (directions.contains(Direction.EAST)) {
+        finalPath = "color-cells/E.png";
+      } else if (directions.contains(Direction.NORTH)) {
+        finalPath = "color-cells/N.png";
+      } else if (directions.contains(Direction.SOUTH)) {
+        finalPath = "color-cells/S.png";
+      } else if (directions.contains(Direction.WEST)) {
+        finalPath = "color-cells/W.png";
+      }
+    }
+    return finalPath;
+  }
+
+  void getStatusUpdater(Updater statusUpdate) {
+    this.statusUpdater = statusUpdate;
   }
 }

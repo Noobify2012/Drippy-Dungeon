@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
+import controller.ViewController;
 import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
@@ -54,9 +55,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //frame.setLayout(new BorderLayout());
     //frame.add(buildMenuBar());
     boardPanel = new BoardPanel(model);
-    boardPanel.setPreferredSize(new Dimension(900, 900));
+    boardPanel.setPreferredSize(new Dimension(800, 800));
     JScrollPane boardPane = new JScrollPane(boardPanel);
-    boardPane.setPreferredSize(new Dimension(300, 300));
+    boardPane.setPreferredSize(new Dimension((model.getGameBoardCols() * 100) + 400, (model.getGameBoardRows() * 100) + 400));
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(boardPane, "Center");
@@ -134,7 +135,6 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.moveButton.addActionListener(clicks);
     this.shootButton.addActionListener(clicks);
     this.pickupButton.addActionListener(clicks);
-
   }
 
   /**
@@ -339,6 +339,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   @Override
   public void getUpdater(Updater statusUpdate) {
     statusPanel.getStatusUpdater(statusUpdate);
+    boardPanel.getStatusUpdater(statusUpdate);
   }
 
 
@@ -354,20 +355,23 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //add menu item to the menu
     menu.add(buildDungeon);
     buildDungeon.setActionCommand("Build New");
-    buildDungeon.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.out.println("build new dungeon selected");
-      }
-    });
+//    buildDungeon.addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.out.println("build new dungeon selected");
+//      }
+//    });
     menu.addSeparator();
     restartDungeon = new JMenuItem("Restart Dungeon");
     menu.add(restartDungeon);
     restartDungeon.setActionCommand("Restart Dungeon");
     restartDungeon.addActionListener(new ActionListener() {
+
+      //TODO - figure out how to call restart dungeon in the view controller
       @Override
       public void actionPerformed(ActionEvent e) {
         System.out.println("restart selected");
+
       }
     });
     menu.addSeparator();
@@ -378,7 +382,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
         System.exit(0);
       }
     });
-    menuQuit.setActionCommand("Quit");
+    menuQuit.setActionCommand("Quit Game");
     menu.add(menuQuit);
 
     //add menu to menu bar

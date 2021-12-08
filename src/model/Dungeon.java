@@ -83,12 +83,6 @@ public interface Dungeon extends ReadOnlyDungeon {
    */
   String quitGame();
 
-  int getSeed();
 
-  /**Gets an abbreviated status update not as a string but as a custom data structure.
-   *
-   * @return the status update as a status updater object, which is used for the status pane.
-   */
-  Updater getStatusUpdater();
 
 }

@@ -707,8 +707,8 @@ public class DungeonImpl implements Dungeon {
     }
   }
 
-
-  private int checkSmell() {
+  @Override
+  public int checkSmell() {
     List<Integer> checked = new ArrayList<>();
     List<Integer> listToCheck = new ArrayList<>();
     List<Integer> listToLoop = new ArrayList<>();
@@ -923,7 +923,63 @@ public class DungeonImpl implements Dungeon {
    */
   @Override
   public Updater getStatusUpdater() {
-    return player.getStatusUpdater();
+    Updater temp = player.getStatusUpdater();
+    return temp;
+  }
+
+  /**
+   * Gets the percentage of treasure that is in the dungeon
+   *
+   * @return An integer of the percentage of treasure.
+   */
+  @Override
+  public int getTreasurePer() {
+    int temp = this.treasure;
+    return temp;
+  }
+
+  /**
+   * Gets the difficulty of the dungeon.
+   *
+   * @return An integer expressing the dungeon's difficulty.
+   */
+  @Override
+  public int getDifficulty() {
+    int temp = this.difficulty;
+    return temp;
+  }
+
+  /**
+   * Gets the boolean if a dungeon wraps or not.
+   *
+   * @return A boolean where true means the dungeon wraps and false means it doesn't.
+   */
+  @Override
+  public boolean getWraps() {
+    boolean temp = this.wraps;
+    return temp;
+  }
+
+  /**
+   * Gets the interconnectivity level of a dungeon.
+   *
+   * @return The interconnectivity expressed as an integer.
+   */
+  @Override
+  public int getInterConnect() {
+    int temp = this.interconnect;
+    return temp;
+  }
+
+  /**
+   * Gets the current location of the player.
+   *
+   * @return A copy of the cave where the player is currently located.
+   */
+  @Override
+  public Cave getPlayerLocation() {
+    Cave temp = findCaveByIndex(player.getPlayerLocation());
+    return temp;
   }
 
   private Direction getOppositeDirection(Direction direction) {

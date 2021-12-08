@@ -25,7 +25,7 @@ import view.DungeonBuilderImpl;
 import view.DungeonViewImpl;
 import view.IDungeonView;
 
-public class ViewController implements Controller, ActionListener, KeyListener {
+public class ViewController implements VController, ActionListener, KeyListener {
   private int currentSeed;
   private DungeonBuilder builder;
   private Dungeon startDungeon;
@@ -33,38 +33,22 @@ public class ViewController implements Controller, ActionListener, KeyListener {
   private IDungeonView view;
   private String startString;
   private Updater startUpdate;
-  private boolean moveBool;
-  private boolean shootBool;
-  private boolean pickupBool;
-  private boolean arrowBool;
-  private boolean treasBool;
-  private boolean northBool;
-  private boolean southBool;
-  private boolean eastBool;
-  private boolean westBool;
   private Enum<ActionEnum> actionEnum;
   private Direction direction;
   private Enum<PickupEnum> pickup;
   private int distance;
 
+
   public ViewController(Dungeon startDungeon, IDungeonView view) {
     this.startDungeon = startDungeon;
-    this.currentSeed = 0;
+    this.currentSeed = startDungeon.getSeed();
     this.builder = null;
     this.view = view;
-    this.moveBool = false;
-    this.shootBool = false;
-    this.pickupBool = false;
-    this.arrowBool = false;;
-    this.treasBool = false;
-    this.northBool = false;
-    this.southBool = false;
-    this.eastBool = false;
-    this.westBool = false;
     this.actionEnum = ActionEnum.NONE;
     this.direction = Direction.NONE;
     this.pickup = PickupEnum.NONE;
     this.distance = 0;
+    this.currDungeon = null;
   }
 
   @Override
@@ -479,6 +463,10 @@ public class ViewController implements Controller, ActionListener, KeyListener {
         break;
     }
 
+    if (e.getActionCommand().equals("Restart")) {
+      System.out.println("caught the reset bug");
+    }
+
 
   }
 
@@ -796,6 +784,33 @@ public class ViewController implements Controller, ActionListener, KeyListener {
 //    }
 
   }
+
+  @Override
+  public void restartDungeon() {
+    int curDungeonRows = this.currDungeon.getGameBoardRows();
+    int curDungeonCols = this.currDungeon.getGameBoardCols();
+    int curDungeonTreas = this.currDungeon.getTreasurePer();
+    int curDungeonInt = this.currDungeon.getInterConnect();
+    int curDungeonDif = this.currDungeon.getDifficulty();
+    boolean curDungeonWraps = this.currDungeon.getWraps();
+    int curDungeonSeed = this.currDungeon.getSeed();
+    Player newPlayer = new PlayerImpl();
+    Dungeon newDungeon = new DungeonImpl(curDungeonWraps, curDungeonRows, curDungeonCols,
+            curDungeonInt, curDungeonTreas, newPlayer, curDungeonDif, curDungeonSeed);
+
+
+    this.startString = newDungeon.getDungeon();
+    this.startUpdate = newDungeon.getStatusUpdater();
+    view.updateStatus(this.startString);
+    view.getUpdater(newDungeon.getStatusUpdater());
+    this.view.makeVisible();
+    this.view.refresh();
+    this.view.resetFocus();
+    this.currDungeon = newDungeon;
+    this.playGame(newDungeon, this.view);
+  }
+
+
 
 //  public void setModel(ReadOnlyDungeon newDungeon) {
 //    //

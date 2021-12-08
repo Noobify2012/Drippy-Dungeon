@@ -131,5 +131,67 @@ public class MockModel implements Dungeon {
     return null;
   }
 
+  /**
+   * Gets the percentage of treasure that is in the dungeon
+   *
+   * @return An integer of the percentage of treasure.
+   */
+  @Override
+  public int getTreasurePer() {
+    return 0;
+  }
+
+  /**
+   * Gets the difficulty of the dungeon.
+   *
+   * @return An integer expressing the dungeon's difficulty.
+   */
+  @Override
+  public int getDifficulty() {
+    return 0;
+  }
+
+  /**
+   * Gets the boolean if a dungeon wraps or not.
+   *
+   * @return A boolean where true means the dungeon wraps and false means it doesn't.
+   */
+  @Override
+  public boolean getWraps() {
+    return false;
+  }
+
+  /**
+   * Gets the interconnectivity level of a dungeon.
+   *
+   * @return The interconnectivity expressed as an integer.
+   */
+  @Override
+  public int getInterConnect() {
+    return 0;
+  }
+
+  /**
+   * Gets the current location of the player.
+   *
+   * @return A copy of the cave where the player is currently located.
+   */
+  @Override
+  public Cave getPlayerLocation() {
+    return null;
+  }
+
+  /**
+   * Returns the smell of the cave based on its proxemity to a monster.
+   *
+   * @return the smell expressed as an int. If the int is 1 a monster is 2 spaces away. If the
+   * smell is 2 or greater a monster is either one spot away or there are multiple
+   * monsters within 2 spots.
+   */
+  @Override
+  public int checkSmell() {
+    return 0;
+  }
+
 
 }

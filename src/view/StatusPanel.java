@@ -3,8 +3,14 @@ package view;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.file.Path;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import model.Cave;
@@ -48,6 +54,54 @@ class StatusPanel extends JPanel {
     } else if (statusString != null && statusString.length() > 65) {
 
     }
+    //draw images for status
+    Path pathBase = null;
+    Path emPath = null;
+    //BufferedImage emeraldNull = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+    BufferedImage emerald = null;
+    BufferedImage ruby = null;
+    BufferedImage diamond = null;
+    BufferedImage arrow = null;
+    //get base path
+    try {
+      pathBase = Path.of(new File(".").getCanonicalPath());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    //get ruby with base path
+    String directoryPath = "/res/dungeon-images/";
+
+    try {
+      arrow = ImageIO.read(new File(pathBase + directoryPath + "arrow-black.png"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    g2d.drawImage(arrow,50, 58, null );
+
+    try {
+      ruby = ImageIO.read(new File(pathBase + directoryPath + "ruby.png"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    g2d.drawImage(ruby,75, 70, null );
+
+    try {
+      diamond = ImageIO.read(new File(pathBase + directoryPath + "diamond.png"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    g2d.drawImage(diamond,75, 95, null );
+    //build sapphire/emerald
+    try {
+      emerald = ImageIO.read(new File(pathBase + directoryPath + "emerald.png"));
+              //overlay(emeraldNull, finalEmeraldPath, 0);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    //draw emerald/sapphire
+    g2d.drawImage(emerald, 75, 120, null);
+
     if (statusUpdater != null) {
       if (model.isGameOver()) {
         g2d.drawString("GAME OVER", 100, 10);
@@ -91,5 +145,16 @@ class StatusPanel extends JPanel {
     this.directionList = statusUpdate.getDirectionList();
     this.caveTreasure = statusUpdate.getCaveTreasure();
     this.caveArrows = statusUpdate.getCaveArrows();
+  }
+
+  private BufferedImage overlay(BufferedImage starting, String fpath, int offset) throws IOException {
+    BufferedImage overlay = ImageIO.read(new File(fpath));
+    int w = Math.max(starting.getWidth(), overlay.getWidth());
+    int h = Math.max(starting.getHeight(), overlay.getHeight());
+    BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    Graphics g = combined.getGraphics();
+    g.drawImage(starting, 0, 0, null);
+    g.drawImage(overlay, offset, offset, null);
+    return combined;
   }
 }
