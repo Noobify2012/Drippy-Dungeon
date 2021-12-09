@@ -461,7 +461,29 @@ public class ViewController implements VController, ActionListener, KeyListener 
                   newDungeon.getCols(), newDungeon.getInter(), newDungeon.getTreas(), player,
                   newDungeon.getDiff(), 0);
           this.startString = dungeon.getDungeon();
+          System.out.println("new start String: " + this.startString);
           this.startUpdate = dungeon.getStatusUpdater();
+          view.resetPanel(dungeon);
+//          IDungeonView viewNew = new DungeonViewImpl(dungeon);
+          //this.playGame(dungeon, viewNew);
+          view.updateStatus(this.startString);
+          view.getUpdater(startDungeon.getStatusUpdater());
+
+          //TODO - model changes but view and controller still using wrong model
+          view.makeVisible();
+          view.resetFocus();
+          view.refresh();
+
+//          this.startString = startDungeon.getDungeon();
+//          this.startUpdate = startDungeon.getStatusUpdater();
+//          view.updateStatus(this.startString);
+//          view.getUpdater(startDungeon.getStatusUpdater());
+//          this.view.makeVisible();
+//          this.view.refresh();
+//          this.view.resetFocus();
+//          this.currDungeon = this.startDungeon;
+//          playGame(this.startDungeon, this.view);
+
           ///TODO - need to remove old panel
 //          view.updateStatus(this.startString);
 //          view.getUpdater(dungeon.getStatusUpdater());

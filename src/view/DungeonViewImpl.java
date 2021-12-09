@@ -312,6 +312,43 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     return newBuilder;
   }
 
+  @Override
+  public void resetPanel(ReadOnlyDungeon model) {
+    //TODO - test this
+    this.getContentPane().removeAll();
+    this.remove(boardPanel);
+    this.repaint();
+    this.refresh();
+    this.getContentPane().remove(boardPanel);
+    //this.remove(boardPanel);
+    this.getContentPane().remove(statusPanel);
+//    this.remove(statusPanel);
+//    this.getContentPane();
+    this.invalidate();
+    this.revalidate();
+    this.refresh();
+    this.model = model;
+
+    //build new and add boardpanel
+    this.boardPanel = new BoardPanel(model);
+    //BoardPanel boardPanel = new BoardPanel(model);
+    boardPanel.setPreferredSize(new Dimension(1200, 1200));
+    JScrollPane boardPane = new JScrollPane(boardPanel);
+    boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    this.add(boardPane, "Center");
+
+    //do the same for status panel
+    statusPanel = new StatusPanel(model);
+    statusPanel.setPreferredSize(new Dimension(500,400));
+    JScrollPane statusPane = new JScrollPane(statusPanel);
+    statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    this.add(statusPane, "South");
+    this.refresh();
+
+  }
+
   JMenuBar buildMenuBar() {
     //initialize JMenuBar
     menuBar = new JMenuBar();
@@ -373,4 +410,6 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.setVisible(true);
     this.resetFocus();
   }
+
+
 }

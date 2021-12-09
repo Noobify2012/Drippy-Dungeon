@@ -9,6 +9,7 @@ import javax.swing.*;
 import controller.Controller;
 import controller.ViewController;
 import model.Dungeon;
+import model.ReadOnlyDungeon;
 import model.Updater;
 
 public interface IDungeonView {
@@ -34,6 +35,8 @@ public interface IDungeonView {
   void getUpdater(Updater statusUpdate);
 
   BuildStructure getBuilder();
+
+  void resetPanel(ReadOnlyDungeon model);
 
 
 }
