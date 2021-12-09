@@ -57,4 +57,34 @@ public interface Updater {
    * @return The number of arrows at the player's location as an integer.
    */
   int getCaveArrows();
+
+  /**Gets the result of a player shooting an arrow.
+   *
+   * @return A string with the result of a shot.
+   */
+  String getShotString();
+
+  /**Gets the result of a player encountering a monster.
+   *
+   * @return A string with the result of the encounter.
+   */
+  String getMonsterEncounter();
+
+  /**Gets the result of a player encountering the thief lucky the leprechaun.
+   *
+   * @return A string with the result of the encounter.
+   */
+  String getLuckyEncounter();
+
+  /**Gets the result of a player encountering a the sides and falling into the pit of death.
+   *
+   * @return A string with the result of the encounter.
+   */
+  String getPitFall();
+
+  /**Gets the result of a player picking up items.
+   *
+   * @return A string with the result of the pickup.
+   */
+  String getPickUpString();
 }

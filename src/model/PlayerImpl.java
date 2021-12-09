@@ -209,6 +209,7 @@ public class PlayerImpl implements Player {
     } else if (monsterHealth == 0) {
       encounterString = "Our player finds the body of a slain Monster.";
     }
+    this.statusUpdate.setMonsterEncounter(encounterString);
     return encounterString;
   }
 
@@ -232,6 +233,13 @@ public class PlayerImpl implements Player {
     }
     //make sure player has arrows and if so deduct 1, else throw error.
     String quiverString = updateArrowCount();
+    if (distance == 1) {
+      this.statusUpdate.setShotString("The player fired an arrow " + distance + " space "
+              + direction + ".");
+    } else {
+      this.statusUpdate.setShotString("The player fired an arrow " + distance + " spaces "
+              + direction + ".");
+    }
     return quiverString;
   }
 
@@ -272,8 +280,8 @@ public class PlayerImpl implements Player {
 
       }
       //pick up both
-
     }
+    this.statusUpdate.setPickupString(treasureString + arrowString);
     return pickupString;
   }
 
@@ -287,6 +295,7 @@ public class PlayerImpl implements Player {
     } else if (!cave.getPitStatus() && cliff == true) {
       pitString = "The player hears rocks falling into the abyss.";
     }
+    this.statusUpdate.setPitFall(pitString);
     return pitString;
   }
 
@@ -335,6 +344,8 @@ public class PlayerImpl implements Player {
     for (int i = 0; i < treasureNum; i ++) {
       this.treasureList.remove(0);
     }
+    this.statusUpdate.setLuckyEncounter("Oh no our player ran into lucky the leprechaun " +
+            "he stole some of our treasure");
   }
 
   @Override

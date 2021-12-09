@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -112,7 +114,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
 
     //build Status panel
     statusPanel = new StatusPanel(model);
-    statusPanel.setPreferredSize(new Dimension(300,300));
+    statusPanel.setPreferredSize(new Dimension(500,400));
     JScrollPane statusPane = new JScrollPane(statusPanel);
     //statusPane.setPreferredSize(new Dimension(200, 100));
     statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -123,11 +125,6 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.add(statusPane, "South");
     this.refresh();
     //this.repaint();
-
-
-
-
-
   }
 
   @Override
@@ -234,52 +231,6 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
 
     d.add(this.buildButton);
     d.dispose();
-//    buildButton.addActionListener(new ActionListener() {
-//      @Override
-//      public void actionPerformed(ActionEvent e) {
-//        if (wrapping.isSelected()) {
-//          buildList.add(0, "true");
-//        } else {
-//          buildList.add(0, "false");
-//        }
-//        try {
-//          int row = Integer.parseInt(interInt.getText());
-//          buildList.add(1, rowInt.getText());
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for row");
-//        }
-//        try {
-//          int col = Integer.parseInt(colInt.getText());
-//          buildList.add(2, colInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for col");
-//        }
-//        try {
-//          int inter = Integer.parseInt(interInt.getText());
-//          buildList.add(3, interInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for inter");
-//        }
-//        try {
-//          int treas = Integer.parseInt(treasInt.getText());
-//          buildList.add(4, treasInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for treas");
-//        }
-//        try {
-//          int diff = Integer.parseInt(diffInt.getText());
-//          buildList.add(5, diffInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for treas");
-//        }
-//
-//        d.dispose();
-//      }
-//    });
     d.setSize(800,100);
     d.setVisible(true);
 
@@ -292,7 +243,6 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
       int diff = Integer.parseInt(buildList.get(5));
       for (int i = 0; i < buildList.size(); i++) {
         System.out.println(buildList.get(i));
-
       }
 
       try {
@@ -314,31 +264,6 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.requestFocus();
   }
 
-  /**
-   * This is to force the view to have a method to set up the buttons. The name
-   * has been chosen deliberately. This is the same method signature to add an
-   * action listener in Java Swing.
-   *
-   * <p>Thus our Swing-based implementation of this interface will already have such
-   * a method.
-   *
-   * @param listener the listener to add
-   */
-  @Override
-  public void addActionListener(ActionListener listener) {
-    buildButton.addActionListener(listener);
-    northButton.addActionListener(listener);
-    southButton.addActionListener(listener);
-    eastButton.addActionListener(listener);
-    westButton.addActionListener(listener);
-    moveButton.addActionListener(listener);
-    shootButton.addActionListener(listener);
-    pickupButton.addActionListener(listener);
-    buildDungeon.addActionListener(listener);
-    menuQuit.addActionListener(listener);
-    restartDungeon.addActionListener(listener);
-    restartNewDungeon.addActionListener(listener);
-  }
 
   @Override
   public void updateStatus(String status) {
@@ -351,6 +276,43 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     boardPanel.getStatusUpdater(statusUpdate);
   }
 
+  /**
+   * Set up the controller to handle click events in this view.
+   *
+   * @param listener the controller
+   */
+  @Override
+  public void addClickListener(ViewController listener) {
+    // create the MouseAdapter
+    MouseAdapter clickAdapter = new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
+        // arithmetic to convert panel coords to grid coords
+        int row = 0;
+        int col = 0;
+        //System.out.println(e.getX());
+        //System.out.println(e.getY());
+        if (e.getX() >= 150 && e.getX() < 250) {
+          col = 1;
+        } else if (e.getX() >= 250) {
+          col = 2;
+        }
+
+        if (e.getY() >= 150 && e.getY() < 250) {
+          row = 1;
+        } else if (e.getY() >= 250) {
+          row = 2;
+        }
+        System.out.println("this is what the mouse clicked" + e);
+
+        //System.out.println(row + " , " + col);
+        //pass move to controller
+        //listener.handleCellClick(row, col);
+      }
+    };
+    menu.addMouseListener(clickAdapter);
+  }
 
   JMenuBar buildMenuBar() {
     //initialize JMenuBar
@@ -364,34 +326,37 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //add menu item to the menu
     menu.add(buildDungeon);
     buildDungeon.setActionCommand("Build New");
-    buildDungeon.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.out.println("build new dungeon selected");
-      }
-    });
+//     buildDungeon.addActionListener(
+//            new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.out.println("build new dungeon selected");
+//      }
+//    });
     menu.addSeparator();
     restartDungeon = new JMenuItem("Restart Same Dungeon");
-    menu.add(restartDungeon);
     restartDungeon.setActionCommand("Restart Same Dungeon");
-    restartDungeon.addActionListener(new ActionListener() {
-
-      //TODO - figure out how to call restart dungeon in the view controller
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.out.println("restart same selected");
-
-      }
-    });
+    menu.add(restartDungeon);
+//    restartDungeon.addActionListener(
+//            new ActionListener() {
+//
+//      //TODO - figure out how to call restart dungeon in the view controller
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.out.println("restart same selected");
+//
+//      }
+//    });
     menu.addSeparator();
     menuQuit = new JMenuItem("Quit Game");
-    menuQuit.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
     menuQuit.setActionCommand("Quit Game");
+//    menuQuit.addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.exit(0);
+//      }
+//    });
+
     menu.add(menuQuit);
 
     //add menu to menu bar
@@ -408,5 +373,4 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.setVisible(true);
     this.resetFocus();
   }
-
 }

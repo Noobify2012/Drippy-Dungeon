@@ -28,9 +28,6 @@ import static com.sun.tools.doclint.Entity.nu;
 class BoardPanel extends JPanel {
 
   private final ReadOnlyDungeon model;
-  private BufferedImage image1;
-  private BufferedImage image2;
-  private BufferedImage combinedImage;
   private Updater statusUpdater;
   private BufferedImage currentImage;
   private List<DungeonImage> dungeonList;

@@ -94,6 +94,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
     this.view.refresh();
 
     view.setListeners(this, this);
+    view.addClickListener(this);
     view.resetFocus();
     view.makeVisible();
     view.refresh();
@@ -286,6 +287,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
    */
   @Override
   public void actionPerformed(ActionEvent e) {
+    System.out.println(e.getActionCommand());
     switch (e.getActionCommand()) {
       case "North Button" :
         System.out.println("North Button");
@@ -469,7 +471,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
         break;
     }
 
-    if (e.getActionCommand().equals("Restart")) {
+    if (e.getSource().equals("Restart")) {
       System.out.println("caught the reset bug");
     }
 
@@ -837,6 +839,16 @@ public class ViewController implements VController, ActionListener, KeyListener 
     this.playGame(newDungeon, this.view);
   }
 
+  /**
+   * Handle an action in a single cell of the board, such as to make a move.
+   *
+   * @param row the row of the clicked cell
+   * @param col the column of the clicked cell
+   */
+  @Override
+  public void handleCellClick(int row, int col) {
+    System.out.println("Player clicked here: " + row + " " + col);
+  }
 
 
 //  public void setModel(ReadOnlyDungeon newDungeon) {

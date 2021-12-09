@@ -32,6 +32,11 @@ class StatusPanel extends JPanel {
   private List<Direction> directionList;
   private List<Treasure> caveTreasure;
   private Updater statusUpdater;
+  private String monsterEncounter;
+  private String luckyEncounter;
+  private String pitFall;
+  private String shotString;
+  private String pickupString;
 
 
   public StatusPanel(ReadOnlyDungeon model) {
@@ -127,6 +132,14 @@ class StatusPanel extends JPanel {
       } else if (this.smellCount >= 2) {
         g2d.drawString("The player smells something pungent and awful", 100, 220);
       }
+      if (model.getPlayerLocation().getMonsterListSize() > 0) {
+        g2d.drawString(this.monsterEncounter, 100, 275);
+      }
+      if (model.getPitProx()) {
+        g2d.drawString(this.pitFall, 100, 300);
+      }
+      g2d.drawString(this.pickupString, 100, 325);
+      g2d.drawString(this.shotString, 100, 350);
     }
   }
 
@@ -145,6 +158,10 @@ class StatusPanel extends JPanel {
     this.directionList = statusUpdate.getDirectionList();
     this.caveTreasure = statusUpdate.getCaveTreasure();
     this.caveArrows = statusUpdate.getCaveArrows();
+    this.shotString = statusUpdate.getShotString();
+    this.pickupString = statusUpdate.getPickUpString();
+    this.monsterEncounter = statusUpdate.getMonsterEncounter();
+    this.pitFall = statusUpdate.getPitFall();
   }
 
   private BufferedImage overlay(BufferedImage starting, String fpath, int offset) throws IOException {
