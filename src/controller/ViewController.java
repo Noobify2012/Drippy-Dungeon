@@ -20,6 +20,7 @@ import model.Player;
 import model.PlayerImpl;
 import model.ReadOnlyDungeon;
 import model.Updater;
+import view.BuildStructure;
 import view.DungeonBuilder;
 import view.DungeonBuilderImpl;
 import view.DungeonViewImpl;
@@ -94,7 +95,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
     this.view.refresh();
 
     view.setListeners(this, this);
-    view.addClickListener(this);
     view.resetFocus();
     view.makeVisible();
     view.refresh();
@@ -211,55 +211,55 @@ public class ViewController implements VController, ActionListener, KeyListener 
     d.add(b);
     d.setSize(800,100);
     d.setVisible(true);
-    b.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (wrapping.isSelected()) {
-          buildList.add(0, "true");
-        } else {
-          buildList.add(0, "false");
-        }
-        try {
-          int row = Integer.parseInt(interInt.getText());
-          buildList.add(1, rowInt.getText());
-        } catch (NumberFormatException nfe) {
-          System.out.println("didn't get an int for row");
-        }
-        try {
-          int col = Integer.parseInt(colInt.getText());
-          buildList.add(2, colInt.getText());
-
-        } catch (NumberFormatException nfe) {
-          System.out.println("didn't get an int for col");
-        }
-        try {
-          int inter = Integer.parseInt(interInt.getText());
-          buildList.add(3, interInt.getText());
-
-        } catch (NumberFormatException nfe) {
-          System.out.println("didn't get an int for inter");
-        }
-        try {
-          int treas = Integer.parseInt(treasInt.getText());
-          buildList.add(4, treasInt.getText());
-
-        } catch (NumberFormatException nfe) {
-          System.out.println("didn't get an int for treas");
-        }
-        try {
-          int diff = Integer.parseInt(diffInt.getText());
-          buildList.add(5, diffInt.getText());
-
-        } catch (NumberFormatException nfe) {
-          System.out.println("didn't get an int for treas");
-        }
-
-
-        //newBuild = new DungeonBuilderImpl(wrap, row, col, inter, treas, diff);
-
-        d.dispose();
-      }
-    });
+//    b.addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        if (wrapping.isSelected()) {
+//          buildList.add(0, "true");
+//        } else {
+//          buildList.add(0, "false");
+//        }
+//        try {
+//          int row = Integer.parseInt(interInt.getText());
+//          buildList.add(1, rowInt.getText());
+//        } catch (NumberFormatException nfe) {
+//          System.out.println("didn't get an int for row");
+//        }
+//        try {
+//          int col = Integer.parseInt(colInt.getText());
+//          buildList.add(2, colInt.getText());
+//
+//        } catch (NumberFormatException nfe) {
+//          System.out.println("didn't get an int for col");
+//        }
+//        try {
+//          int inter = Integer.parseInt(interInt.getText());
+//          buildList.add(3, interInt.getText());
+//
+//        } catch (NumberFormatException nfe) {
+//          System.out.println("didn't get an int for inter");
+//        }
+//        try {
+//          int treas = Integer.parseInt(treasInt.getText());
+//          buildList.add(4, treasInt.getText());
+//
+//        } catch (NumberFormatException nfe) {
+//          System.out.println("didn't get an int for treas");
+//        }
+//        try {
+//          int diff = Integer.parseInt(diffInt.getText());
+//          buildList.add(5, diffInt.getText());
+//
+//        } catch (NumberFormatException nfe) {
+//          System.out.println("didn't get an int for treas");
+//        }
+//
+//
+//        //newBuild = new DungeonBuilderImpl(wrap, row, col, inter, treas, diff);
+//
+//        d.dispose();
+//      }
+//    });
 
     if (buildList.size() != 0) {
       boolean wrap = Boolean.getBoolean(buildList.get(0));
@@ -445,8 +445,37 @@ public class ViewController implements VController, ActionListener, KeyListener 
         break;
 
       case "Build Button" :
-        System.out.println("Build Button");
+        System.out.println("Build Button in controller");
         view.resetFocus();
+        BuildStructure newDungeon = view.getBuilder();
+        System.out.println("Builder wraps: " + newDungeon.getWraps());
+        System.out.println("Builder rows: " + newDungeon.getRows());
+        System.out.println("Builder cols: " + newDungeon.getCols());
+        System.out.println("Builder inter: " + newDungeon.getInter());
+        System.out.println("Builder treas: " + newDungeon.getTreas());
+        System.out.println("Builder diff: " + newDungeon.getDiff());
+
+        try {
+          Player player = new PlayerImpl();
+          Dungeon dungeon = new DungeonImpl(newDungeon.getWraps(), newDungeon.getRows(),
+                  newDungeon.getCols(), newDungeon.getInter(), newDungeon.getTreas(), player,
+                  newDungeon.getDiff(), 0);
+          this.startString = dungeon.getDungeon();
+          this.startUpdate = dungeon.getStatusUpdater();
+          ///TODO - need to remove old panel
+//          view.updateStatus(this.startString);
+//          view.getUpdater(dungeon.getStatusUpdater());
+//          this.view.makeVisible();
+//          this.view.refresh();
+//          this.view.resetFocus();
+//          this.currDungeon = dungeon;
+//          playGame(this.currDungeon, this.view);
+
+        } catch (IllegalArgumentException iae) {
+
+        } catch (IllegalStateException ise) {
+
+        }
         //dungeon =
         //this is where you attempt to build the dungeon
         break;
@@ -458,7 +487,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
         break;
 
       case "Build New" :
-        System.out.println("Build new Dungeon");
+        System.out.println("Build new Dungeon in controller");
         break;
 
       case "Restart Same Dungeon" :

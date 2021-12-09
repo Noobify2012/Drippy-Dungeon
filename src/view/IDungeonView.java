@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
@@ -24,7 +25,7 @@ public interface IDungeonView {
    */
   void makeVisible();
 
-  Dungeon getDungeon();
+  void getDungeon();
 
   void resetFocus();
 
@@ -32,11 +33,7 @@ public interface IDungeonView {
 
   void getUpdater(Updater statusUpdate);
 
-  /**
-   * Set up the controller to handle click events in this view.
-   *
-   * @param listener the controller
-   */
-  void addClickListener(ViewController listener);
+  BuildStructure getBuilder();
+
 
 }

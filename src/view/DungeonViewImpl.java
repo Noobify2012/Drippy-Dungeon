@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   private StatusPanel statusPanel;
   private JScrollPane dungeonPanel;
   private ReadOnlyDungeon model;
+  private BuildStructure newDungeon;
 
 
 
@@ -138,8 +140,10 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.shootButton.addActionListener(clicks);
     this.pickupButton.addActionListener(clicks);
     this.applyButton.addActionListener(clicks);
-    this.restartNewDungeon.addActionListener(clicks);
+//    this.restartNewDungeon.addActionListener(clicks);
     this.restartDungeon.addActionListener(clicks);
+    this.buildDungeon.addActionListener(clicks);
+    this.buildButton.addActionListener(clicks);
   }
 
   /**
@@ -159,7 +163,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   }
 
   @Override
-  public Dungeon getDungeon() {
+  public void getDungeon() {
 
     JDialog d = new JDialog(this, "Build Menu");
     JLabel l = new JLabel("Build a new dungeon");
@@ -195,15 +199,15 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     zeroFormatter.setAllowsInvalid(false);
 
     JFormattedTextField rowInt = new JFormattedTextField(formatter);
-    rowInt.setPreferredSize(new Dimension(20,20));
+    rowInt.setPreferredSize(new Dimension(20, 20));
     JFormattedTextField colInt = new JFormattedTextField(formatter);
-    colInt.setPreferredSize(new Dimension(20,20));
+    colInt.setPreferredSize(new Dimension(20, 20));
     JFormattedTextField interInt = new JFormattedTextField(zeroFormatter);
-    interInt.setPreferredSize(new Dimension(20,20));
+    interInt.setPreferredSize(new Dimension(20, 20));
     JFormattedTextField treasInt = new JFormattedTextField(zeroFormatter);
-    treasInt.setPreferredSize(new Dimension(20,20));
+    treasInt.setPreferredSize(new Dimension(20, 20));
     JFormattedTextField diffInt = new JFormattedTextField(formatter);
-    diffInt.setPreferredSize(new Dimension(20,20));
+    diffInt.setPreferredSize(new Dimension(20, 20));
 
     //int row = Integer.parseInt(rowInt.getText());
     //System.out.println("rows: " + row);
@@ -229,10 +233,40 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     d.add(diffLabel);
     d.add(diffInt);
 
+    this.buildButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        boolean checkBool = false;
+        int row;
+        int col;
+        int inter;
+        int treas;
+        int diff;
+        if (wrapping.isSelected()) {
+          checkBool = true;
+          System.out.println(true);
+        } else if (notWrapping.isSelected()) {
+          checkBool = false;
+          System.out.println(false);
+        }
+        row = Integer.parseInt(rowInt.getText());
+        col = Integer.parseInt(colInt.getText());
+        inter = Integer.parseInt(interInt.getText());
+        treas = Integer.parseInt(treasInt.getText());
+        diff = Integer.parseInt(diffInt.getText());
+        newDungeon = new DungeonBuildStructureImpl(checkBool, row, col, inter, treas, diff);
+        System.out.println(rowInt.getText());
+        System.out.println(colInt.getText());
+        System.out.println(interInt.getText());
+        System.out.println(treasInt.getText());
+        System.out.println(diffInt.getText());
+        d.dispose();
+      }
+    });
     d.add(this.buildButton);
-    d.dispose();
-    d.setSize(800,100);
+    d.setSize(800, 100);
     d.setVisible(true);
+
 
     if (buildList.size() != 0) {
       boolean wrap = Boolean.getBoolean(buildList.get(0));
@@ -245,17 +279,13 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
         System.out.println(buildList.get(i));
       }
 
-      try {
-        Player player = new PlayerImpl();
-        Dungeon newDungeon = new DungeonImpl(wrap, row, col, inter, treas, player, diff, 0);
-        return newDungeon;
-      } catch (IllegalArgumentException iae) {
 
-      } catch (IllegalStateException ise) {
 
-      }
+
+//    }
+//    return null;
     }
-    return null;
+
   }
 
   @Override
@@ -276,42 +306,10 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     boardPanel.getStatusUpdater(statusUpdate);
   }
 
-  /**
-   * Set up the controller to handle click events in this view.
-   *
-   * @param listener the controller
-   */
   @Override
-  public void addClickListener(ViewController listener) {
-    // create the MouseAdapter
-    MouseAdapter clickAdapter = new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        super.mouseClicked(e);
-        // arithmetic to convert panel coords to grid coords
-        int row = 0;
-        int col = 0;
-        //System.out.println(e.getX());
-        //System.out.println(e.getY());
-        if (e.getX() >= 150 && e.getX() < 250) {
-          col = 1;
-        } else if (e.getX() >= 250) {
-          col = 2;
-        }
-
-        if (e.getY() >= 150 && e.getY() < 250) {
-          row = 1;
-        } else if (e.getY() >= 250) {
-          row = 2;
-        }
-        System.out.println("this is what the mouse clicked" + e);
-
-        //System.out.println(row + " , " + col);
-        //pass move to controller
-        //listener.handleCellClick(row, col);
-      }
-    };
-    menu.addMouseListener(clickAdapter);
+  public BuildStructure getBuilder() {
+    BuildStructure newBuilder = this.newDungeon;
+    return newBuilder;
   }
 
   JMenuBar buildMenuBar() {
@@ -321,18 +319,20 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     menu = new JMenu("Menu");
     menu.getAccessibleContext();
 
+
     //build jMenuItem
     buildDungeon = new JMenuItem("Build New Dungeon");
     //add menu item to the menu
     menu.add(buildDungeon);
     buildDungeon.setActionCommand("Build New");
-//     buildDungeon.addActionListener(
-//            new ActionListener() {
-//      @Override
-//      public void actionPerformed(ActionEvent e) {
-//        System.out.println("build new dungeon selected");
-//      }
-//    });
+     buildDungeon.addActionListener(
+            new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("build new dungeon selected");
+        getDungeon();
+      }
+    });
     menu.addSeparator();
     restartDungeon = new JMenuItem("Restart Same Dungeon");
     restartDungeon.setActionCommand("Restart Same Dungeon");
