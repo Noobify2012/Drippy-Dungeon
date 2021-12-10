@@ -57,16 +57,16 @@ public class StatusUpdater implements Updater {
   }
 
   void setRubyCount(int count) {
-    this.rubyCount = rubyCount +  count;
+    this.rubyCount = count;
   }
 
   void setDiamondCount(int count) {
-    this.diamondCount = diamondCount + count;
+    this.diamondCount = count;
   }
 
-  void setSapphireCount(int count) {this.sapphireCount = sapphireCount +  count;}
+  void setSapphireCount(int count) {this.sapphireCount = count;}
 
-  void setArrowCount(int count) {this.arrowCount = arrowCount + count;}
+  void setArrowCount(int count) {this.arrowCount =  count;}
 
   void setSmell(int count) {this.smell = count;}
 

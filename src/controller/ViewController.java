@@ -20,6 +20,7 @@ import model.Player;
 import model.PlayerImpl;
 import model.ReadOnlyDungeon;
 import model.Updater;
+import random.RandomNumberGenerator;
 import view.BuildStructure;
 import view.DungeonBuilder;
 import view.DungeonBuilderImpl;
@@ -38,6 +39,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
   private Direction direction;
   private Enum<PickupEnum> pickup;
   private int distance;
+  private RandomNumberGenerator rand;
 
 
   public ViewController(Dungeon startDungeon, IDungeonView view) {
@@ -53,6 +55,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
     this.pickup = PickupEnum.NONE;
     this.distance = 0;
     this.currDungeon = null;
+    this.rand = new RandomNumberGenerator(0);
   }
 
   @Override
@@ -94,7 +97,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
     if (view == null) {
       throw new IllegalArgumentException("The view cannot be null");
     }
-
     this.view.refresh();
 
     view.setListeners(this, this);
@@ -114,13 +116,13 @@ public class ViewController implements VController, ActionListener, KeyListener 
             view.makeVisible();
             view.refresh();
             view.resetFocus();
-              System.out.println(moveString + "\n");
+            System.out.println(moveString + "\n");
           } catch (IllegalArgumentException iae) {
-              System.out.println(iae.getMessage() + "\n");
-            }
+            System.out.println(iae.getMessage() + "\n");
           }
         }
       }
+    }
 //    String moveString = dungeon.movePlayer(direction);
 //    view.updateStatus(moveString);
 //    view.getUpdater(dungeon.getStatusUpdater());
@@ -128,10 +130,10 @@ public class ViewController implements VController, ActionListener, KeyListener 
 //    view.refresh();
 //    view.resetFocus();
 
-    }
+  }
 
   private void quitGame(Dungeon d) {
-      String quitString = d.quitGame();
+    String quitString = d.quitGame();
 
   }
 
@@ -223,7 +225,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
   public void actionPerformed(ActionEvent e) {
     System.out.println(e.getActionCommand());
     switch (e.getActionCommand()) {
-      case "North Button" :
+      case "North Button":
         System.out.println("North Button");
         if (direction == Direction.NONE) {
           this.direction = Direction.NORTH;
@@ -233,7 +235,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
         view.resetFocus();
         //this is where you attempt to build the dungeon
         break;
-      case "South Button" :
+      case "South Button":
         System.out.println("South Button");
         if (direction == Direction.NONE) {
           this.direction = Direction.SOUTH;
@@ -245,7 +247,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
         //this is where you attempt to build the dungeon
         break;
 
-      case "East Button" :
+      case "East Button":
         System.out.println("East Button");
         if (direction == Direction.NONE) {
           this.direction = Direction.EAST;
@@ -257,7 +259,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
         //this is where you attempt to build the dungeon
         break;
 
-      case "West Button" :
+      case "West Button":
         System.out.println("West Button");
         view.resetFocus();
         if (direction == Direction.NONE) {
@@ -270,115 +272,116 @@ public class ViewController implements VController, ActionListener, KeyListener 
         //this is where you attempt to build the dungeon
         break;
 
-      case "Move Button" :
-        if (actionEnum == ActionEnum.NONE) {
-          this.actionEnum = ActionEnum.MOVE;
-          try {
-            //String element = scan.next();
-            System.out.println("Move Button Pressed");
-            System.out.println("hit the move try");
-            String moveString = currDungeon.movePlayer(direction);
-            this.direction = Direction.NONE;
-            this.actionEnum = ActionEnum.NONE;
-            System.out.println(moveString);
-            view.updateStatus(moveString);
-            view.getUpdater(currDungeon.getStatusUpdater());
-            view.makeVisible();
-            view.refresh();
-            view.resetFocus();
-            System.out.println(moveString + "\n");
-          } catch (IllegalArgumentException iae) {
-            System.out.println(iae.getMessage() + "\n");
-            this.actionEnum = ActionEnum.NONE;
-            this.direction = Direction.NONE;
-            this.pickup = PickupEnum.NONE;
+      case "Move Button":
+        while (!this.currDungeon.isGameOver()) {
+          if (actionEnum == ActionEnum.NONE) {
+            this.actionEnum = ActionEnum.MOVE;
+            try {
+              //String element = scan.next();
+              System.out.println("Move Button Pressed");
+              System.out.println("hit the move try");
+              String moveString = currDungeon.movePlayer(direction);
+              this.direction = Direction.NONE;
+              this.actionEnum = ActionEnum.NONE;
+              System.out.println(moveString);
+              view.updateStatus(moveString);
+              view.getUpdater(currDungeon.getStatusUpdater());
+              view.makeVisible();
+              view.refresh();
+              view.resetFocus();
+              System.out.println(moveString + "\n");
+            } catch (IllegalArgumentException iae) {
+              System.out.println(iae.getMessage() + "\n");
+              this.actionEnum = ActionEnum.NONE;
+              this.direction = Direction.NONE;
+              this.pickup = PickupEnum.NONE;
+            }
           }
+
+          this.actionEnum = ActionEnum.NONE;
+          this.pickup = PickupEnum.NONE;
+          this.direction = Direction.NONE;
+          view.resetFocus();
         }
-        //String temp = currDungeon.movePlayer(direction);
-        //System.out.println(temp);
-
-        this.actionEnum = ActionEnum.NONE;
-        this.pickup = PickupEnum.NONE;
-        this.direction = Direction.NONE;
-        view.resetFocus();
-
-
         //this is where you attempt to build the dungeon
         break;
 
-      case "Shoot Button" :
+      case "Shoot Button":
         System.out.println("Shoot Button Pressed");
         view.resetFocus();
-        if (actionEnum == ActionEnum.NONE) {
-          this.actionEnum = ActionEnum.SHOOT;
-          try {
-            //String element = scan.next();
-            System.out.println("hit the shoot try");
-            String shootString = currDungeon.shootArrow(distance, direction);
-            this.direction = Direction.NONE;
-            this.actionEnum = ActionEnum.NONE;
-            System.out.println("first shoot string print" + shootString);
-            view.updateStatus(shootString);
-            view.getUpdater(currDungeon.getStatusUpdater());
-            System.out.println(shootString + "\n");
-            view.makeVisible();
-            view.refresh();
-            view.resetFocus();
-          } catch (IllegalArgumentException iae) {
-            System.out.println(iae.getMessage() + "\n");
-            this.actionEnum = ActionEnum.NONE;
-            this.direction = Direction.NONE;
-            this.pickup = PickupEnum.NONE;
+        while (!this.currDungeon.isGameOver()) {
+          if (actionEnum == ActionEnum.NONE) {
+            this.actionEnum = ActionEnum.SHOOT;
+            try {
+              //String element = scan.next();
+              System.out.println("hit the shoot try");
+              String shootString = currDungeon.shootArrow(distance, direction);
+              this.direction = Direction.NONE;
+              this.actionEnum = ActionEnum.NONE;
+              System.out.println("first shoot string print" + shootString);
+              view.updateStatus(shootString);
+              view.getUpdater(currDungeon.getStatusUpdater());
+              System.out.println(shootString + "\n");
+              view.makeVisible();
+              view.refresh();
+              view.resetFocus();
+            } catch (IllegalArgumentException iae) {
+              System.out.println(iae.getMessage() + "\n");
+              this.actionEnum = ActionEnum.NONE;
+              this.direction = Direction.NONE;
+              this.pickup = PickupEnum.NONE;
+            }
           }
+          this.actionEnum = ActionEnum.NONE;
+          this.pickup = PickupEnum.NONE;
+          this.direction = Direction.NONE;
+          view.resetFocus();
         }
-        this.actionEnum = ActionEnum.NONE;
-        this.pickup = PickupEnum.NONE;
-        this.direction = Direction.NONE;
-        view.resetFocus();
         break;
 
-      case "Pickup Button" :
+      case "Pickup Button":
         System.out.println("Pickup Button");
-        if (actionEnum == ActionEnum.NONE) {
-          this.actionEnum = ActionEnum.PICKUP;
-          try {
-            //String element = scan.next();
-            System.out.println("p key Pressed");
-            System.out.println("hit the pickup p key try");
-            int temp = 0;
-            System.out.println("value of pickup enum: " + this.pickup);
-            if (pickup == PickupEnum.TREASURE) {
-              //temp already set
-            } else if (pickup == PickupEnum.ARROW) {
-              temp = 1;
-            } else {
-              temp = 2;
+        while (!this.currDungeon.isGameOver()) {
+          if (actionEnum == ActionEnum.NONE) {
+            this.actionEnum = ActionEnum.PICKUP;
+            try {
+              //String element = scan.next();
+              System.out.println("p key Pressed");
+              System.out.println("hit the pickup p key try");
+              int temp = 0;
+              System.out.println("value of pickup enum: " + this.pickup);
+              if (pickup == PickupEnum.TREASURE) {
+                //temp already set
+              } else if (pickup == PickupEnum.ARROW) {
+                temp = 1;
+              } else {
+                temp = 2;
+              }
+              String pickupString = currDungeon.pickUpItem(temp);
+              this.pickup = PickupEnum.NONE;
+              this.actionEnum = ActionEnum.NONE;
+              System.out.println(pickupString);
+              view.updateStatus(pickupString);
+              view.getUpdater(currDungeon.getStatusUpdater());
+              view.makeVisible();
+              view.refresh();
+              view.resetFocus();
+            } catch (IllegalArgumentException iae) {
+              System.out.println(iae.getMessage() + "\n");
+              this.actionEnum = ActionEnum.NONE;
+              this.direction = Direction.NONE;
+              this.pickup = PickupEnum.NONE;
             }
-            String pickupString = currDungeon.pickUpItem(temp);
-            this.pickup = PickupEnum.NONE;
-            this.actionEnum = ActionEnum.NONE;
-            System.out.println(pickupString);
-            view.updateStatus(pickupString);
-            view.getUpdater(currDungeon.getStatusUpdater());
-            view.makeVisible();
-            view.refresh();
-            view.resetFocus();
-          } catch (IllegalArgumentException iae) {
-            System.out.println(iae.getMessage() + "\n");
-            this.actionEnum = ActionEnum.NONE;
-            this.direction = Direction.NONE;
-            this.pickup = PickupEnum.NONE;
           }
+          this.actionEnum = ActionEnum.NONE;
+          this.pickup = PickupEnum.NONE;
+          this.direction = Direction.NONE;
+          view.resetFocus();
         }
-        this.actionEnum = ActionEnum.NONE;
-        this.pickup = PickupEnum.NONE;
-        this.direction = Direction.NONE;
-        view.resetFocus();
-
         //this is where you attempt to build the dungeon
         break;
 
-      case "Build Button" :
+      case "Build Button":
         System.out.println("Build Button in controller");
         view.resetFocus();
         BuildStructure newDungeon = view.getBuilder();
@@ -393,7 +396,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
           Player player = new PlayerImpl();
           Dungeon freshDungeon = new DungeonImpl(newDungeon.getWraps(), newDungeon.getRows(),
                   newDungeon.getCols(), newDungeon.getInter(), newDungeon.getTreas(), player,
-                  newDungeon.getDiff(), 0);
+                  newDungeon.getDiff(), rand.getRandomNumber(Integer.MIN_VALUE, Integer.MAX_VALUE));
           this.startString = freshDungeon.getDungeon();
           view.setModel(freshDungeon);
           this.startDungeon = freshDungeon;
@@ -410,29 +413,10 @@ public class ViewController implements VController, ActionListener, KeyListener 
           //this.playGame(dungeon, viewNew);
           view.updateStatus(this.startString);
           view.getUpdater(startDungeon.getStatusUpdater());
-          //TODO - model is created but view and controller still using wrong model
           view.makeVisible();
           view.resetFocus();
           view.refresh();
 
-//          this.startString = startDungeon.getDungeon();
-//          this.startUpdate = startDungeon.getStatusUpdater();
-//          view.updateStatus(this.startString);
-//          view.getUpdater(startDungeon.getStatusUpdater());
-//          this.view.makeVisible();
-//          this.view.refresh();
-//          this.view.resetFocus();
-//          this.currDungeon = this.startDungeon;
-//          playGame(this.startDungeon, this.view);
-
-          ///TODO - need to remove old panel
-//          view.updateStatus(this.startString);
-//          view.getUpdater(dungeon.getStatusUpdater());
-//          this.view.makeVisible();
-//          this.view.refresh();
-//          this.view.resetFocus();
-//          this.currDungeon = dungeon;
-//          playGame(this.currDungeon, this.view);
 
         } catch (IllegalArgumentException iae) {
 
@@ -443,22 +427,85 @@ public class ViewController implements VController, ActionListener, KeyListener 
         //this is where you attempt to build the dungeon
         break;
 
-      case "Quit Game" :
+      case "Quit Game":
         System.out.println("quit game");
         this.startDungeon.quitGame();
         System.exit(0);
         break;
 
-      case "Build New" :
+      case "Restart New Dungeon":
         System.out.println("Build new Dungeon in controller");
+        try {
+          Player player = new PlayerImpl();
+          Dungeon freshDungeon = new DungeonImpl(this.currDungeon.getWrapping(),
+                  this.currDungeon.getGameBoardRows(), this.currDungeon.getGameBoardCols(),
+                  this.currDungeon.getInterConnect(), this.currDungeon.getTreasurePer(), player,
+                  this.currDungeon.getDifficulty(), rand.getRandomNumber(Integer.MIN_VALUE,
+                  Integer.MAX_VALUE));
+          this.startString = freshDungeon.getDungeon();
+          view.setModel(freshDungeon);
+          this.startDungeon = freshDungeon;
+          this.builder = null;
+          this.actionEnum = ActionEnum.NONE;
+          this.direction = Direction.NONE;
+          this.pickup = PickupEnum.NONE;
+          this.distance = 0;
+          this.currDungeon = freshDungeon;
+          System.out.println("new start String: " + this.startString);
+          this.startUpdate = freshDungeon.getStatusUpdater();
+          //view.resetPanel(freshDungeon);
+//          IDungeonView viewNew = new DungeonViewImpl(dungeon);
+          //this.playGame(dungeon, viewNew);
+          view.updateStatus(this.startString);
+          view.getUpdater(startDungeon.getStatusUpdater());
+          view.makeVisible();
+          view.resetFocus();
+          view.refresh();
+
+
+        } catch (IllegalArgumentException iae) {
+
+        } catch (IllegalStateException ise) {
+
+        }
         break;
 
-      case "Restart Same Dungeon" :
-        System.out.println("restart dungeon");
-        //do something
+      case "Restart Same Dungeon":
+        System.out.println("restart dungeon in the controller");
+        try {
+          Player player = new PlayerImpl();
+          Dungeon freshDungeon = new DungeonImpl(this.currDungeon.getWrapping(), this.currDungeon.getGameBoardRows(),
+                  this.currDungeon.getGameBoardCols(), this.currDungeon.getInterConnect(), this.currDungeon.getTreasurePer(), player,
+                  this.currDungeon.getDifficulty(), this.currDungeon.getSeed());
+          this.startString = freshDungeon.getDungeon();
+          view.setModel(freshDungeon);
+          this.startDungeon = freshDungeon;
+          this.builder = null;
+          this.actionEnum = ActionEnum.NONE;
+          this.direction = Direction.NONE;
+          this.pickup = PickupEnum.NONE;
+          this.distance = 0;
+          this.currDungeon = freshDungeon;
+          System.out.println("new start String: " + this.startString);
+          this.startUpdate = freshDungeon.getStatusUpdater();
+          //view.resetPanel(freshDungeon);
+//          IDungeonView viewNew = new DungeonViewImpl(dungeon);
+          //this.playGame(dungeon, viewNew);
+          view.updateStatus(this.startString);
+          view.getUpdater(startDungeon.getStatusUpdater());
+          view.makeVisible();
+          view.resetFocus();
+          view.refresh();
+
+
+        } catch (IllegalArgumentException iae) {
+
+        } catch (IllegalStateException ise) {
+
+        }
         break;
 
-      case "menuQuit" :
+      case "menuQuit":
         System.out.println("quit menu option");
         break;
     }
@@ -467,6 +514,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
       System.out.println("caught the reset bug");
     }
 
+//
 
   }
 

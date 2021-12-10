@@ -53,6 +53,7 @@ class BoardPanel extends JPanel {
     String directoryPath = "/res/dungeon-images/";
 
     ///Users/Owner/Documents/CS5010/Project5_Graphical_Adventure_Game/src/view/emerald.png
+
     try {
       pathBase = Path.of(new File(".").getCanonicalPath());
     } catch (IOException e) {
@@ -81,7 +82,7 @@ class BoardPanel extends JPanel {
 
     //check for treasure and add if necessary
     if (currentLocation.getTreasureList().size() != 0) {
-      for (int i = 0; i < currentLocation.getTreasureList().size(); i ++) {
+      for (int i = 0; i < currentLocation.getTreasureList().size(); i++) {
         if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Ruby")) {
           try {
             finalImage = overlay2D(finalImage, pathBase + directoryPath + "ruby.png", 0, 0);
@@ -107,7 +108,7 @@ class BoardPanel extends JPanel {
       }
     }
 
-    if(currentLocation != null) {
+    if (currentLocation != null) {
       if (currentLocation.getArrowListSize() > 0) {
         try {
           finalImage = overlay2D(finalImage, pathBase + directoryPath + "arrow-white.png", 10, 10);
@@ -164,12 +165,13 @@ class BoardPanel extends JPanel {
     if (finalImage != null) {
       DungeonImage temp = new DungeonImage(finalImage, x, y);
       this.dungeonList.add(temp);
-      for (int i = 0; i < this.dungeonList.size(); i ++) {
+      for (int i = 0; i < this.dungeonList.size(); i++) {
         g2d.drawImage(this.dungeonList.get(i).getCave(), this.dungeonList.get(i).getX(), this.dungeonList.get(i).getY(), null);
       }
     }
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 50));
   }
+
 
   private BufferedImage overlayItems(BufferedImage starting, String fpath, int offset) throws IOException {
     BufferedImage overlay = ImageIO.read(new File(fpath));
