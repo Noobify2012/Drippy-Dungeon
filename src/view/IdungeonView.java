@@ -3,16 +3,14 @@ package view;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-
 import javax.swing.*;
-
 import controller.Controller;
 import controller.ViewController;
 import model.Dungeon;
 import model.ReadOnlyDungeon;
 import model.Updater;
 
-public interface IDungeonView {
+public interface IdungeonView {
 
   void setListeners(ActionListener clicks, KeyListener keys);
 

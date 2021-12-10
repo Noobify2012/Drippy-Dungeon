@@ -5,30 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
-import javax.swing.text.View;
-
-import controller.VController;
-import controller.ViewController;
-import model.Dungeon;
-import model.DungeonImpl;
-import model.Player;
-import model.PlayerImpl;
 import model.ReadOnlyDungeon;
 import model.Updater;
 
-public class DungeonViewImpl extends JFrame implements IDungeonView {
+public class DungeonViewImpl extends JFrame implements IdungeonView {
   private BoardPanel boardPanel;
   private JMenuBar menuBar;
   private JMenu menu;
-  private JMenuItem menuQuit, buildDungeon, restartDungeon , restartNewDungeon;
+  private JMenuItem menuQuit;
+  private JMenuItem buildDungeon;
+  private JMenuItem restartDungeon;
+  private JMenuItem restartNewDungeon;
   private ArrayList<String> buildList;
   private JButton northButton;
   private JButton southButton;
@@ -53,31 +44,18 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
 
   public DungeonViewImpl(ReadOnlyDungeon model) {
     super("Graphical Adventure Game");
-    this.setSize(1000,1000);
+    this.setSize(1000, 1000);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     this.model = model;
-    //this.setLayout(new FlowLayout());
-    //this.setLayout(new GridLayout());
-    //this.setJMenuBar();
-    //JFrame frame = new JFrame("not Graphical Adventure Game");
-    //JPanel dungeonPanel = new JPanel();
-    //frame.setLayout(new BorderLayout());
-    //frame.add(buildMenuBar());
     boardPanel = new BoardPanel(model);
     boardPanel.setPreferredSize(new Dimension(1200, 1200));
     boardPane = new JScrollPane(boardPanel);
-    //boardPane.setPreferredSize(new Dimension((model.getGameBoardCols() * 100) + 400, (model.getGameBoardRows() * 100) + 400));
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(boardPane, "Center");
-//    JScrollPane scrollPane = new JScrollPane(dungeonPanel);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-    //add(boardPanel);
     this.buildList = new ArrayList<String>();
     this.setJMenuBar(buildMenuBar());
-    //this.setSize(1000, 1000);
     this.setVisible(true);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     directionPanel = new JPanel();
@@ -97,7 +75,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.add(directionPanel, "East");
 
     //action panel build out
-    actionPanel = new JPanel(new GridLayout(3,1));
+    actionPanel = new JPanel(new GridLayout(3, 1));
     moveButton = new JButton("Move");
     moveButton.setActionCommand("Move Button");
     moveButton.setMnemonic(KeyEvent.VK_M);
@@ -119,14 +97,11 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
 
     //build Status panel
     statusPanel = new StatusPanel(model);
-    statusPanel.setPreferredSize(new Dimension(500,400));
+    statusPanel.setPreferredSize(new Dimension(500, 400));
     statusPane = new JScrollPane(statusPanel);
     //statusPane.setPreferredSize(new Dimension(200, 100));
     statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//    JScrollPane statusPane = new JScrollPane(statusPanel);
-//    statusPane.setPreferredSize(new Dimension(300,300));
-//    statusPane.add(statusPanel);
     this.add(statusPane, "South");
     this.refresh();
     //this.repaint();
@@ -282,14 +257,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
       for (int i = 0; i < buildList.size(); i++) {
         System.out.println(buildList.get(i));
       }
-
-
-
-
-//    }
-//    return null;
     }
-
   }
 
   @Override
@@ -319,10 +287,11 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   @Override
   public void resetPanel(ReadOnlyDungeon newModel) {
     //TODO - test this
-//    super.remove(boardPane);
     removeBoard();
     removeStatus();
-    System.out.println("row of the new model " + newModel.getPlayerLocation().getRow() + " column of new model " + newModel.getPlayerLocation().getColumn() + " possible Directions " + newModel.getPlayerLocation().getDirectionList());
+    System.out.println("row of the new model " + newModel.getPlayerLocation().getRow()
+            + " column of new model " + newModel.getPlayerLocation().getColumn()
+            + " possible Directions " + newModel.getPlayerLocation().getDirectionList());
 
     this.getContentPane().invalidate();
     this.getContentPane().revalidate();
@@ -330,7 +299,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.revalidate();
     this.refresh();
     this.model = newModel;
-    System.out.println("row of the model " + model.getPlayerLocation().getRow() + " column of new model " + model.getPlayerLocation().getColumn() + " possible Directions " + model.getPlayerLocation().getDirectionList());
+    System.out.println("row of the model " + model.getPlayerLocation().getRow()
+            + " column of new model " + model.getPlayerLocation().getColumn()
+            + " possible Directions " + model.getPlayerLocation().getDirectionList());
 
 
     //build new and add boardpanel
@@ -341,16 +312,15 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(boardPane, "Center");
-//
-//    //do the same for status panel
+
+    //do the same for status panel
     statusPanel = new StatusPanel(model);
-    statusPanel.setPreferredSize(new Dimension(500,400));
+    statusPanel.setPreferredSize(new Dimension(500, 400));
     statusPane = new JScrollPane(statusPanel);
     statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(statusPane, "South");
     this.refresh();
-
   }
 
   void removeBoard() {
@@ -381,11 +351,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //add menu item to the menu
     menu.add(buildDungeon);
     buildDungeon.setActionCommand("Build New");
-     buildDungeon.addActionListener(
-            new ActionListener() {
+    buildDungeon.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("build new dungeon selected");
         getDungeon();
       }
     });
@@ -397,32 +365,15 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     restartNewDungeon = new JMenuItem("Restart New Dungeon");
     restartNewDungeon.setActionCommand("Restart New Dungeon");
     menu.add(restartNewDungeon);
-//    restartDungeon.addActionListener(
-//            new ActionListener() {
-//
-//      //TODO - figure out how to call restart dungeon in the view controller
-//      @Override
-//      public void actionPerformed(ActionEvent e) {
-//        System.out.println("restart same selected");
-//
-//      }
-//    });
     menu.addSeparator();
     menuQuit = new JMenuItem("Quit Game");
     menuQuit.setActionCommand("Quit Game");
-//    menuQuit.addActionListener(new ActionListener() {
-//      @Override
-//      public void actionPerformed(ActionEvent e) {
-//        System.exit(0);
-//      }
-//    });
-
     menu.add(menuQuit);
-
     //add menu to menu bar
     menuBar.add(menu);
     return menuBar;
   }
+
   @Override
   public void setModel(ReadOnlyDungeon dungeon) {
     if (dungeon == null) {

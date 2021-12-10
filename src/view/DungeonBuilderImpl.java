@@ -8,7 +8,8 @@ public class DungeonBuilderImpl implements DungeonBuilder {
   private int treasure;
   private int difficulty;
 
-  public DungeonBuilderImpl(boolean wrapping, int row, int col, int inter, int treasure, int difficulty) {
+  public DungeonBuilderImpl(boolean wrapping, int row, int col, int inter, int treasure,
+                            int difficulty) {
     this.wrapping = wrapping;
     this.row = row;
     this.col = col;
@@ -85,7 +86,7 @@ public class DungeonBuilderImpl implements DungeonBuilder {
    * have arrows in the new dungeon.
    *
    * @return An integer between 0 and 100 for the percentage of arrows and treasure in the new
-   * dungeon.
+   *         dungeon.
    */
   @Override
   public int getTreas() {

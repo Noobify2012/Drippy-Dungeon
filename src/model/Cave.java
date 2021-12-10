@@ -232,7 +232,7 @@ public class Cave extends AbstractLocation {
     return this.leprechaun.get(0);
   }
 
-  void addDirectionToList (Direction direction) {
+  void addDirectionToList(Direction direction) {
     this.directionList.add(direction);
   }
 

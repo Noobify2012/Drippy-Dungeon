@@ -4,13 +4,13 @@ import java.awt.image.BufferedImage;
 
 public class DungeonImage {
   private BufferedImage cave;
-  private int x;
-  private int y;
+  private int xCoord;
+  private int yCoord;
 
   public DungeonImage(BufferedImage cave, int x, int y) {
     this.cave = cave;
-    this.x = x;
-    this.y = y;
+    this.xCoord = x;
+    this.yCoord = y;
   }
 
   BufferedImage getCave() {
@@ -19,12 +19,12 @@ public class DungeonImage {
   }
 
   int getX() {
-    int temp = this.x;
+    int temp = this.xCoord;
     return temp;
   }
 
   int getY() {
-    int temp = this.y;
+    int temp = this.yCoord;
     return temp;
   }
 }

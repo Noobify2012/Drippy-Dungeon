@@ -10,10 +10,8 @@ import java.nio.Buffer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 import model.Cave;
 import model.Direction;
 import model.ReadOnlyDungeon;
@@ -57,13 +55,10 @@ class StatusPanel extends JPanel {
 
     if (statusString != null) {
       g2d.drawString(statusString, 100, 250);
-    } else if (statusString != null && statusString.length() > 65) {
-
     }
     //draw images for status
     Path pathBase = null;
     Path emPath = null;
-    //BufferedImage emeraldNull = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
     BufferedImage emerald = null;
     BufferedImage ruby = null;
     BufferedImage diamond = null;
@@ -72,7 +67,7 @@ class StatusPanel extends JPanel {
     try {
       pathBase = Path.of(new File(".").getCanonicalPath());
     } catch (IOException e) {
-      e.printStackTrace();
+      //don't print out any errors
     }
     //get ruby with base path
     String directoryPath = "/res/dungeon-images/";
@@ -80,29 +75,28 @@ class StatusPanel extends JPanel {
     try {
       arrow = ImageIO.read(new File(pathBase + directoryPath + "arrow-black.png"));
     } catch (IOException e) {
-      e.printStackTrace();
+      //don't print out any errors
     }
-    g2d.drawImage(arrow,50, 58, null );
+    g2d.drawImage(arrow, 50, 58, null);
 
     try {
       ruby = ImageIO.read(new File(pathBase + directoryPath + "ruby.png"));
     } catch (IOException e) {
-      e.printStackTrace();
+      //don't print out any errors
     }
-    g2d.drawImage(ruby,75, 70, null );
+    g2d.drawImage(ruby, 75, 70, null);
 
     try {
       diamond = ImageIO.read(new File(pathBase + directoryPath + "diamond.png"));
     } catch (IOException e) {
-      e.printStackTrace();
+      //don't print out any errors
     }
-    g2d.drawImage(diamond,75, 95, null );
+    g2d.drawImage(diamond, 75, 95, null);
     //build sapphire/emerald
     try {
       emerald = ImageIO.read(new File(pathBase + directoryPath + "emerald.png"));
-              //overlay(emeraldNull, finalEmeraldPath, 0);
     } catch (IOException e) {
-      e.printStackTrace();
+      //don't print out any errors
     }
 
     //draw emerald/sapphire
@@ -121,7 +115,7 @@ class StatusPanel extends JPanel {
       if (this.caveTreasure.size() == 0) {
         g2d.drawString("No treasure here.", 100, 170);
       } else {
-        g2d.drawString("Treasure in this space" + this.caveTreasure, 100, 170);
+        g2d.drawString("Treasure in this space " + getTreasureString(this.caveTreasure), 100, 170);
       }
       if (this.caveArrows == 0) {
         g2d.drawString("No arrows here.", 100, 195);
@@ -165,7 +159,8 @@ class StatusPanel extends JPanel {
     this.pitFall = statusUpdate.getPitFall();
   }
 
-  private BufferedImage overlay(BufferedImage starting, String fpath, int offset) throws IOException {
+  private BufferedImage overlay(BufferedImage starting, String fpath, int offset) throws
+          IOException {
     BufferedImage overlay = ImageIO.read(new File(fpath));
     int w = Math.max(starting.getWidth(), overlay.getWidth());
     int h = Math.max(starting.getHeight(), overlay.getHeight());
@@ -201,5 +196,23 @@ class StatusPanel extends JPanel {
     this.revalidate();
     this.repaint();
     this.setVisible(true);
+  }
+
+  private String getTreasureString(List<Treasure> treasureList) {
+    int rubyInt = 0;
+    int diamondInt = 0;
+    int sapphireInt = 0;
+    for (int t = 0; t < treasureList.size(); t++) {
+      if (treasureList.get(t).getName().equalsIgnoreCase("Ruby")) {
+        rubyInt++;
+      } else if (treasureList.get(t).getName().equalsIgnoreCase("Diamond")) {
+        diamondInt++;
+      } else if (treasureList.get(t).getName().equalsIgnoreCase("Sapphire")) {
+        sapphireInt++;
+      }
+    }
+    String treasureString2 = rubyInt + " rubies, " + diamondInt + " diamonds, "
+            + sapphireInt + " sapphires.";
+    return treasureString2;
   }
 }

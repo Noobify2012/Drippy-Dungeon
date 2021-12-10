@@ -216,7 +216,7 @@ public class DungeonImpl implements Dungeon {
     String initPlayerStat = player.getPlayerStatus(checkSmell(),
             findCaveByIndex(player.getPlayerLocation()));
 
-    String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()),getPitProx());
+    String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()), getPitProx());
 
     String dungeonString = "\n" + initPlayerStat + pitString;
     return dungeonString;
@@ -649,17 +649,17 @@ public class DungeonImpl implements Dungeon {
       //Leprechaun
 
 
-      String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()),getPitProx());
+      String pitString = player.pitCheck(findCaveByIndex(player.getPlayerLocation()), getPitProx());
 
       String thiefString = "";
-      if(findCaveByIndex(player.getPlayerLocation()).getLuckyListSize() != 0) {
+      if (findCaveByIndex(player.getPlayerLocation()).getLuckyListSize() != 0) {
         if (player.getTreasureList().size() == 0) {
           thiefString = findCaveByIndex(player.getPlayerLocation()).getLucky()
                   .stealTreasure(this.player, 0);
         } else {
           if (!stolen) {
             int randPerc = randomNumberGenerator.getRandomNumber(10, 50);
-            int numToSteal = (int) Math.ceil((randPerc * player.getTreasureList().size() / 100) );
+            int numToSteal = (int) Math.ceil((randPerc * player.getTreasureList().size() / 100));
             thiefString = findCaveByIndex(player.getPlayerLocation()).getLucky()
                     .stealTreasure(this.player, numToSteal);
             player.stolenTreasure(numToSteal);
@@ -767,7 +767,7 @@ public class DungeonImpl implements Dungeon {
   public boolean getPitProx() {
     List<Integer> neighborList = new ArrayList<>();
     boolean cliffBool = false;
-    for (int i = 0; i < findCaveByIndex(player.getPlayerLocation()).getNeighbors().size(); i ++) {
+    for (int i = 0; i < findCaveByIndex(player.getPlayerLocation()).getNeighbors().size(); i++) {
       //check if neighbor is pit
       if (findCaveByIndex(findCaveByIndex(player.getPlayerLocation()).getNeighbors().get(i))
               .getPitStatus()) {
@@ -934,7 +934,7 @@ public class DungeonImpl implements Dungeon {
   }
 
   /**
-   * Gets the percentage of treasure that is in the dungeon
+   * Gets the percentage of treasure that is in the dungeon.
    *
    * @return An integer of the percentage of treasure.
    */
@@ -1004,7 +1004,7 @@ public class DungeonImpl implements Dungeon {
 
   private void setPitOfDeath() {
     boolean pitBool = false;
-    while(!pitBool) {
+    while (!pitBool) {
       int pit = randomNumberGenerator.getRandomNumber(0, (rows * columns) - 1);
       if (pit != this.startPoint && pit != this.endPoint) {
         this.pitOfDeath = pit;
@@ -1016,7 +1016,7 @@ public class DungeonImpl implements Dungeon {
 
   private void setLuckyHome() {
     boolean lepBool = false;
-    while(!lepBool) {
+    while (!lepBool) {
       int leprechaun = randomNumberGenerator.getRandomNumber(0, (rows * columns) - 1);
       if (leprechaun != this.startPoint && leprechaun != this.endPoint
               && leprechaun != this.pitOfDeath) {

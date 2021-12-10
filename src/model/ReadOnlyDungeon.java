@@ -2,7 +2,6 @@ package model;
 
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import model.Cave;
 import model.Edge;
 
@@ -55,7 +54,7 @@ public interface ReadOnlyDungeon {
    */
   Updater getStatusUpdater();
 
-  /**Gets the percentage of treasure that is in the dungeon
+  /**Gets the percentage of treasure that is in the dungeon.
    *
    * @return An integer of the percentage of treasure.
    */

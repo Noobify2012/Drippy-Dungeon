@@ -4,22 +4,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import model.Cave;
 import model.Direction;
 import model.Edge;
 import model.ReadOnlyDungeon;
 import model.StatusUpdater;
-import model.Treasure;
-import model.TreasureImpl;
 import model.Updater;
 
 class BoardPanel extends JPanel {
@@ -47,7 +41,6 @@ class BoardPanel extends JPanel {
     Cave currentLocation = model.getPlayerLocation();
     Path pathBase = null;
     Path emPath = null;
-//    g.drawImage()
     BufferedImage currentLoc = null;
     BufferedImage finalImage = null;
     String directoryPath = "/res/dungeon-images/";
@@ -97,7 +90,8 @@ class BoardPanel extends JPanel {
             e.printStackTrace();
           }
           //add diamond to image offset is 2
-        } else if (currentLocation.getTreasureList().get(i).getName().equalsIgnoreCase("Sapphire")) {
+        } else if (currentLocation.getTreasureList().get(i).getName()
+                .equalsIgnoreCase("Sapphire")) {
           //add sapphire/emerald offset is 0
           try {
             finalImage = overlay2D(finalImage, pathBase + directoryPath + "emerald.png", 35, 30);
@@ -150,7 +144,8 @@ class BoardPanel extends JPanel {
     }
 
     //rock image citation: https://www.google.com/search?q=falling+rock&tbm=isch&chips=q:falling
-    // +rock,g_1:clipart:sRh-rYy3tFI%3D&hl=en&sa=X&ved=2ahUKEwiapsrT4NT0AhW5BlkFHWb9DogQ4lYoAHoECAEQEQ&biw=2543&bih=1278#imgrc=hj0HpQPDYGvjMM
+    // +rock,g_1:clipart:sRh-rYy3tFI%3D&hl=en&sa=X&ved=2ahUKEwiapsrT4NT0AhW5BlkFHWb9DogQ4lYoAHo
+    // ECAEQEQ&biw=2543&bih=1278#imgrc=hj0HpQPDYGvjMM
     if (model.getPitProx()) {
       try {
         finalImage = overlayItems(finalImage, pathBase + directoryPath + "rocks.png", 0);
@@ -166,14 +161,16 @@ class BoardPanel extends JPanel {
       DungeonImage temp = new DungeonImage(finalImage, x, y);
       this.dungeonList.add(temp);
       for (int i = 0; i < this.dungeonList.size(); i++) {
-        g2d.drawImage(this.dungeonList.get(i).getCave(), this.dungeonList.get(i).getX(), this.dungeonList.get(i).getY(), null);
+        g2d.drawImage(this.dungeonList.get(i).getCave(), this.dungeonList.get(i).getX(),
+                this.dungeonList.get(i).getY(), null);
       }
     }
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 50));
   }
 
 
-  private BufferedImage overlayItems(BufferedImage starting, String fpath, int offset) throws IOException {
+  private BufferedImage overlayItems(BufferedImage starting, String fpath, int offset)
+          throws IOException {
     BufferedImage overlay = ImageIO.read(new File(fpath));
     int w = Math.max(starting.getWidth(), overlay.getWidth());
     int h = Math.max(starting.getHeight(), overlay.getHeight());
@@ -184,25 +181,27 @@ class BoardPanel extends JPanel {
     return combined;
   }
 
-  private BufferedImage overlay2D(BufferedImage starting, String fpath, int xOffset, int yOffset) throws IOException {
+  private BufferedImage overlay2D(BufferedImage starting, String fpath, int xoffset, int yoffset)
+          throws IOException {
     BufferedImage overlay = ImageIO.read(new File(fpath));
     int w = Math.max(starting.getWidth(), overlay.getWidth());
     int h = Math.max(starting.getHeight(), overlay.getHeight());
     BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
     Graphics g = combined.getGraphics();
     g.drawImage(starting, 0, 0, null);
-    g.drawImage(overlay, xOffset, yOffset, null);
+    g.drawImage(overlay, xoffset, yoffset, null);
     return combined;
   }
 
-  private BufferedImage overlayBoardTiles(BufferedImage starting, BufferedImage adding, int xOffset, int yOffset) throws IOException {
+  private BufferedImage overlayBoardTiles(BufferedImage starting, BufferedImage adding, int xoffset,
+                                          int yoffset) throws IOException {
     BufferedImage overlay = adding;
     int w = Math.max(starting.getWidth(), overlay.getWidth());
     int h = Math.max(starting.getHeight(), overlay.getHeight());
     BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
     Graphics g = combined.getGraphics();
     g.drawImage(starting, 0, 0, null);
-    g.drawImage(overlay, xOffset, yOffset, null);
+    g.drawImage(overlay, xoffset, yoffset, null);
     return combined;
   }
 
@@ -259,20 +258,19 @@ class BoardPanel extends JPanel {
 
   void clearBoard() {
     this.dungeonList = new ArrayList<>();
-//    this.currentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
   }
 
   void setModel(ReadOnlyDungeon model) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model can't be null");
-      }
-      this.statusUpdater = null;
-      this.model = model;
-      this.dungeonList = new ArrayList<>();
-      this.invalidate();
-      this.revalidate();
-      this.repaint();
-      this.setVisible(true);
+    if (model == null) {
+      throw new IllegalArgumentException("Model can't be null");
     }
+    this.statusUpdater = null;
+    this.model = model;
+    this.dungeonList = new ArrayList<>();
+    this.invalidate();
+    this.revalidate();
+    this.repaint();
+    this.setVisible(true);
   }
+}
 

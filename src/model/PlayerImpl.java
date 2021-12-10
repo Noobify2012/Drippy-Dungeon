@@ -341,11 +341,11 @@ public class PlayerImpl implements Player {
   //TODO - need to write tests and add updater functionality
   @Override
   public void stolenTreasure(int treasureNum) {
-    for (int i = 0; i < treasureNum; i ++) {
+    for (int i = 0; i < treasureNum; i++) {
       this.treasureList.remove(0);
     }
-    this.statusUpdate.setLuckyEncounter("Oh no our player ran into lucky the leprechaun " +
-            "he stole some of our treasure");
+    this.statusUpdate.setLuckyEncounter("Oh no our player ran into lucky the leprechaun "
+            + "he stole some of our treasure");
   }
 
   @Override

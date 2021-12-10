@@ -71,7 +71,8 @@ public interface Dungeon extends ReadOnlyDungeon {
   /**A player attempting to pick up an item(treasure, arrow, or both.
    *
    * @param option an integer value of the item that would like to be attempted to be picked up. 0
-   *               is for picking up arrows, 1 for picking up treasure, 2 for both arrows and treasure.
+   *               is for picking up arrows, 1 for picking up treasure, 2 for both arrows and
+   *               treasure.
    * @return a string indicating the result of the player attempting to pick up.
    */
   String pickUpItem(int option);

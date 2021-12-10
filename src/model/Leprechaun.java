@@ -16,23 +16,23 @@ public class Leprechaun implements Thief {
    * @param player   The player is passed to the leprechaun in order to allow them to steal the
    *                 treasure from the player.
    * @param treasureNum The number of pieces of treasure to be taken from the player by Lucky the
-   *    *               Leprechaun.
+   *                    Leprechaun.
    */
   @Override
   public String stealTreasure(Player player, int treasureNum) {
     String stealString = "";
     if (treasureNum < 0 || treasureNum > player.getTreasureList().size()) {
-      throw new IllegalArgumentException("You cannot take less than 0 items or more than the" +
-              " player has");
+      throw new IllegalArgumentException("You cannot take less than 0 items or more than the"
+              + " player has");
     }
     if (player.getTreasureList().size() == 0) {
       stealString = "Lucky the Leprechaun wasn't so lucky because our player is broke";
     } else {
-      for (int l = 0; l < treasureNum; l ++) {
+      for (int l = 0; l < treasureNum; l++) {
         stolenTreasure.add(player.getTreasureList().get(l));
         stealString = "Lucky the Leprechaun got lucky and stole "
-                + getTreasureString(stolenTreasure) + " from our player and disappears into thin " +
-                "air never to be seen again!";
+                + getTreasureString(stolenTreasure) + " from our player and disappears into thin "
+                + "air never to be seen again!";
       }
 
     }

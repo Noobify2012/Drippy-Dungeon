@@ -64,11 +64,17 @@ public class StatusUpdater implements Updater {
     this.diamondCount = count;
   }
 
-  void setSapphireCount(int count) {this.sapphireCount = count;}
+  void setSapphireCount(int count) {
+    this.sapphireCount = count;
+  }
 
-  void setArrowCount(int count) {this.arrowCount =  count;}
+  void setArrowCount(int count) {
+    this.arrowCount =  count;
+  }
 
-  void setSmell(int count) {this.smell = count;}
+  void setSmell(int count) {
+    this.smell = count;
+  }
 
   void setDirectionList(List<Direction> directionList) {
     this.directionList = directionList;
@@ -82,7 +88,9 @@ public class StatusUpdater implements Updater {
     this.arrowListSize = arrowList;
   }
 
-  void setShotString(String shotString) { this.shotString = shotString;}
+  void setShotString(String shotString) {
+    this.shotString = shotString;
+  }
 
 
   /**

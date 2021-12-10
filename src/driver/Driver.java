@@ -1,17 +1,16 @@
 package driver;
 
 import controller.ConsoleController;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-
 import controller.Controller;
 import controller.ViewController;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
 import view.DungeonViewImpl;
-import view.IDungeonView;
+import view.IdungeonView;
 
 
 /**
@@ -31,9 +30,9 @@ public class Driver {
     //TODO - provide clear indication of results of actions
     if (args.length < 6) {
       Player throwAwayPlayer = new PlayerImpl();
-      Dungeon defaultDungeon = new DungeonImpl(false, 10, 10,0,
+      Dungeon defaultDungeon = new DungeonImpl(false, 10, 10, 0,
               50, throwAwayPlayer, 10, 0);
-      IDungeonView throwAwayView = new DungeonViewImpl(defaultDungeon);
+      IdungeonView throwAwayView = new DungeonViewImpl(defaultDungeon);
       Controller viewController = new ViewController(defaultDungeon, throwAwayView);
       viewController.buildDungeon();
 
@@ -71,7 +70,7 @@ public class Driver {
         System.out.println(dungeonBuilder + "\n");
         Readable inputs = new InputStreamReader(System.in);
         Appendable output = System.out;
-        IDungeonView throwAway = new DungeonViewImpl(test);
+        IdungeonView throwAway = new DungeonViewImpl(test);
         new ConsoleController(inputs, output).playGame((Dungeon) test, throwAway);
       } catch (IllegalArgumentException iae) {
         System.out.println(iae.getMessage() + "\n");

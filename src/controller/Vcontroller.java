@@ -1,6 +1,6 @@
 package controller;
 
-public interface VController extends Controller {
+public interface Vcontroller extends Controller {
 
   /**
    * Restarts the current dungeon.
@@ -15,6 +15,5 @@ public interface VController extends Controller {
    */
   void handleCellClick(int row, int col);
 
-//  void buildNewDungeon();
 
 }
