@@ -22,12 +22,9 @@ import model.Treasure;
 import model.TreasureImpl;
 import model.Updater;
 
-import static com.sun.tools.doclint.Entity.image;
-import static com.sun.tools.doclint.Entity.nu;
-
 class BoardPanel extends JPanel {
 
-  private final ReadOnlyDungeon model;
+  private ReadOnlyDungeon model;
   private Updater statusUpdater;
   private BufferedImage currentImage;
   private List<DungeonImage> dungeonList;
@@ -35,7 +32,6 @@ class BoardPanel extends JPanel {
   public BoardPanel(ReadOnlyDungeon model) {
     this.model = model;
     this.statusUpdater = new StatusUpdater();
-    this.currentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
     this.dungeonList = new ArrayList<>();
   }
 
@@ -52,8 +48,6 @@ class BoardPanel extends JPanel {
     Path pathBase = null;
     Path emPath = null;
 //    g.drawImage()
-    BufferedImage emeraldNull = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-    BufferedImage emerald = null;
     BufferedImage currentLoc = null;
     BufferedImage finalImage = null;
     String directoryPath = "/res/dungeon-images/";
@@ -263,6 +257,20 @@ class BoardPanel extends JPanel {
 
   void clearBoard() {
     this.dungeonList = new ArrayList<>();
-    this.currentImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+//    this.currentImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
   }
-}
+
+  void setModel(ReadOnlyDungeon model) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model can't be null");
+      }
+      this.statusUpdater = null;
+      this.model = model;
+      this.dungeonList = new ArrayList<>();
+      this.invalidate();
+      this.revalidate();
+      this.repaint();
+      this.setVisible(true);
+    }
+  }
+

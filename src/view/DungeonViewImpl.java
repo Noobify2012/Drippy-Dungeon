@@ -424,6 +424,12 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
       throw new IllegalArgumentException("Model can't be null");
     }
     this.model = dungeon;
+    this.boardPanel.setModel(this.model);
+    this.getContentPane().invalidate();
+    this.getContentPane().revalidate();
+    this.invalidate();
+    this.revalidate();
+    this.repaint();
     this.refresh();
     this.setVisible(true);
     this.resetFocus();

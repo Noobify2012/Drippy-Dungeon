@@ -41,6 +41,9 @@ public class ViewController implements VController, ActionListener, KeyListener 
 
 
   public ViewController(Dungeon startDungeon, IDungeonView view) {
+    if (startDungeon == null || view == null) {
+      throw new IllegalArgumentException("the model or view cannot be null");
+    }
     this.startDungeon = startDungeon;
     this.currentSeed = startDungeon.getSeed();
     this.view = view;
@@ -391,6 +394,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
           Dungeon freshDungeon = new DungeonImpl(newDungeon.getWraps(), newDungeon.getRows(),
                   newDungeon.getCols(), newDungeon.getInter(), newDungeon.getTreas(), player,
                   newDungeon.getDiff(), 0);
+          this.startString = freshDungeon.getDungeon();
           view.setModel(freshDungeon);
           this.startDungeon = freshDungeon;
           this.builder = null;
@@ -398,11 +402,10 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.direction = Direction.NONE;
           this.pickup = PickupEnum.NONE;
           this.distance = 0;
-          this.currDungeon = null;
-          this.startString = freshDungeon.getDungeon();
+          this.currDungeon = freshDungeon;
           System.out.println("new start String: " + this.startString);
           this.startUpdate = freshDungeon.getStatusUpdater();
-          view.resetPanel(freshDungeon);
+          //view.resetPanel(freshDungeon);
 //          IDungeonView viewNew = new DungeonViewImpl(dungeon);
           //this.playGame(dungeon, viewNew);
           view.updateStatus(this.startString);
