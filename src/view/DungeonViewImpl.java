@@ -1,17 +1,40 @@
 package view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.text.NumberFormatter;
 import model.ReadOnlyDungeon;
 import model.Updater;
 
+/**
+ * The implementation of the view in the dungeon graphical game. The view has 4 parts, the board
+ * panel which displays the dungeon as the player moves. The status panel which displays the players
+ * current state and actions. The action panel which has three buttons for moving, shooting, or
+ * picking up items. Finally, is the direction pad which allows the user to click on the 4 primary
+ * direction buttons for moving and shooting.
+ */
 public class DungeonViewImpl extends JFrame implements IdungeonView {
   private BoardPanel boardPanel;
   private JMenuBar menuBar;
@@ -41,7 +64,11 @@ public class DungeonViewImpl extends JFrame implements IdungeonView {
   private JScrollPane statusPane;
 
 
-
+  /**The constructor for the dungeon view that takes in a read only model.
+   *
+   * @param model a read only model for displaying the current state of the dungeon and the player's
+   *              status.
+   */
   public DungeonViewImpl(ReadOnlyDungeon model) {
     super("Graphical Adventure Game");
     this.setSize(1000, 1000);

@@ -3,9 +3,18 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the Leprechaun class which acts as the thief in the dungeon game. The Leprechaun
+ * affectionately known in the game as lucky steals treasure from the player the first time that
+ * the player runs into them. There is only one in the game and he can only strike once.
+ */
 public class Leprechaun implements Thief {
   private List<Treasure> stolenTreasure;
 
+  /**
+   * The constructor for the leprechaun. It doesn't take anything in anything and only has an array
+   * list to store the stolen treasure.
+   */
   public Leprechaun() {
     this.stolenTreasure = new ArrayList<>();
   }
