@@ -1,5 +1,9 @@
 package controller;
 
+/**
+ * The interface for the controller for the view which can handle cell clicks and has a method to
+ * restart the dungeon.
+ */
 public interface Vcontroller extends Controller {
 
   /**

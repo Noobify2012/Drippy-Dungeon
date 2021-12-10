@@ -11,9 +11,9 @@ If re-enabled, the program will print the start cave, end cave, and final list o
 
 # Features
 
--If the user passes 6 command line arguments [wrapping (boolean)] [# of rows (int)] [# of columns (int) ] [level of interconnectivity(int)] [percentage of treasure and arrows (int)] [level of difficulty/# of monsters(int greater than 0)] the game will enter the command line version. 
+- If the user passes 6 command line arguments [wrapping (boolean)] [# of rows (int)] [# of columns (int) ] [level of interconnectivity(int)] [percentage of treasure and arrows (int)] [level of difficulty/# of monsters(int greater than 0)] the game will enter the command line version. 
 
-- Otherwise if they enter no command line arguements then the game will kick off into a default dungeon in the graphical mode using a graphical user interface(GUI). 
+- Otherwise, if they enter no command line arguments then the game will kick off into a default dungeon in the graphical mode using a graphical user interface(GUI). 
 
 - The user has no real interaction with any constructors. The controller passes all of those arguments, once validated at the first level, to the constructor. From there the dungeon and player are automatically built and run.
 
@@ -65,49 +65,41 @@ To move:
 2) either press the "m" key on the keyboard or use your mouse to click the move button in the top part of the window. 
 
 To shoot: 
-1) first give a direction using either the keyboard arrows: up is north, down is south, left is west, right is east, or you can click one of the directional buttons in the window on the right hand side. 
+1) First give a direction using either the keyboard arrows: up is north, down is south, left is west, right is east, or you can click one of the directional buttons in the window on the right hand side. 
 After the command line arguments are read in and the dungeon is constructed, the program will then drop the player in their starting cave telling them what the index is, what items if any are present in the cave, and which directions are available to them. The user will then be prompted to move, shoot, or pick up an item.
-2) give a distance between 0 and 9 by pressing one of the number keys on your keyboard. 
-3) press either the "s" key on your keyboard or click the shoot button in the top part of the window. 
+2) Give a distance between 0 and 9 by pressing one of the number keys on your keyboard. 
+3) Press either the "s" key on your keyboard or click the shoot button in the top part of the window. 
 
 To pick up: 
-1) select the type of item(s) you would like to pick up by either pressing the "a" key for arrows, the "t" key for treasure, or the "b" key for both. 
-2) press the "p" key to execute the pick up.
+1) Select the type of item(s) you would like to pick up by either pressing the "a" key for arrows, the "t" key for treasure, or the "b" key for both. 
+2) Press the "p" key to execute the pickup.
 
 To restart the current dungeon:
-1) click the menu in the upper left hand corner
-2) select restart from the menu
+1) Click the menu in the upper left-hand corner
+2) Select "Restart Same Dungeon" from the menu.
 
-To build a new dungeon:
-1) click the menu in the upper left hand corner
-2) select build new dungeon from the menu, this will generate a popup
-3) select either the wrapping or non-wrapping click box, enter the number of rows, columns, interconnectivity, treasure percentage, and difficulty.
-4) click the builc button.
+To restart a dungeon with the same parameters:
+1) Click the menu in the upper left-hand corner
+2) Select "Restart New Dungeon"  from the menu.
+
+To build a new dungeon with different parameters:
+1) Click the menu in the upper left-hand corner
+2) Select build new dungeon from the menu, this will generate a popup
+3) Select either the wrapping or non-wrapping click box, enter the number of rows, columns, interconnectivity, treasure percentage, and difficulty.
+4) Click the build button.
 
 To quit: 
 Either press the "q" key or
-1) click the menu in the upper left hand corner
-2) select quit game from the menu
+1) Click the menu in the upper left-hand corner
+2) Select quit game from the menu
 
 
 # Description of Examples/Example Runs
 
-## Run 1 -- Run 1.txt:
-1. Generates the dungeon based on the parameters passed(non-wrapping, 4 row by 3 column dungeon, level 0 interconnectivity, 50% treasure and arrows and level 1 difficulty).
-2. It then drops the player in the starting cave and gives their current status.
-3. The player then navigates the dungeon moving from cave to cave  picking up both arrows and treasure at the same time. Then move from cave to another cave where they pick up both arrows and treasure separately. At each step along the way the player's status is printed out which includes if they are in a cave or tunnel, what they currently have in their treasure bag, what direction they can move from that cave(North, South, East, and/or West), how many arrows they have in their quiver, and what treasure and arrows are in that cave that they will pick up.
-4. The player then navigates back to cave 3 and then move north to cave 0 where they shoot an arrow 1 space east and hear a howl as the arrow hits the monster. 
-5. The player then moves east and then south until they smell something "faint but awful(Monster is 2 spaces away) and then "The player smells something awful and strong."(a monster within 1 space or 2 monsters within 2 spaces
-6. The player shoots again and hears "A great howl echos through the dungeon and a loud crash as the monster falls over dead."
-7. The player then moves west where they reach the final cave discovering the monster's body and have reached their end point. 
-8. The game terminates as they have reached their final destination. 
+## Picture of Game running:
+This is an example of my game running. In this picture you can see lucky the leprechaun as well as arrows and GUI.
+![](greene game running.png)
 
-
-## Run 2 -- Run2.txt:
-1. Generates the dungeon based on the parameters passed(non-wrapping, 4 row by 3 column dungeon, level 0 interconnectivity, 50% treasure and arrows and level 1 difficulty).
-2. It then drops the player in the starting cave and gives their current status.
-3. The player navigates north then moves east twice. The player smells something faint but awful. The player then moves south and smells something strong and awful.  
-4. The player then moves west where they are eaten by the monster, "Chomp! Our player was eaten by a Monster."
 
 # Design/Model Changes.
 
@@ -140,7 +132,7 @@ Either press the "q" key or
 # Limitations
 - The player cannot pick up treasure or arrows in the final cave. The program will terminate because they have reached the end point. 
 
-- In its current implementation, when a monster is killed some of the caves will update their smell unless player revisits them. 
+- In its current implementation, when a monster is killed some the caves will update their smell unless player revisits them. 
 
 # Citations. 
 Madhira Datta walked me through how to calculate the maximum number of edges in a graph for wrapping and non wrapping dungeons. I also found the method to condense my treasure enum and factory into one class and adapted that code from https://connected2know.com/programming/java-factory-pattern/. All citations have in line citations.

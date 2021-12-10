@@ -2,6 +2,10 @@ package model;
 
 import java.util.List;
 
+/**
+ * This is the interface for the status updater data structure which provides the action information
+ * for the view so that it can be displayed in the status panel.
+ */
 public interface Updater {
 
   /**Gets the current location of the player from the updater.

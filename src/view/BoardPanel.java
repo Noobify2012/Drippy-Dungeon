@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,7 @@ class BoardPanel extends JPanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
+    //this.setLayout(new GridBagLayout());
     Graphics2D g2d = (Graphics2D) g;
 
     Cave[][] board = model.getGameBoard();
@@ -47,7 +49,7 @@ class BoardPanel extends JPanel {
     BufferedImage finalImage = null;
     String directoryPath = "/res/dungeon-images/";
 
-    ///Users/Owner/Documents/CS5010/Project5_Graphical_Adventure_Game/src/view/emerald.png
+    //Users/Owner/Documents/CS5010/Project5_Graphical_Adventure_Game/src/view/emerald.png
 
     try {
       pathBase = Path.of(new File(".").getCanonicalPath());

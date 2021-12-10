@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * The thief interface which represents a character that steals treasure from the player when they
+ * run into them.
+ */
 public interface Thief {
 
   /**Steals a random percentage of the players treasure when they encounter the Leprechaun.

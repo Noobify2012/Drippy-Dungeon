@@ -2,6 +2,9 @@ package model;
 
 import java.util.List;
 
+/**
+ * A data structure for updating the players status in the graphical version of the game.
+ */
 public class StatusUpdater implements Updater {
   private String location;
   private int rubyCount;
@@ -18,6 +21,10 @@ public class StatusUpdater implements Updater {
   private String shotString;
   private String pickupString;
 
+  /**
+   * The constructor for the status updater which gets the current state of the player to be
+   * displayed in the status panel.
+   */
   public StatusUpdater() {
     this.location = "";
     this.rubyCount = 0;

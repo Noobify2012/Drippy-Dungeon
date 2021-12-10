@@ -23,15 +23,11 @@ public class Driver {
    * @param args this takes in string arguments.
    */
   public static void main(String[] args) {
-
-    //TODO - if command line args run in command line mode, if non-run in view
-    //TODO - build restart and rebuild options
-    //TODO - provide get player description option
     //TODO - provide clear indication of results of actions
     if (args.length < 6) {
       Player throwAwayPlayer = new PlayerImpl();
-      Dungeon defaultDungeon = new DungeonImpl(false, 10, 10, 0,
-              50, throwAwayPlayer, 10, 0);
+      Dungeon defaultDungeon = new DungeonImpl(false, 4, 3, 0,
+              50, throwAwayPlayer, 1, 0);
       IdungeonView throwAwayView = new DungeonViewImpl(defaultDungeon);
       Controller viewController = new ViewController(defaultDungeon, throwAwayView);
       viewController.buildDungeon();
