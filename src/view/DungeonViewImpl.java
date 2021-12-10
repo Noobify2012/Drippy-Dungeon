@@ -147,6 +147,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.restartDungeon.addActionListener(clicks);
     this.buildDungeon.addActionListener(clicks);
     this.buildButton.addActionListener(clicks);
+    this.menuQuit.addActionListener(clicks);
   }
 
   /**
@@ -429,6 +430,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     }
     this.model = dungeon;
     this.boardPanel.setModel(this.model);
+    this.statusPanel.setModel(this.model);
     this.getContentPane().invalidate();
     this.getContentPane().revalidate();
     this.invalidate();

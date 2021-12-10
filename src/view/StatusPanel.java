@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -20,7 +21,7 @@ import model.Treasure;
 import model.Updater;
 
 class StatusPanel extends JPanel {
-  private final ReadOnlyDungeon model;
+  private ReadOnlyDungeon model;
   private String statusString;
   private String locationString;
   private int arrowCount;
@@ -173,5 +174,32 @@ class StatusPanel extends JPanel {
     g.drawImage(starting, 0, 0, null);
     g.drawImage(overlay, offset, offset, null);
     return combined;
+  }
+
+  void setModel(ReadOnlyDungeon model) {
+    if (model == null) {
+      throw new IllegalArgumentException("Model can't be null");
+    }
+    this.statusUpdater = null;
+    this.model = model;
+    this.statusString = "";
+    this.locationString = "";
+    this.arrowCount = 0;
+    this.rubyCount = 0;
+    this.sapphireCount = 0;
+    this.diamondCount = 0;
+    this.smellCount = 0;
+    this.caveArrows = 0;
+    this.directionList = new ArrayList<>();
+    this.caveTreasure = new ArrayList<>();
+    this.monsterEncounter = "";
+    this.luckyEncounter = "";
+    this.pitFall = "";
+    this.shotString = "";
+    this.pickupString = "";
+    this.invalidate();
+    this.revalidate();
+    this.repaint();
+    this.setVisible(true);
   }
 }
