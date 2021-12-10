@@ -43,8 +43,8 @@ public class ViewController implements VController, ActionListener, KeyListener 
   public ViewController(Dungeon startDungeon, IDungeonView view) {
     this.startDungeon = startDungeon;
     this.currentSeed = startDungeon.getSeed();
-    this.builder = null;
     this.view = view;
+    this.builder = null;
     this.actionEnum = ActionEnum.NONE;
     this.direction = Direction.NONE;
     this.pickup = PickupEnum.NONE;
@@ -126,11 +126,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
 //    view.resetFocus();
 
     }
-  private void waitForDungeon(Dungeon d) {
-    while (d == null) {
-      //do nothing
-    }
-  }
 
   private void quitGame(Dungeon d) {
       String quitString = d.quitGame();
@@ -211,70 +206,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
     d.add(b);
     d.setSize(800,100);
     d.setVisible(true);
-//    b.addActionListener(new ActionListener() {
-//      @Override
-//      public void actionPerformed(ActionEvent e) {
-//        if (wrapping.isSelected()) {
-//          buildList.add(0, "true");
-//        } else {
-//          buildList.add(0, "false");
-//        }
-//        try {
-//          int row = Integer.parseInt(interInt.getText());
-//          buildList.add(1, rowInt.getText());
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for row");
-//        }
-//        try {
-//          int col = Integer.parseInt(colInt.getText());
-//          buildList.add(2, colInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for col");
-//        }
-//        try {
-//          int inter = Integer.parseInt(interInt.getText());
-//          buildList.add(3, interInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for inter");
-//        }
-//        try {
-//          int treas = Integer.parseInt(treasInt.getText());
-//          buildList.add(4, treasInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for treas");
-//        }
-//        try {
-//          int diff = Integer.parseInt(diffInt.getText());
-//          buildList.add(5, diffInt.getText());
-//
-//        } catch (NumberFormatException nfe) {
-//          System.out.println("didn't get an int for treas");
-//        }
-//
-//
-//        //newBuild = new DungeonBuilderImpl(wrap, row, col, inter, treas, diff);
-//
-//        d.dispose();
-//      }
-//    });
-
-    if (buildList.size() != 0) {
-      boolean wrap = Boolean.getBoolean(buildList.get(0));
-      int row = Integer.parseInt(buildList.get(1));
-      int col = Integer.parseInt(buildList.get(2));
-      int inter = Integer.parseInt(buildList.get(3));
-      int treas = Integer.parseInt(buildList.get(4));
-      int diff = Integer.parseInt(buildList.get(5));
-      newBuild = new DungeonBuilderImpl(wrap, row, col, inter, treas, diff);
-      System.out.println(newBuild);
-      for (int i = 0; i < buildList.size(); i++) {
-        System.out.println(buildList.get(i));
-      }
-    }
-
 
 
     return newBuild;
@@ -457,19 +388,26 @@ public class ViewController implements VController, ActionListener, KeyListener 
 
         try {
           Player player = new PlayerImpl();
-          Dungeon dungeon = new DungeonImpl(newDungeon.getWraps(), newDungeon.getRows(),
+          Dungeon freshDungeon = new DungeonImpl(newDungeon.getWraps(), newDungeon.getRows(),
                   newDungeon.getCols(), newDungeon.getInter(), newDungeon.getTreas(), player,
                   newDungeon.getDiff(), 0);
-          this.startString = dungeon.getDungeon();
+          view.setModel(freshDungeon);
+          this.startDungeon = freshDungeon;
+          this.builder = null;
+          this.actionEnum = ActionEnum.NONE;
+          this.direction = Direction.NONE;
+          this.pickup = PickupEnum.NONE;
+          this.distance = 0;
+          this.currDungeon = null;
+          this.startString = freshDungeon.getDungeon();
           System.out.println("new start String: " + this.startString);
-          this.startUpdate = dungeon.getStatusUpdater();
-          view.resetPanel(dungeon);
+          this.startUpdate = freshDungeon.getStatusUpdater();
+          view.resetPanel(freshDungeon);
 //          IDungeonView viewNew = new DungeonViewImpl(dungeon);
           //this.playGame(dungeon, viewNew);
           view.updateStatus(this.startString);
           view.getUpdater(startDungeon.getStatusUpdater());
-
-          //TODO - model changes but view and controller still using wrong model
+          //TODO - model is created but view and controller still using wrong model
           view.makeVisible();
           view.resetFocus();
           view.refresh();
@@ -808,27 +746,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
         // handle right
         break;
     }
-//    if (e.getKeyChar() == 'm') {
-//      System.out.print("m means move");
-//    } else if (e.getKeyChar() == 's') {
-//      System.out.print("s means shoot");
-//    } else if (e.getKeyChar() == 'p') {
-//      System.out.print("p means pickup");
-//    } else if (e.getKeyChar() == 'a') {
-//      System.out.print("a means arrows");
-//    } else if (e.getKeyChar() == 't') {
-//      System.out.print("t means treasure");
-//    } else if (e.getKeyChar() == 'b') {
-//      System.out.print("b means both");
-//    } else if (e.getKeyChar() == '1') {
-//      System.out.print("1");
-//    } else if (e.getKeyChar() == '2') {
-//      System.out.print("2");
-//    } else if (e.getKeyChar() == '3') {
-//      System.out.print("3");
-//    } else if (e.getKeyChar() == '4') {
-//      System.out.print("4");
-//    }
+
 
   }
 
@@ -841,28 +759,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
    */
   @Override
   public void keyReleased(KeyEvent e) {
-//    if (e.getKeyChar() == 'm') {
-//      System.out.print("m means move");
-//    } else if (e.getKeyChar() == 's') {
-//      System.out.print("s means shoot");
-//    } else if (e.getKeyChar() == 'p') {
-//      System.out.print("p means pickup");
-//    } else if (e.getKeyChar() == 'a') {
-//      System.out.print("a means arrows");
-//    } else if (e.getKeyChar() == 't') {
-//      System.out.print("t means treasure");
-//    } else if (e.getKeyChar() == 'b') {
-//      System.out.print("b means both");
-//    } else if (e.getKeyChar() == '1') {
-//      System.out.print("1");
-//    } else if (e.getKeyChar() == '2') {
-//      System.out.print("2");
-//    } else if (e.getKeyChar() == '3') {
-//      System.out.print("3");
-//    } else if (e.getKeyChar() == '4') {
-//      System.out.print("4");
-//    }
-
+    //this method is not used because there are no behaviours dependent on key releases
   }
 
   @Override
@@ -902,9 +799,9 @@ public class ViewController implements VController, ActionListener, KeyListener 
   }
 
 
-//  public void setModel(ReadOnlyDungeon newDungeon) {
-//    //
-//    this.view.refresh();
-//    this.view.makeVisible();
-//  }
+  void setModel(Dungeon newDungeon) {
+    //
+    this.view.refresh();
+    this.view.makeVisible();
+  }
 }

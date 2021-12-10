@@ -260,4 +260,9 @@ class BoardPanel extends JPanel {
   void getStatusUpdater(Updater statusUpdate) {
     this.statusUpdater = statusUpdate;
   }
+
+  void clearBoard() {
+    this.dungeonList = new ArrayList<>();
+    this.currentImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+  }
 }

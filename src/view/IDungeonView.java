@@ -38,5 +38,7 @@ public interface IDungeonView {
 
   void resetPanel(ReadOnlyDungeon model);
 
+  void setModel(ReadOnlyDungeon dungeon);
+
 
 }

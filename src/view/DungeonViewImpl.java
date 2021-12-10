@@ -45,6 +45,9 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   private JScrollPane dungeonPanel;
   private ReadOnlyDungeon model;
   private BuildStructure newDungeon;
+  private JScrollPane boardPane;
+  private JFrame test;
+  private JScrollPane statusPane;
 
 
 
@@ -63,7 +66,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //frame.add(buildMenuBar());
     boardPanel = new BoardPanel(model);
     boardPanel.setPreferredSize(new Dimension(1200, 1200));
-    JScrollPane boardPane = new JScrollPane(boardPanel);
+    boardPane = new JScrollPane(boardPanel);
     //boardPane.setPreferredSize(new Dimension((model.getGameBoardCols() * 100) + 400, (model.getGameBoardRows() * 100) + 400));
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -117,7 +120,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     //build Status panel
     statusPanel = new StatusPanel(model);
     statusPanel.setPreferredSize(new Dimension(500,400));
-    JScrollPane statusPane = new JScrollPane(statusPanel);
+    statusPane = new JScrollPane(statusPanel);
     //statusPane.setPreferredSize(new Dimension(200, 100));
     statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -313,39 +316,54 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
   }
 
   @Override
-  public void resetPanel(ReadOnlyDungeon model) {
+  public void resetPanel(ReadOnlyDungeon newModel) {
     //TODO - test this
-    this.getContentPane().removeAll();
-    this.remove(boardPanel);
-    this.repaint();
-    this.refresh();
-    this.getContentPane().remove(boardPanel);
-    //this.remove(boardPanel);
-    this.getContentPane().remove(statusPanel);
-//    this.remove(statusPanel);
-//    this.getContentPane();
+//    super.remove(boardPane);
+    removeBoard();
+    removeStatus();
+    System.out.println("row of the new model " + newModel.getPlayerLocation().getRow() + " column of new model " + newModel.getPlayerLocation().getColumn() + " possible Directions " + newModel.getPlayerLocation().getDirectionList());
+
+    this.getContentPane().invalidate();
+    this.getContentPane().revalidate();
     this.invalidate();
     this.revalidate();
     this.refresh();
-    this.model = model;
+    this.model = newModel;
+    System.out.println("row of the model " + model.getPlayerLocation().getRow() + " column of new model " + model.getPlayerLocation().getColumn() + " possible Directions " + model.getPlayerLocation().getDirectionList());
+
 
     //build new and add boardpanel
     this.boardPanel = new BoardPanel(model);
-    //BoardPanel boardPanel = new BoardPanel(model);
+    BoardPanel boardPanel = new BoardPanel(model);
     boardPanel.setPreferredSize(new Dimension(1200, 1200));
-    JScrollPane boardPane = new JScrollPane(boardPanel);
+    boardPane = new JScrollPane(boardPanel);
     boardPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     boardPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(boardPane, "Center");
-
-    //do the same for status panel
+//
+//    //do the same for status panel
     statusPanel = new StatusPanel(model);
     statusPanel.setPreferredSize(new Dimension(500,400));
-    JScrollPane statusPane = new JScrollPane(statusPanel);
+    statusPane = new JScrollPane(statusPanel);
     statusPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     statusPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     this.add(statusPane, "South");
     this.refresh();
+
+  }
+
+  void removeBoard() {
+    this.remove(boardPanel);
+    this.remove(boardPane);
+    this.refresh();
+    this.repaint();
+    boardPane.repaint();
+    boardPanel.repaint();
+  }
+
+  void removeStatus() {
+    this.remove(statusPanel);
+    this.remove(statusPane);
 
   }
 
@@ -400,7 +418,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     menuBar.add(menu);
     return menuBar;
   }
-
+  @Override
   public void setModel(ReadOnlyDungeon dungeon) {
     if (dungeon == null) {
       throw new IllegalArgumentException("Model can't be null");
