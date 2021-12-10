@@ -396,7 +396,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
           Player player = new PlayerImpl();
           Dungeon freshDungeon = new DungeonImpl(newDungeon.getWraps(), newDungeon.getRows(),
                   newDungeon.getCols(), newDungeon.getInter(), newDungeon.getTreas(), player,
-                  newDungeon.getDiff(), rand.getRandomNumber(Integer.MIN_VALUE, Integer.MAX_VALUE));
+                  newDungeon.getDiff(), rand.getRandomNumber(0,200));
           this.startString = freshDungeon.getDungeon();
           view.setModel(freshDungeon);
           this.startDungeon = freshDungeon;
@@ -440,8 +440,8 @@ public class ViewController implements VController, ActionListener, KeyListener 
           Dungeon freshDungeon = new DungeonImpl(this.currDungeon.getWrapping(),
                   this.currDungeon.getGameBoardRows(), this.currDungeon.getGameBoardCols(),
                   this.currDungeon.getInterConnect(), this.currDungeon.getTreasurePer(), player,
-                  this.currDungeon.getDifficulty(), rand.getRandomNumber(Integer.MIN_VALUE,
-                  Integer.MAX_VALUE));
+                  this.currDungeon.getDifficulty(), rand.getRandomNumber(0, 200));
+
           this.startString = freshDungeon.getDungeon();
           view.setModel(freshDungeon);
           this.startDungeon = freshDungeon;

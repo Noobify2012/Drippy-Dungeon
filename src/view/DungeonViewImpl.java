@@ -143,7 +143,7 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     this.shootButton.addActionListener(clicks);
     this.pickupButton.addActionListener(clicks);
     this.applyButton.addActionListener(clicks);
-//    this.restartNewDungeon.addActionListener(clicks);
+    this.restartNewDungeon.addActionListener(clicks);
     this.restartDungeon.addActionListener(clicks);
     this.buildDungeon.addActionListener(clicks);
     this.buildButton.addActionListener(clicks);
@@ -392,6 +392,10 @@ public class DungeonViewImpl extends JFrame implements IDungeonView {
     restartDungeon = new JMenuItem("Restart Same Dungeon");
     restartDungeon.setActionCommand("Restart Same Dungeon");
     menu.add(restartDungeon);
+
+    restartNewDungeon = new JMenuItem("Restart New Dungeon");
+    restartNewDungeon.setActionCommand("Restart New Dungeon");
+    menu.add(restartNewDungeon);
 //    restartDungeon.addActionListener(
 //            new ActionListener() {
 //
