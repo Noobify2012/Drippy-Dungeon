@@ -21,7 +21,7 @@ import view.BuildStructure;
 import view.DungeonBuilder;
 import view.IdungeonView;
 
-public class ViewController implements vController, ActionListener, KeyListener {
+public class ViewController implements Vcontroller, ActionListener, KeyListener {
   private int currentSeed;
   private DungeonBuilder builder;
   private Dungeon startDungeon;
