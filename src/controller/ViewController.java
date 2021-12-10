@@ -5,26 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
-
 import model.Direction;
 import model.Dungeon;
 import model.DungeonImpl;
 import model.Player;
 import model.PlayerImpl;
-import model.ReadOnlyDungeon;
 import model.Updater;
 import random.RandomNumberGenerator;
 import view.BuildStructure;
 import view.DungeonBuilder;
-import view.DungeonBuilderImpl;
-import view.DungeonViewImpl;
 import view.IDungeonView;
 
 public class ViewController implements VController, ActionListener, KeyListener {
@@ -195,7 +189,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.direction = Direction.NONE;
         }
         view.resetFocus();
-        //this is where you attempt to build the dungeon
         break;
       case "South Button":
         if (direction == Direction.NONE) {
@@ -204,8 +197,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.direction = Direction.NONE;
         }
         view.resetFocus();
-
-        //this is where you attempt to build the dungeon
         break;
 
       case "East Button":
@@ -215,8 +206,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.direction = Direction.NONE;
         }
         view.resetFocus();
-
-        //this is where you attempt to build the dungeon
         break;
 
       case "West Button":
@@ -227,21 +216,19 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.direction = Direction.NONE;
         }
         view.resetFocus();
-
-        //this is where you attempt to build the dungeon
         break;
 
       case "Move Button":
-        while (!this.currDungeon.isGameOver()) {
           if (actionEnum == ActionEnum.NONE) {
             this.actionEnum = ActionEnum.MOVE;
             try {
-              //String element = scan.next();
-              String moveString = currDungeon.movePlayer(direction);
+              if (!this.currDungeon.isGameOver()) {
+                String moveString = currDungeon.movePlayer(direction);
+                view.updateStatus(moveString);
+                view.getUpdater(currDungeon.getStatusUpdater());
+              }
               this.direction = Direction.NONE;
               this.actionEnum = ActionEnum.NONE;
-              view.updateStatus(moveString);
-              view.getUpdater(currDungeon.getStatusUpdater());
               view.makeVisible();
               view.refresh();
               view.resetFocus();
@@ -256,22 +243,21 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.pickup = PickupEnum.NONE;
           this.direction = Direction.NONE;
           view.resetFocus();
-        }
-        //this is where you attempt to build the dungeon
         break;
 
       case "Shoot Button":
         view.resetFocus();
-        while (!this.currDungeon.isGameOver()) {
           if (actionEnum == ActionEnum.NONE) {
             this.actionEnum = ActionEnum.SHOOT;
             try {
               //String element = scan.next();
-              String shootString = currDungeon.shootArrow(distance, direction);
+              if (!this.currDungeon.isGameOver()) {
+                String shootString = currDungeon.shootArrow(distance, direction);
+                view.updateStatus(shootString);
+                view.getUpdater(currDungeon.getStatusUpdater());
+              }
               this.direction = Direction.NONE;
               this.actionEnum = ActionEnum.NONE;
-              view.updateStatus(shootString);
-              view.getUpdater(currDungeon.getStatusUpdater());
               view.makeVisible();
               view.refresh();
               view.resetFocus();
@@ -285,7 +271,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.pickup = PickupEnum.NONE;
           this.direction = Direction.NONE;
           view.resetFocus();
-        }
         break;
 
       case "Pickup Button":
@@ -293,20 +278,20 @@ public class ViewController implements VController, ActionListener, KeyListener 
           if (actionEnum == ActionEnum.NONE) {
             this.actionEnum = ActionEnum.PICKUP;
             try {
-              //String element = scan.next();
               int temp = 0;
               if (pickup == PickupEnum.TREASURE) {
-                //temp already set
               } else if (pickup == PickupEnum.ARROW) {
                 temp = 1;
               } else {
                 temp = 2;
               }
-              String pickupString = currDungeon.pickUpItem(temp);
+              if (!this.currDungeon.isGameOver()) {
+                String pickupString = currDungeon.pickUpItem(temp);
+                view.updateStatus(pickupString);
+                view.getUpdater(currDungeon.getStatusUpdater());
+              }
               this.pickup = PickupEnum.NONE;
               this.actionEnum = ActionEnum.NONE;
-              view.updateStatus(pickupString);
-              view.getUpdater(currDungeon.getStatusUpdater());
               view.makeVisible();
               view.refresh();
               view.resetFocus();
@@ -321,7 +306,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.direction = Direction.NONE;
           view.resetFocus();
         }
-        //this is where you attempt to build the dungeon
         break;
 
       case "Build Button":
@@ -342,9 +326,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.distance = 0;
           this.currDungeon = freshDungeon;
           this.startUpdate = freshDungeon.getStatusUpdater();
-          //view.resetPanel(freshDungeon);
-//          IDungeonView viewNew = new DungeonViewImpl(dungeon);
-          //this.playGame(dungeon, viewNew);
           view.updateStatus(this.startString);
           view.getUpdater(startDungeon.getStatusUpdater());
           view.makeVisible();
@@ -434,7 +415,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
   @Override
   public void keyTyped(KeyEvent e) {
     int keyCode = e.getKeyCode();
-    switch( keyCode ) {
+    switch (keyCode) {
       case KeyEvent.VK_UP:
         if (direction == Direction.NONE) {
           this.direction = Direction.NORTH;
@@ -443,7 +424,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.actionEnum = ActionEnum.NONE;
           this.pickup = PickupEnum.NONE;
         }
-        // handle up
         break;
       case KeyEvent.VK_DOWN:
         if (direction == Direction.NONE) {
@@ -453,7 +433,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.actionEnum = ActionEnum.NONE;
           this.pickup = PickupEnum.NONE;
         }
-        // handle down
         break;
       case KeyEvent.VK_LEFT:
         if (direction == Direction.NONE) {
@@ -463,9 +442,8 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.actionEnum = ActionEnum.NONE;
           this.pickup = PickupEnum.NONE;
         }
-        // handle left
         break;
-      case KeyEvent.VK_RIGHT :
+      case KeyEvent.VK_RIGHT:
         if (direction == Direction.NONE) {
           this.direction = Direction.EAST;
         } else {
@@ -473,18 +451,19 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.actionEnum = ActionEnum.NONE;
           this.pickup = PickupEnum.NONE;
         }
-        // handle right
         break;
     }
     if (e.getKeyChar() == 'm') {
       if (actionEnum == ActionEnum.NONE) {
         this.actionEnum = ActionEnum.MOVE;
         try {
-          String moveString = currDungeon.movePlayer(direction);
+          if (!this.currDungeon.isGameOver()) {
+            String moveString = currDungeon.movePlayer(direction);
+            view.updateStatus(moveString);
+            view.getUpdater(currDungeon.getStatusUpdater());
+          }
           this.direction = Direction.NONE;
           this.actionEnum = ActionEnum.NONE;
-          view.updateStatus(moveString);
-          view.getUpdater(currDungeon.getStatusUpdater());
           view.makeVisible();
           view.refresh();
           view.resetFocus();
@@ -494,6 +473,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.pickup = PickupEnum.NONE;
         }
       }
+
       this.actionEnum = ActionEnum.NONE;
       this.pickup = PickupEnum.NONE;
       this.direction = Direction.NONE;
@@ -502,11 +482,13 @@ public class ViewController implements VController, ActionListener, KeyListener 
       if (actionEnum == ActionEnum.NONE) {
         this.actionEnum = ActionEnum.SHOOT;
         try {
-          String shootString = currDungeon.shootArrow(distance, direction);
+          if (!this.currDungeon.isGameOver()) {
+            String shootString = currDungeon.shootArrow(distance, direction);
+            view.updateStatus(shootString);
+            view.getUpdater(currDungeon.getStatusUpdater());
+          }
           this.direction = Direction.NONE;
           this.actionEnum = ActionEnum.NONE;
-          view.updateStatus(shootString);
-          view.getUpdater(currDungeon.getStatusUpdater());
           view.makeVisible();
           view.refresh();
           view.resetFocus();
@@ -524,7 +506,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
       if (actionEnum == ActionEnum.NONE) {
         this.actionEnum = ActionEnum.PICKUP;
         try {
-          //String element = scan.next();
           int temp = 0;
           if (pickup == PickupEnum.TREASURE) {
             //temp already set
@@ -533,11 +514,13 @@ public class ViewController implements VController, ActionListener, KeyListener 
           } else {
             temp = 2;
           }
-          String pickupString = currDungeon.pickUpItem(temp);
+          if (!this.currDungeon.isGameOver()) {
+            String pickupString = currDungeon.pickUpItem(temp);
+            view.updateStatus(pickupString);
+            view.getUpdater(currDungeon.getStatusUpdater());
+          }
           this.pickup = PickupEnum.NONE;
           this.actionEnum = ActionEnum.NONE;
-          view.updateStatus(pickupString);
-          view.getUpdater(currDungeon.getStatusUpdater());
           view.makeVisible();
           view.refresh();
           view.resetFocus();
@@ -547,6 +530,7 @@ public class ViewController implements VController, ActionListener, KeyListener 
           this.pickup = PickupEnum.NONE;
         }
       }
+//      }
       this.actionEnum = ActionEnum.NONE;
       this.pickup = PickupEnum.NONE;
       this.direction = Direction.NONE;
@@ -594,26 +578,21 @@ public class ViewController implements VController, ActionListener, KeyListener 
       if (this.distance == 0) {
         this.distance = 4;
       }
-    } else if (e.getKeyCode() == 38) {
-    } else if (e.getKeyChar() == KeyEvent.VK_DOWN) {
-    } else if (e.getKeyChar() == KeyEvent.VK_LEFT) {
-    } else if (e.getKeyChar() == KeyEvent.VK_RIGHT) {
     }
 
-  }
-
-  class movePlayer implements Runnable {
-    public void run() {
-      try {
-        //String element = scan.next();
-        String moveString = currDungeon.movePlayer(direction);
-        view.updateStatus(moveString);
-        view.getUpdater(currDungeon.getStatusUpdater());
-      } catch (IllegalArgumentException iae) {
+    class movePlayer implements Runnable {
+      public void run() {
+        try {
+          //String element = scan.next();
+          String moveString = currDungeon.movePlayer(direction);
+          view.updateStatus(moveString);
+          view.getUpdater(currDungeon.getStatusUpdater());
+        } catch (IllegalArgumentException iae) {
+        }
+        view.makeVisible();
+        view.refresh();
+        view.resetFocus();
       }
-      view.makeVisible();
-      view.refresh();
-      view.resetFocus();
     }
   }
 
@@ -650,8 +629,6 @@ public class ViewController implements VController, ActionListener, KeyListener 
         }
         break;
     }
-
-
   }
 
   /**
@@ -700,12 +677,5 @@ public class ViewController implements VController, ActionListener, KeyListener 
   @Override
   public void handleCellClick(int row, int col) {
     System.out.println("Player clicked here: " + row + " " + col);
-  }
-
-
-  void setModel(Dungeon newDungeon) {
-    //
-    this.view.refresh();
-    this.view.makeVisible();
   }
 }
