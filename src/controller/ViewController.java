@@ -229,9 +229,10 @@ public class ViewController implements Vcontroller, ActionListener, KeyListener 
         BuildStructure newDungeon = view.getBuilder();
         try {
           Player player = new PlayerImpl();
+          this.currentSeed = rand.getRandomNumber(0, 200);
           Dungeon freshDungeon = new DungeonImpl(newDungeon.getWraps(), newDungeon.getRows(),
                   newDungeon.getCols(), newDungeon.getInter(), newDungeon.getTreas(), player,
-                  newDungeon.getDiff(), rand.getRandomNumber(0, 200));
+                  newDungeon.getDiff(), this.currentSeed);
           this.startString = freshDungeon.getDungeon();
           view.setModel(freshDungeon);
           this.startDungeon = freshDungeon;
@@ -247,9 +248,11 @@ public class ViewController implements Vcontroller, ActionListener, KeyListener 
           view.resetFocus();
           view.refresh();
         } catch (IllegalArgumentException iae) {
-          //do nothing should already be caught
+          view.updateStatus("Dungeon Couldn't be created enjoy this one or try again");
+          this.restartDungeon();
         } catch (IllegalStateException ise) {
-          //do nothing should already be caught
+          view.updateStatus("Dungeon Couldn't be created enjoy this one or try again");
+          this.restartDungeon();
         }
         break;
 
@@ -261,10 +264,11 @@ public class ViewController implements Vcontroller, ActionListener, KeyListener 
       case "Restart New Dungeon":
         try {
           Player player = new PlayerImpl();
+          this.currentSeed = rand.getRandomNumber(0, 200);
           Dungeon freshDungeon = new DungeonImpl(this.currDungeon.getWrapping(),
                   this.currDungeon.getGameBoardRows(), this.currDungeon.getGameBoardCols(),
                   this.currDungeon.getInterConnect(), this.currDungeon.getTreasurePer(), player,
-                  this.currDungeon.getDifficulty(), rand.getRandomNumber(0, 200));
+                  this.currDungeon.getDifficulty(), this.currentSeed);
 
           this.startString = freshDungeon.getDungeon();
           view.setModel(freshDungeon);
@@ -283,9 +287,11 @@ public class ViewController implements Vcontroller, ActionListener, KeyListener 
 
 
         } catch (IllegalArgumentException iae) {
-          //do nothing should already be caught
+          view.updateStatus("Dungeon Couldn't be created enjoy this one or try again");
+          this.restartDungeon();
         } catch (IllegalStateException ise) {
-          //do nothing should already be caught
+          view.updateStatus("Dungeon Couldn't be created enjoy this one or try again");
+          this.restartDungeon();
         }
         break;
 
@@ -311,9 +317,11 @@ public class ViewController implements Vcontroller, ActionListener, KeyListener 
           view.resetFocus();
           view.refresh();
         } catch (IllegalArgumentException iae) {
-          //do nothing should already be caught
+          view.updateStatus("Dungeon Couldn't be created enjoy this one or try again");
+          this.restartDungeon();
         } catch (IllegalStateException ise) {
-          //do nothing should already be caught
+          view.updateStatus("Dungeon Couldn't be created enjoy this one or try again");
+          this.restartDungeon();
         }
         break;
       default: throw new IllegalArgumentException("No such button or key");

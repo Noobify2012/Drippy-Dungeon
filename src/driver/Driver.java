@@ -27,7 +27,7 @@ public class Driver {
     if (args.length < 6) {
       Player throwAwayPlayer = new PlayerImpl();
       Dungeon defaultDungeon = new DungeonImpl(false, 4, 3, 0,
-              50, throwAwayPlayer, 1, 0);
+              50, throwAwayPlayer, 1, 4);
       IdungeonView throwAwayView = new DungeonViewImpl(defaultDungeon);
       Controller viewController = new ViewController(defaultDungeon, throwAwayView);
       viewController.buildDungeon();

@@ -532,4 +532,56 @@ public class DungeonImplTest {
     assertEquals(tempX1, 0);
     assertEquals(tempX1, 0);
   }
+
+  @Test
+  public void getThiefTest() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 1);
+    test.getDungeon();
+    Cave[][] testboard = test.getGameBoard();
+    int thiefInt = 0;
+    for (int r = 0; r < 4; r++) {
+      for (int c = 0; c < 3; c++) {
+        if (testboard[r][c].getLuckyListSize() != 0) {
+          thiefInt++;
+        }
+      }
+    }
+    assertEquals(1, thiefInt);
+  }
+
+  @Test
+  public void getPitTest() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 1);
+    test.getDungeon();
+    Cave[][] testboard = test.getGameBoard();
+    int pitInt = 0;
+    for (int r = 0; r < 4; r++) {
+      for (int c = 0; c < 3; c++) {
+        if (testboard[r][c].getPitStatus()) {
+          pitInt++;
+        }
+      }
+    }
+    assertEquals(1, pitInt);
+  }
+
+  @Test
+  public void getPitFallTest() {
+    Player player = new PlayerImpl();
+    Dungeon test = new DungeonImpl(false, 4,3,0,50, player, 1, 0);
+    test.getDungeon();
+    boolean death = false;
+    assertEquals(death, test.isGameOver());
+    test.movePlayer(Direction.NORTH);
+    assertEquals(death, test.isGameOver());
+    test.movePlayer(Direction.EAST);
+    death = true;
+    assertEquals(death, test.isGameOver());
+  }
+
+
+
+
 }
