@@ -1,0 +1,18 @@
+Tests for changes to the model
+
+1) Test for 1 and only 1 leprechaun
+2) Test for leprechaun stealing treasure
+3) test for 1 and only 1 pit
+4) test for player dying after falling into the pit
+5) test for updater getting proper player status after each action
+
+
+Testing view controller
+1) Null checks for model and view
+2) check for proper key press responses
+3) check for proper response from button presses
+4) check that model can be replaced
+5) check for proper dungeon creation on restarts
+6) check for proper dungeon construction when building new dungeon
+7) check for proper dungeon creation when restarting with same parameters but different seed
+
