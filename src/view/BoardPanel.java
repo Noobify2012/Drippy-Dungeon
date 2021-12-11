@@ -60,8 +60,8 @@ class BoardPanel extends JPanel {
     //get cave
     if (statusUpdater.getDirectionList() != null && !model.getPlayerLocation().getPitStatus()) {
       String cavePath = getCavePath(statusUpdater.getDirectionList());
-      System.out.println("Cave extension to put out: " + cavePath);
-      System.out.println("full path: " + pathBase + directoryPath + cavePath);
+      //System.out.println("Cave extension to put out: " + cavePath);
+      //System.out.println("full path: " + pathBase + directoryPath + cavePath);
       try {
         currentLoc = ImageIO.read(new File(pathBase + directoryPath + cavePath));
       } catch (IOException e) {
@@ -216,7 +216,7 @@ class BoardPanel extends JPanel {
         finalPath = "color-cells/SEW.png";
       }
     } else if (directions.size() == 2) {
-      System.out.println(directions);
+      //System.out.println(directions);
       if (directions.contains(Direction.EAST) && directions.contains(Direction.WEST)) {
         finalPath = "color-cells/EW.png";
       } else if (directions.contains(Direction.NORTH) && directions.contains(Direction.EAST)) {

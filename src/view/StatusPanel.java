@@ -50,7 +50,6 @@ class StatusPanel extends JPanel {
     Cave[][] board = model.getGameBoard();
     g2d.setFont(new Font("Ubuntu", Font.BOLD, 25));
 
-    //TODO - fix too long of a status panel.
     //g2d.drawString(statusString, 100, 250);
 
     if (statusString != null) {
@@ -135,6 +134,13 @@ class StatusPanel extends JPanel {
       }
       g2d.drawString(this.pickupString, 100, 325);
       g2d.drawString(this.shotString, 100, 350);
+      if (this.monsterEncounter != null) {
+        g2d.drawString(this.monsterEncounter, 100, 375);
+      }
+      if (this.luckyEncounter != null) {
+        g2d.drawString(this.luckyEncounter, 100, 400);
+      }
+
     }
   }
 

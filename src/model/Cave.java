@@ -52,7 +52,6 @@ public class Cave extends AbstractLocation {
     this.directionList = new ArrayList<>();
   }
 
-  //TODO - test these now too
 
   /**Gets the row of the cave.
    *
@@ -174,14 +173,12 @@ public class Cave extends AbstractLocation {
     return this.monsterList.size();
   }
 
-  //TODO - must test this
   @Override
   public boolean getPitStatus() {
     boolean tempBool = this.isPit;
     return tempBool;
   }
 
-  //TODO - must test this
   @Override
   public List<Direction> getDirectionList() {
     List<Direction> returnList = this.directionList;
@@ -222,7 +219,6 @@ public class Cave extends AbstractLocation {
     this.leprechaun.add(lucky);
   }
 
-  //TODO - document and test
   @Override
   public int getLuckyListSize() {
     return this.leprechaun.size();

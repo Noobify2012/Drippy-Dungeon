@@ -312,7 +312,6 @@ public class DungeonViewImpl extends JFrame implements IdungeonView {
 
   @Override
   public void resetPanel(ReadOnlyDungeon newModel) {
-    //TODO - test this
     removeBoard();
     removeStatus();
     System.out.println("row of the new model " + newModel.getPlayerLocation().getRow()

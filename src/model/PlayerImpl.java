@@ -285,7 +285,6 @@ public class PlayerImpl implements Player {
     return pickupString;
   }
 
-  //TODO - need to write tests
   @Override
   public String pitCheck(Cave cave, boolean cliff) {
     String pitString = "";
@@ -338,7 +337,6 @@ public class PlayerImpl implements Player {
     }
   }
 
-  //TODO - need to write tests and add updater functionality
   @Override
   public void stolenTreasure(int treasureNum) {
     for (int i = 0; i < treasureNum; i++) {
@@ -353,6 +351,7 @@ public class PlayerImpl implements Player {
     Updater temp = this.statusUpdate;
     return temp;
   }
+
 
 
 }

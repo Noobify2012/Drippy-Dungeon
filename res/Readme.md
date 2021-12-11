@@ -51,6 +51,8 @@ one cave to the other. In the next implementation, this will be used so that the
 # How To Run
 
 ## How to run the jar file
+Move the jar file to the top level directory (same directory as source, res and test).
+
 For the graphical version of the game, you run program by just entering java -jar Project5_Graphical_Adventure_Game.jar
 
 For the text version enter the following substituting in your own boolean and integers: java -jar Project5_Graphical_Adventure_Game.jar [wrapping (boolean)] [# of rows (int)] [# of columns (int) ] [level of interconnectivity(int)] [percentage of treasure and arrows (int)] [level of difficulty/# of monsters(int greater than 0)]

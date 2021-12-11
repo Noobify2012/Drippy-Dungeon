@@ -68,8 +68,8 @@ public class DungeonImpl implements Dungeon {
     this.quitFlag = false;
     this.pitOfDeath = 0;
     this.leprechaunHole = 0;
+    this.genSeed = genSeed;
 
-    //TODO - pit of death test and refine
 
 
 
@@ -662,7 +662,9 @@ public class DungeonImpl implements Dungeon {
             int numToSteal = (int) Math.ceil((randPerc * player.getTreasureList().size() / 100));
             thiefString = findCaveByIndex(player.getPlayerLocation()).getLucky()
                     .stealTreasure(this.player, numToSteal);
+            this.getStatusUpdater();
             player.stolenTreasure(numToSteal);
+
             stolen = true;
           }
         }
@@ -761,7 +763,6 @@ public class DungeonImpl implements Dungeon {
     return smell;
   }
 
-  //TODO - test this
 
   @Override
   public boolean getPitProx() {
@@ -877,6 +878,8 @@ public class DungeonImpl implements Dungeon {
       if (findCaveByIndex(currentIndex).getMonsterListSize() == 1
               && findCaveByIndex(currentIndex).getMonster().getHealth() != 0) {
         monsterHealth = findCaveByIndex(currentIndex).getMonster().takeDamage();
+      } else {
+        shotString = "The arrow falls to the floor.";
       }
 
     }
@@ -921,7 +924,6 @@ public class DungeonImpl implements Dungeon {
     return temp;
   }
 
-  //TODO - test this
   /**
    * Gets an abbreviated status update not as a string but as a custom data structure.
    *
