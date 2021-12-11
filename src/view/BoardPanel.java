@@ -197,18 +197,6 @@ class BoardPanel extends JPanel {
     return combined;
   }
 
-  private BufferedImage overlayBoardTiles(BufferedImage starting, BufferedImage adding, int xoffset,
-                                          int yoffset) throws IOException {
-    BufferedImage overlay = adding;
-    int w = Math.max(starting.getWidth(), overlay.getWidth());
-    int h = Math.max(starting.getHeight(), overlay.getHeight());
-    BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-    Graphics g = combined.getGraphics();
-    g.drawImage(starting, 0, 0, null);
-    g.drawImage(overlay, xoffset, yoffset, null);
-    return combined;
-  }
-
   private String getCavePath(List<Direction> directions) {
     String finalPath = "";
     if (directions.size() == 4) {

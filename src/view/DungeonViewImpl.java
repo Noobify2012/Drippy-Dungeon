@@ -60,7 +60,6 @@ public class DungeonViewImpl extends JFrame implements IdungeonView {
   private ReadOnlyDungeon model;
   private BuildStructure newDungeon;
   private JScrollPane boardPane;
-  private JFrame test;
   private JScrollPane statusPane;
 
 
